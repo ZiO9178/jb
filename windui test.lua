@@ -909,3 +909,19 @@ TabHandles.Elements:Button({
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(474.3276672363281, 30.063386917114258, -656.1741333007812)
     end
 })
+
+local Tabs = {
+    Main = Window:Section({ Title = "建造合集", Opened = true })
+}
+
+local TabHandles = {
+    Elements = Tabs.Main:Tab({ Title = "建造一艘火箭船", Icon = "layout-grid", Desc = "建造一艘火箭船" })
+}
+
+TabHandles.Elements:Button({
+    Title = "刷钱|一次3000左右|要先启动",
+    Icon = "bell",   --图片
+    Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3342.96826171875, 112631.7578125, 8874.263671875)
+    end
+})
