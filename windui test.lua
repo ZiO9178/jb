@@ -919,9 +919,33 @@ local TabHandles = {
 }
 
 TabHandles.Elements:Button({
-    Title = "刷钱|一次3000左右|要先启动",
+    Title = "刷钱|每次3000左右|要先启动",
     Icon = "bell",   --图片
     Callback = function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3342.96826171875, 112631.7578125, 8874.263671875)
+    end
+})
+
+local TabHandles = {
+    Elements = Tabs.Main:Tab({ Title = "建造一架飞机", Icon = "layout-grid", Desc = "建造一架飞机" })
+}
+
+TabHandles.Elements:Button({
+    Title = "刷钱|每次3000左右|要先启动",
+    Icon = "bell",   --图片
+    Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(110904.6953125, -114.71480560302734, -280.6292724609375)
+    end
+})
+
+local TabHandles = {
+    Elements = Tabs.Main:Tab({ Title = "建造一辆车", Icon = "layout-grid", Desc = "建造一辆车" })
+}
+
+TabHandles.Elements:Button({
+    Title = "刷钱|每次500到1000|要先启动",
+    Icon = "bell",   --图片
+    Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(196.47193908691406, -225.08038330078125, -17913.4453125)
     end
 })
