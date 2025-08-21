@@ -910,6 +910,52 @@ TabHandles.Elements:Button({
     end
 })
 
+local TabHandles = {
+    Elements = Tabs.Main:Tab({ Title = "透视", Icon = "layout-grid", Desc = "透视" })
+}
+
+TabHandles.Elements:Button({
+    Title = "透视所有矿石",
+    Icon = "bell",   --图片
+    Callback = function()
+    local SpawnedOres = workspace.SpawnedOres:GetChildren()
+
+for _, ore in ipairs(SpawnedOres) do
+    local hitbox = ore:FindFirstChild("Hitbox")
+    
+    if hitbox then
+        -- 1. 添加 SelectionBox 透视
+        local selectionBox = Instance.new("SelectionBox")
+        selectionBox.Adornee = hitbox
+        selectionBox.LineThickness = 0.05
+        selectionBox.Color3 = Color3.new(1, 0, 0)  -- 红色
+        selectionBox.Transparency = 0.7
+        selectionBox.Parent = hitbox
+        
+        -- 2. 添加矿石名称标签（BillboardGui）
+        local billboard = Instance.new("BillboardGui")
+        billboard.Adornee = hitbox
+        billboard.Size = UDim2.new(4, 0, 1.5, 0)  -- 宽度 4x，高度 1.5x
+        billboard.StudsOffset = Vector3.new(0, 2, 0)  -- 在 Hitbox 上方 2 单位显示
+        billboard.AlwaysOnTop = true
+        billboard.LightInfluence = 0  -- 不受光照影响
+        billboard.Parent = hitbox
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, 0, 1, 0)
+        label.Text = ore.Name  -- 显示矿石名称（如 "岩石"、"金矿"）
+        label.TextColor3 = Color3.new(1, 1, 1)  -- 白色文字
+        label.TextScaled = true  -- 自动缩放文字大小
+        label.BackgroundTransparency = 1  -- 透明背景
+        label.Font = Enum.Font.SourceSansBold
+        label.Parent = billboard
+    end
+end
+
+print("已为所有矿石添加透视 + 名称显示")
+    end
+})
+
 local Tabs = {
     Main = Window:Section({ Title = "建造合集", Opened = true })
 }
