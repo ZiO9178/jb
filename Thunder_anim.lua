@@ -97,7 +97,7 @@ local function Start(opts)
 	thunderText.AnchorPoint = Vector2.new(0.5, 0.5)
 	thunderText.Position = UDim2.fromScale(0.5, 0.5)
 	thunderText.BackgroundTransparency = 1
-	thunderText.Text = "T"
+	thunderText.Text = "*Z脚本"
 	thunderText.TextColor3 = BLUE
 	thunderText.TextScaled = true
 	thunderText.Font = Enum.Font.GothamBlack
