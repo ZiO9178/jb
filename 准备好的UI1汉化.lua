@@ -27,6 +27,8 @@ local Tab1 = Window:CreateTab({
     Icon = ""
 })
 
+local Section1 = Tab1:CreateSection("开关示例")
+
 Section1:CreateToggle({
     Name = "简单开关",
     Flag = "Toggle1", -- 配置标识符，请确保唯一
@@ -292,8 +294,8 @@ Section9:CreateButton({
 
 -- 初始欢迎通知
 Window:Notify({
-    Title = "Alexchad 库已加载",
-    Content = "所有 UI 元素已汉化并展示完毕！",
-    Duration = 5,
+    Title = "Sxingz Hub加载完成",
+    Content = "欢迎使用Sxingz Hub",
+    Duration = 3,
     Type = "Success"
 })
