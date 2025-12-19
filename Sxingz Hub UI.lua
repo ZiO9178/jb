@@ -1,12 +1,2726 @@
-local v0={};local v1=game:GetService("TweenService");local v2=game:GetService("UserInputService");local v3=game:GetService("RunService");local v4=game:GetService("Players");local v5=game:GetService("CoreGui");local v6=game:GetService("HttpService");local v7=game:GetService("Lighting");local v8=v4.LocalPlayer;local v9=v8:GetMouse();local function v10() local v27=0 + 0 ;local v28;local v29;while true do if (v27==(0 -0)) then v28,v29=pcall(function() if gethui then return gethui();elseif (syn and syn.protect_gui) then return v5;end return v5;end);return (v28 and v29) or v5 ;end end end local v11=v10();local function v12() for v131,v132 in pairs(v7:GetChildren()) do if (v132:IsA("BlurEffect") and v132.Name:find("Rayfield")) then v132:Destroy();end end end local v13={Default={Background=Color3.fromRGB(20,20,30),BackgroundTransparency=0.15,Container=Color3.fromRGB(30,30,86 -41 ),ContainerTransparency=0.25,Element=Color3.fromRGB(40,63 -23 ,1830 -(1134 + 636) ),ElementTransparency=495.3 -(263 + 232) ,ElementHover=Color3.fromRGB(112 -62 ,72 -22 ,232 -(26 + 131) ),Accent=Color3.fromRGB(3 + 97 ,120,255),AccentDark=Color3.fromRGB(270 -200 ,90,1059 -(240 + 619) ),AccentGlow=Color3.fromRGB(32 + 98 ,238 -88 ,255),Text=Color3.fromRGB(17 + 238 ,1999 -(1344 + 400) ,660 -(255 + 150) ),TextDark=Color3.fromRGB(142 + 38 ,97 + 83 ,854 -654 ),TextMuted=Color3.fromRGB(120,387 -267 ,1889 -(404 + 1335) ),Border=Color3.fromRGB(486 -(183 + 223) ,80,120),BorderTransparency=0.5,Success=Color3.fromRGB(97 -17 ,146 + 74 ,120),Warning=Color3.fromRGB(92 + 163 ,517 -(10 + 327) ,42 + 18 ),Error=Color3.fromRGB(593 -(118 + 220) ,27 + 53 ,80),GradientStart=Color3.fromRGB(509 -(108 + 341) ,27 + 33 ,100),GradientEnd=Color3.fromRGB(30,126 -96 ,1543 -(711 + 782) )},Dark={Background=Color3.fromRGB(10,19 -9 ,484 -(270 + 199) ),BackgroundTransparency=0.1 + 0 ,Container=Color3.fromRGB(1837 -(580 + 1239) ,18,74 -49 ),ContainerTransparency=0.2 + 0 ,Element=Color3.fromRGB(1 + 24 ,11 + 14 ,91 -56 ),ElementTransparency=0.25 + 0 ,ElementHover=Color3.fromRGB(1202 -(645 + 522) ,1825 -(1010 + 780) ,50 + 0 ),Accent=Color3.fromRGB(130,100,1214 -959 ),AccentDark=Color3.fromRGB(293 -193 ,1906 -(1045 + 791) ,506 -306 ),AccentGlow=Color3.fromRGB(244 -84 ,130,760 -(351 + 154) ),Text=Color3.fromRGB(255,255,1829 -(1281 + 293) ),TextDark=Color3.fromRGB(426 -(28 + 238) ,357 -197 ,180),TextMuted=Color3.fromRGB(1659 -(1381 + 178) ,94 + 6 ,105 + 25 ),Border=Color3.fromRGB(60,60,39 + 51 ),BorderTransparency=0.6,Success=Color3.fromRGB(275 -195 ,220,120),Warning=Color3.fromRGB(133 + 122 ,650 -(381 + 89) ,60),Error=Color3.fromRGB(227 + 28 ,55 + 25 ,80),GradientStart=Color3.fromRGB(68 -28 ,1196 -(1074 + 82) ,153 -83 ),GradientEnd=Color3.fromRGB(1799 -(214 + 1570) ,1470 -(990 + 465) ,11 + 14 )},Light={Background=Color3.fromRGB(240,105 + 135 ,250),BackgroundTransparency=0.1 + 0 ,Container=Color3.fromRGB(983 -733 ,1976 -(1668 + 58) ,881 -(512 + 114) ),ContainerTransparency=0.15 -0 ,Element=Color3.fromRGB(485 -250 ,817 -582 ,114 + 131 ),ElementTransparency=0.2,ElementHover=Color3.fromRGB(225,43 + 182 ,209 + 31 ),Accent=Color3.fromRGB(269 -189 ,2094 -(109 + 1885) ,1689 -(1269 + 200) ),AccentDark=Color3.fromRGB(115 -55 ,895 -(98 + 717) ,180),AccentGlow=Color3.fromRGB(936 -(802 + 24) ,224 -94 ,322 -67 ),Text=Color3.fromRGB(5 + 25 ,24 + 6 ,9 + 41 ),TextDark=Color3.fromRGB(80,18 + 62 ,306 -196 ),TextMuted=Color3.fromRGB(433 -303 ,47 + 83 ,66 + 94 ),Border=Color3.fromRGB(165 + 35 ,146 + 54 ,220),BorderTransparency=0.3 + 0 ,Success=Color3.fromRGB(1493 -(797 + 636) ,180,100),Warning=Color3.fromRGB(230,776 -616 ,1659 -(1427 + 192) ),Error=Color3.fromRGB(77 + 143 ,60,60),GradientStart=Color3.fromRGB(255,255,255),GradientEnd=Color3.fromRGB(534 -304 ,207 + 23 ,112 + 133 )},Ocean={Background=Color3.fromRGB(341 -(192 + 134) ,1301 -(316 + 960) ,40),BackgroundTransparency=0.15 + 0 ,Container=Color3.fromRGB(16 + 4 ,33 + 2 ,210 -155 ),ContainerTransparency=551.25 -(83 + 468) ,Element=Color3.fromRGB(1831 -(1202 + 604) ,210 -165 ,116 -46 ),ElementTransparency=0.3 -0 ,ElementHover=Color3.fromRGB(35,380 -(45 + 280) ,85),Accent=Color3.fromRGB(58 + 2 ,180,193 + 27 ),AccentDark=Color3.fromRGB(40,55 + 95 ,106 + 84 ),AccentGlow=Color3.fromRGB(16 + 74 ,388 -178 ,2161 -(340 + 1571) ),Text=Color3.fromRGB(101 + 154 ,2027 -(1733 + 39) ,700 -445 ),TextDark=Color3.fromRGB(170,1234 -(125 + 909) ,2168 -(1096 + 852) ),TextMuted=Color3.fromRGB(54 + 66 ,150,257 -77 ),Border=Color3.fromRGB(60,97 + 3 ,140),BorderTransparency=0.5,Success=Color3.fromRGB(592 -(409 + 103) ,456 -(46 + 190) ,150),Warning=Color3.fromRGB(255,190,175 -(51 + 44) ),Error=Color3.fromRGB(72 + 183 ,100,1417 -(1114 + 203) ),GradientStart=Color3.fromRGB(766 -(228 + 498) ,18 + 62 ,67 + 53 ),GradientEnd=Color3.fromRGB(20,703 -(174 + 489) ,156 -96 )},Midnight={Background=Color3.fromRGB(1913 -(830 + 1075) ,8,539 -(303 + 221) ),BackgroundTransparency=1269.1 -(231 + 1038) ,Container=Color3.fromRGB(12,12,22),ContainerTransparency=0.2 + 0 ,Element=Color3.fromRGB(18,1180 -(171 + 991) ,32),ElementTransparency=0.25,ElementHover=Color3.fromRGB(28,115 -87 ,45),Accent=Color3.fromRGB(483 -303 ,199 -119 ,255),AccentDark=Color3.fromRGB(140,41 + 9 ,701 -501 ),AccentGlow=Color3.fromRGB(210,346 -226 ,411 -156 ),Text=Color3.fromRGB(788 -533 ,255,255),TextDark=Color3.fromRGB(1428 -(111 + 1137) ,328 -(91 + 67) ,595 -395 ),TextMuted=Color3.fromRGB(30 + 90 ,633 -(423 + 100) ,150),Border=Color3.fromRGB(1 + 79 ,166 -106 ,120),BorderTransparency=0.5 + 0 ,Success=Color3.fromRGB(871 -(326 + 445) ,1112 -857 ,334 -184 ),Warning=Color3.fromRGB(255,466 -266 ,791 -(530 + 181) ),Error=Color3.fromRGB(1136 -(614 + 267) ,112 -(19 + 13) ,100),GradientStart=Color3.fromRGB(81 -31 ,69 -39 ,228 -148 ),GradientEnd=Color3.fromRGB(4 + 11 ,17 -7 ,51 -26 )},Emerald={Background=Color3.fromRGB(15,1837 -(1293 + 519) ,20),BackgroundTransparency=0.15,Container=Color3.fromRGB(40 -20 ,35,72 -44 ),ContainerTransparency=0.25,Element=Color3.fromRGB(25,45,66 -31 ),ElementTransparency=0.3 -0 ,ElementHover=Color3.fromRGB(82 -47 ,32 + 28 ,48),Accent=Color3.fromRGB(50,42 + 163 ,302 -172 ),AccentDark=Color3.fromRGB(35,40 + 130 ,100),AccentGlow=Color3.fromRGB(80,235,54 + 106 ),Text=Color3.fromRGB(160 + 95 ,1351 -(709 + 387) ,2113 -(673 + 1185) ),TextDark=Color3.fromRGB(522 -342 ,674 -464 ,320 -125 ),TextMuted=Color3.fromRGB(93 + 37 ,120 + 40 ,195 -50 ),Border=Color3.fromRGB(60,30 + 90 ,90),BorderTransparency=0.5 -0 ,Success=Color3.fromRGB(157 -77 ,2135 -(446 + 1434) ,150),Warning=Color3.fromRGB(255,1483 -(1040 + 243) ,238 -158 ),Error=Color3.fromRGB(2102 -(559 + 1288) ,100,2031 -(609 + 1322) ),GradientStart=Color3.fromRGB(494 -(13 + 441) ,373 -273 ,70),GradientEnd=Color3.fromRGB(20,50,91 -56 )}};local v14={};v14.Create=function(v30,v31,v32,v33) local v34=Instance.new(v31);for v133,v134 in pairs(v32 or {} ) do if (v133~="Parent") then v34[v133]=v134;end end for v135,v136 in pairs(v33 or {} ) do v136.Parent=v34;end if (v32 and v32.Parent) then v34.Parent=v32.Parent;end return v34;end;v14.Tween=function(v35,v36,v37,v38,v39,v40) local v41=0 -0 ;local v42;local v43;while true do if ((1 + 1)==v41) then return v43;end if (v41==0) then if  not v36 then return;end v42=TweenInfo.new(v38 or (0.25 -0) ,v39 or Enum.EasingStyle.Quart ,v40 or Enum.EasingDirection.Out );v41=1;end if (v41==(1 + 0)) then v43=v1:Create(v36,v42,v37);v43:Play();v41=2;end end end;v14.Ripple=function(v44,v45,v46,v47) local v48=0 + 0 ;local v49;local v50;local v51;while true do if (v48==0) then v49=0 -0 ;v50=nil;v48=1;end if (v48==(1 + 0)) then v51=nil;while true do if (v49==(1 -0)) then v51=math.max(v45.AbsoluteSize.X,v45.AbsoluteSize.Y) * (2.5 + 0) ;v14:Tween(v50,{Size=UDim2.new(0 + 0 ,v51,0 + 0 ,v51),BackgroundTransparency=1 + 0 },v47.RippleSpeed).Completed:Connect(function() v50:Destroy();end);break;end if (v49==0) then if  not v47.RippleEnabled then return;end v50=v14:Create("Frame",{Name="Ripple",Parent=v45,BackgroundColor3=v46.AccentGlow,BackgroundTransparency=0.6,BorderSizePixel=0 + 0 ,Position=UDim2.new(433 -(153 + 280) ,v9.X-v45.AbsolutePosition.X ,0 -0 ,v9.Y-v45.AbsolutePosition.Y ),Size=UDim2.new(0 + 0 ,0 + 0 ,0,0 + 0 ),AnchorPoint=Vector2.new(0.5 + 0 ,0.5),ZIndex=v45.ZIndex + 5 },{v14:Create("UICorner",{CornerRadius=UDim.new(1 -0 ,0 + 0 )})});v49=668 -(89 + 578) ;end end break;end end end;v14.MakeDraggable=function(v52,v53,v54,v55) local v56=0 + 0 ;local v57;local v58;local v59;local v60;while true do if (v56==1) then v54.InputBegan:Connect(function(v430) if ((v430.UserInputType==Enum.UserInputType.MouseButton1) or (v430.UserInputType==Enum.UserInputType.Touch)) then local v560=0 -0 ;while true do if (v560==(1050 -(572 + 477))) then v60=v53.Position;v430.Changed:Connect(function() if (v430.UserInputState==Enum.UserInputState.End) then v57=false;end end);break;end if (v560==0) then v57=true;v59=v430.Position;v560=1 + 0 ;end end end end);v54.InputChanged:Connect(function(v431) if ((v431.UserInputType==Enum.UserInputType.MouseMovement) or (v431.UserInputType==Enum.UserInputType.Touch)) then v58=v431;end end);v56=2;end if (v56==(0 + 0)) then v57,v58,v59,v60=nil;v54=v54 or v53 ;v56=1 + 0 ;end if (v56==(88 -(84 + 2))) then v2.InputChanged:Connect(function(v432) if ((v432==v58) and v57) then local v561=0 -0 ;local v562;while true do if (v561==(0 + 0)) then v562=v432.Position-v59 ;v14:Tween(v53,{Position=UDim2.new(v60.X.Scale,v60.X.Offset + v562.X ,v60.Y.Scale,v60.Y.Offset + v562.Y )},v55.AnimationSpeed * (842.5 -(497 + 345)) );break;end end end end);break;end end end;local v19={};v19.GetSaveFolder=function(v61,v62) local v63=0 + 0 ;local v64;local v65;while true do if (v63==0) then local v279=0 + 0 ;while true do if (v279==(1333 -(605 + 728))) then v64,v65=pcall(function() local v577=0 + 0 ;while true do if (v577==(0 -0)) then if (isfolder and writefile and readfile) then local v692=0;while true do if (v692==(0 + 0)) then if  not isfolder(v62) then makefolder(v62);end return true;end end end return false;end end end);return v64 and v65 ;end end end end end;v19.Save=function(v66,v67,v68,v69) pcall(function() if writefile then writefile(v67   .. "/"   .. v68   .. ".json" ,v6:JSONEncode(v69));end end);end;v19.Load=function(v70,v71,v72) local v73=0;local v74;local v75;local v76;while true do if (v73==(0 -0)) then v74=0;v75=nil;v73=1;end if (v73==(1 + 0)) then v76=nil;while true do if (v74==(0 -0)) then v75,v76=pcall(function() local v578=0;while true do if (v578==0) then local v652=0;while true do if (v652==(0 + 0)) then if (readfile and isfile) then local v724=489 -(457 + 32) ;local v725;while true do if (v724==(0 + 0)) then v725=v71   .. "/"   .. v72   .. ".json" ;if isfile(v725) then return v6:JSONDecode(readfile(v725));end break;end end end return nil;end end end end end);return (v75 and v76) or nil ;end end break;end end end;v0.CreateWindow=function(v77,v78) v78=v78 or {} ;v12();if v11:FindFirstChild("RayfieldUI") then v11:FindFirstChild("RayfieldUI"):Destroy();end local v79=v78.Name or "Rayfield" ;local v80=v78.Subtitle or "Interface Suite" ;local v81=v78.Version or "v3.2" ;local v82=v78.LoadingTitle or "Rayfield Interface" ;local v83=v78.LoadingSubtitle or "Loading..." ;local v84=v78.Theme or "Default" ;local v85=v78.ConfigurationSaving or {} ;local v86=v85.Enabled or false ;local v87=v85.FolderName or "RayfieldConfig" ;local v88=v85.FileName or "config" ;local v89={AnimationSpeed=v78.AnimationSpeed or 0.25 ,RippleEnabled=v78.RippleEnabled~=false ,RippleSpeed=v78.RippleSpeed or (1402.4 -(832 + 570)) ,CornerRadius=v78.CornerRadius or (12 + 0) ,ElementCornerRadius=v78.ElementCornerRadius or 10 ,BlurEnabled=v78.BlurEnabled~=false };local v90={Tabs={},CurrentTab=nil,Theme=v13[v84] or v13.Default ,ThemeName=v84,Config=v89,Minimized=false,Elements={},ConfigData={},Connections={},ElementRefs={}};if v86 then local v227=0 + 0 ;local v228;while true do if ((3 -2)==v227) then if v228 then local v579=0 + 0 ;local v580;while true do if ((796 -(588 + 208))==v579) then v580=0 -0 ;while true do if (v580==(1800 -(884 + 916))) then v90.ConfigData=v228;if (v228.Theme and v13[v228.Theme]) then local v726=0 -0 ;while true do if (v726==0) then v90.Theme=v13[v228.Theme];v90.ThemeName=v228.Theme;break;end end end break;end end break;end end end break;end if (v227==(0 + 0)) then v19:GetSaveFolder(v87);v228=v19:Load(v87,v88);v227=654 -(232 + 421) ;end end end local v91=v90.Theme;local v92=v14:Create("ScreenGui",{Name="RayfieldUI",Parent=v11,ZIndexBehavior=Enum.ZIndexBehavior.Sibling,ResetOnSpawn=false,IgnoreGuiInset=true});local v93;if v89.BlurEnabled then v93=v14:Create("BlurEffect",{Name="RayfieldBlur",Parent=v7,Size=1889 -(1569 + 320) });end local v94=v14:Create("Frame",{Name="LoadingFrame",Parent=v92,BackgroundColor3=v91.Background,BackgroundTransparency=v91.BackgroundTransparency,Position=UDim2.new(0.5,0,0.5,0 + 0 ),Size=UDim2.new(0 + 0 ,1078 -758 ,605 -(316 + 289) ,418 -258 ),AnchorPoint=Vector2.new(0.5 + 0 ,1453.5 -(666 + 787) )},{v14:Create("UICorner",{CornerRadius=UDim.new(425 -(360 + 65) ,v89.CornerRadius + 4 + 0 )}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency,Thickness=1.5 -0 }),v14:Create("UIGradient",{Color=ColorSequence.new({ColorSequenceKeypoint.new(0 -0 ,v91.GradientStart),ColorSequenceKeypoint.new(900 -(503 + 396) ,v91.GradientEnd)}),Rotation=316 -(92 + 89) ,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,0.3 -0 ),NumberSequenceKeypoint.new(0.5 + 0 ,0.5 -0 ),NumberSequenceKeypoint.new(1 + 0 ,0.3)})})});local v95=v14:Create("TextLabel",{Parent=v94,BackgroundTransparency=2 -1 ,Position=UDim2.new(0 + 0 ,0,0,17 + 18 ),Size=UDim2.new(2 -1 ,0,0 + 0 ,45 -15 ),Font=Enum.Font.GothamBold,Text=v82,TextColor3=v91.Text,TextSize=22,TextTransparency=1245 -(485 + 759) });local v96=v14:Create("TextLabel",{Parent=v94,BackgroundTransparency=1,Position=UDim2.new(0 -0 ,0,0,1254 -(442 + 747) ),Size=UDim2.new(1136 -(832 + 303) ,0,946 -(88 + 858) ,7 + 13 ),Font=Enum.Font.Gotham,Text=v83,TextColor3=v91.TextDark,TextSize=12 + 2 ,TextTransparency=1});local v97=v14:Create("Frame",{Parent=v94,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Position=UDim2.new(0.1 + 0 ,0,0,899 -(766 + 23) ),Size=UDim2.new(0.8 -0 ,0 -0 ,0,20 -12 )},{v14:Create("UICorner",{CornerRadius=UDim.new(1074 -(1036 + 37) ,0)})});local v98=v14:Create("Frame",{Parent=v97,BackgroundColor3=v91.Accent,Size=UDim2.new(0 + 0 ,0 -0 ,1 + 0 ,1480 -(641 + 839) )},{v14:Create("UICorner",{CornerRadius=UDim.new(2 -1 ,0)})});if v93 then v14:Tween(v93,{Size=1694 -(1466 + 218) },v89.AnimationSpeed);end v14:Tween(v95,{TextTransparency=0 + 0 },v89.AnimationSpeed);task.wait(v89.AnimationSpeed * 0.5 );v14:Tween(v96,{TextTransparency=0},v89.AnimationSpeed);v14:Tween(v98,{Size=UDim2.new(1149 -(556 + 592) ,0 + 0 ,1,808 -(329 + 479) )},855.5 -(174 + 680) ,Enum.EasingStyle.Quart,Enum.EasingDirection.InOut);task.wait(3.8 -2 );v14:Tween(v94,{BackgroundTransparency=1 -0 },v89.AnimationSpeed);v14:Tween(v95,{TextTransparency=1},v89.AnimationSpeed);v14:Tween(v96,{TextTransparency=1},v89.AnimationSpeed);v14:Tween(v97,{BackgroundTransparency=1 + 0 },v89.AnimationSpeed);v14:Tween(v98,{BackgroundTransparency=740 -(396 + 343) },v89.AnimationSpeed);for v138,v139 in pairs(v94:GetDescendants()) do if v139:IsA("UIStroke") then v14:Tween(v139,{Transparency=1},v89.AnimationSpeed);end end task.wait(v89.AnimationSpeed + 0.1 );v94:Destroy();local v99=v14:Create("Frame",{Name="MainContainer",Parent=v92,BackgroundColor3=v91.Background,BackgroundTransparency=v91.BackgroundTransparency,Position=UDim2.new(0.5 + 0 ,0,0.5,1477 -(29 + 1448) ),Size=UDim2.new(1389 -(135 + 1254) ,0 -0 ,0 -0 ,0 + 0 ),AnchorPoint=Vector2.new(1527.5 -(389 + 1138) ,574.5 -(102 + 472) ),ClipsDescendants=true},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.CornerRadius + 4 + 2 )}),v14:Create("UIStroke",{Name="MainStroke",Color=v91.Border,Transparency=v91.BorderTransparency,Thickness=1.5}),v14:Create("UIGradient",{Name="MainGradient",Color=ColorSequence.new({ColorSequenceKeypoint.new(0,v91.GradientStart),ColorSequenceKeypoint.new(1 -0 ,v91.GradientEnd)}),Rotation=83 + 52 ,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(1859 -(821 + 1038) ,0.3),NumberSequenceKeypoint.new(0.5 + 0 ,0.5),NumberSequenceKeypoint.new(1 + 0 ,0.3 -0 )})})});local v100=v14:Create("ImageLabel",{Name="Glow",Parent=v99,BackgroundTransparency=1027 -(834 + 192) ,Position=UDim2.new(0.5 + 0 ,0,0.5 + 0 ,0),Size=UDim2.new(1 + 0 ,77 -27 ,305 -(300 + 4) ,14 + 36 ),AnchorPoint=Vector2.new(0.5 -0 ,0.5),Image="rbxassetid://5028857084",ImageColor3=v91.Accent,ImageTransparency=0.85,ZIndex=0,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(386 -(112 + 250) ,10 + 14 ,691 -415 ,276)});v14:Tween(v99,{Size=UDim2.new(0 + 0 ,700,0,480)},v89.AnimationSpeed * (1.5 + 0) ,Enum.EasingStyle.Back,Enum.EasingDirection.Out);task.wait(v89.AnimationSpeed * (0.8 + 0) );local v101=v14:Create("Frame",{Name="Header",Parent=v99,BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency + 0.1 + 0 ,Position=UDim2.new(0 + 0 ,1429 -(1001 + 413) ,0,33 -18 ),Size=UDim2.new(1, -30,882 -(244 + 638) ,55)},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.CornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (602.2 -(512 + 90)) ,Thickness=1907 -(1665 + 241) })});local v102=v14:Create("TextLabel",{Name="Title",Parent=v101,BackgroundTransparency=718 -(373 + 344) ,Position=UDim2.new(0 + 0 ,4 + 11 ,0 -0 ,8),Size=UDim2.new(0.6 -0 ,1099 -(35 + 1064) ,0,17 + 5 ),Font=Enum.Font.GothamBold,Text=v79,TextColor3=v91.Text,TextSize=38 -20 ,TextXAlignment=Enum.TextXAlignment.Left});local v103=v14:Create("TextLabel",{Name="Subtitle",Parent=v101,BackgroundTransparency=1,Position=UDim2.new(0 + 0 ,1251 -(298 + 938) ,1259 -(233 + 1026) ,30),Size=UDim2.new(1666.6 -(636 + 1030) ,0 + 0 ,0 + 0 ,5 + 11 ),Font=Enum.Font.Gotham,Text=v80   .. " | "   .. v81 ,TextColor3=v91.TextMuted,TextSize=1 + 11 ,TextXAlignment=Enum.TextXAlignment.Left});local v104=v14:Create("Frame",{Name="Controls",Parent=v101,BackgroundTransparency=1,Position=UDim2.new(1, -(316 -(55 + 166)),0,0 + 0 ),Size=UDim2.new(0,9 + 71 ,3 -2 ,0)},{v14:Create("UIListLayout",{FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Right,VerticalAlignment=Enum.VerticalAlignment.Center,Padding=UDim.new(0,305 -(36 + 261) )})});local function v105(v140,v141,v142,v143) local v144=0 -0 ;local v145;while true do local v229=1368 -(34 + 1334) ;while true do if (v229==(1 + 0)) then if (v144==2) then return v145;end break;end if (v229==(0 + 0)) then if (v144==(1284 -(1035 + 248))) then v145.MouseLeave:Connect(function() v14:Tween(v145,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,TextColor3=v91.TextDark},v89.AnimationSpeed * 0.5 );end);v145.MouseButton1Click:Connect(function() local v615=0;local v616;while true do if (v615==(21 -(20 + 1))) then v616=0 + 0 ;while true do if (v616==(319 -(134 + 185))) then v14:Ripple(v145,v91,v89);v143();break;end end break;end end end);v144=2;end if (v144==(1133 -(549 + 584))) then local v581=0;while true do if (v581==(685 -(314 + 371))) then v145=v14:Create("TextButton",{Name=v140,Parent=v104,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(0 -0 ,34,968 -(478 + 490) ,34),Font=Enum.Font.GothamBold,Text=v141,TextColor3=v91.TextDark,TextSize=16,AutoButtonColor=false,LayoutOrder=((v140=="Minimize") and (1 + 0)) or 2 },{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (1379.2 -(1055 + 324)) ,Thickness=1})});v145.MouseEnter:Connect(function() v14:Tween(v145,{BackgroundColor3=v142,BackgroundTransparency=1340 -(1093 + 247) ,TextColor3=v91.Text},v89.AnimationSpeed * (0.5 + 0) );end);v581=1 + 0 ;end if (v581==(3 -2)) then v144=3 -2 ;break;end end end v229=2 -1 ;end end end end v105("Close","X",v91.Error,function() local v146=0 -0 ;while true do if (v146==2) then v12();v92:Destroy();break;end if (v146==(0 + 0)) then for v539,v540 in pairs(v90.Connections) do if (v540 and v540.Connected) then v540:Disconnect();end end if v93 then v14:Tween(v93,{Size=0},v89.AnimationSpeed);end v146=1;end if (v146==(3 -2)) then v14:Tween(v99,{Size=UDim2.new(0,0,0,0 -0 )},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.In);task.wait(v89.AnimationSpeed + 0.1 );v146=2 + 0 ;end end end);v105("Minimize","-",v91.Warning,function() local v147=0;local v148;while true do if (v147==(0 -0)) then v148=688 -(364 + 324) ;while true do if ((0 -0)==v148) then v90.Minimized= not v90.Minimized;if v90.Minimized then local v626=0 -0 ;while true do if (0==v626) then v14:Tween(v99,{Size=UDim2.new(0 + 0 ,700,0 -0 ,85)},v89.AnimationSpeed);if v93 then v14:Tween(v93,{Size=8 -3 },v89.AnimationSpeed);end break;end end else local v627=0 -0 ;local v628;while true do if (v627==(1268 -(1249 + 19))) then v628=0 + 0 ;while true do if (v628==(0 -0)) then v14:Tween(v99,{Size=UDim2.new(0,700,1086 -(686 + 400) ,377 + 103 )},v89.AnimationSpeed);if v93 then v14:Tween(v93,{Size=239 -(73 + 156) },v89.AnimationSpeed);end break;end end break;end end end break;end end break;end end end);v14:MakeDraggable(v99,v101,v89);local v106=v14:Create("Frame",{Name="ContentArea",Parent=v99,BackgroundTransparency=1,Position=UDim2.new(0,1 + 14 ,811 -(721 + 90) ,80),Size=UDim2.new(1 + 0 , -(97 -67),1, -(565 -(224 + 246)))});local v107=v14:Create("Frame",{Name="TabContainer",Parent=v106,BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency,Size=UDim2.new(0 -0 ,150,1 -0 ,0)},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.CornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + 0.2 + 0 ,Thickness=1 + 0 })});local v108=v14:Create("ScrollingFrame",{Name="TabList",Parent=v107,BackgroundTransparency=1 -0 ,Position=UDim2.new(0 -0 ,523 -(203 + 310) ,1993 -(1238 + 755) ,10),Size=UDim2.new(1 + 0 , -(1554 -(709 + 825)),1, -(36 -16)),ScrollBarThickness=3,ScrollBarImageColor3=v91.Accent,ScrollBarImageTransparency=0.5 -0 ,CanvasSize=UDim2.new(864 -(196 + 668) ,0 -0 ,0 -0 ,833 -(171 + 662) ),AutomaticCanvasSize=Enum.AutomaticSize.Y,ClipsDescendants=true},{v14:Create("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0 -0 ,3 + 3 )})});local v109=v14:Create("Frame",{Name="MainContent",Parent=v106,BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency,Position=UDim2.new(0,702 -542 ,0 + 0 ,1486 -(35 + 1451) ),Size=UDim2.new(1454 -(28 + 1425) , -(2153 -(941 + 1052)),1 + 0 ,1514 -(822 + 692) ),ClipsDescendants=true},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.CornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + 0.2 ,Thickness=1})});local function v110() if  not v86 then return;end local v149={Theme=v90.ThemeName,Elements={}};for v230,v231 in pairs(v90.Elements) do if (v231.Value~=nil) then v149.Elements[v230]=v231.Value;end end v90.ConfigData=v149;v19:Save(v87,v88,v149);end local function v111(v151,v152) local v153=v13[v151];if  not v153 then return;end v90.Theme=v153;v90.ThemeName=v151;v91=v153;local v156=(v152 and v89.AnimationSpeed) or (0 + 0) ;v14:Tween(v99,{BackgroundColor3=v153.Background,BackgroundTransparency=v153.BackgroundTransparency},v156);local v157=v99:FindFirstChild("MainStroke");if v157 then v14:Tween(v157,{Color=v153.Border,Transparency=v153.BorderTransparency},v156);end local v158=v99:FindFirstChild("MainGradient");if v158 then v158.Color=ColorSequence.new({ColorSequenceKeypoint.new(0 + 0 ,v153.GradientStart),ColorSequenceKeypoint.new(1 + 0 ,v153.GradientEnd)});end v14:Tween(v100,{ImageColor3=v153.Accent},v156);v14:Tween(v101,{BackgroundColor3=v153.Container,BackgroundTransparency=v153.ContainerTransparency + 0.1 },v156);v14:Tween(v102,{TextColor3=v153.Text},v156);v14:Tween(v103,{TextColor3=v153.TextMuted},v156);v14:Tween(v107,{BackgroundColor3=v153.Container,BackgroundTransparency=v153.ContainerTransparency},v156);v14:Tween(v109,{BackgroundColor3=v153.Container,BackgroundTransparency=v153.ContainerTransparency},v156);for v232,v233 in pairs(v90.Tabs) do local v234=0;local v235;local v236;while true do if (v234==(0 -0)) then v235=v233==v90.CurrentTab ;v14:Tween(v233.Button,{BackgroundColor3=(v235 and v153.Accent) or v153.Element ,BackgroundTransparency=(v235 and (433 -(114 + 319))) or v153.ElementTransparency },v156);v234=1 -0 ;end if (v234==(1 -0)) then v14:Tween(v233.Label,{TextColor3=(v235 and v153.Text) or v153.TextDark },v156);v14:Tween(v233.Icon,{TextColor3=(v235 and v153.Text) or v153.TextDark },v156);v234=2 + 0 ;end if (v234==(2 -0)) then v14:Tween(v233.Indicator,{BackgroundColor3=v153.Accent},v156);v236=v233.Button:FindFirstChildOfClass("UIStroke");v234=5 -2 ;end if (v234==3) then if v236 then v14:Tween(v236,{Color=v153.Border,Transparency=v153.BorderTransparency + (1963.3 -(556 + 1407)) },v156);end break;end end end for v237,v238 in pairs(v90.ElementRefs) do if (v238.Type=="Toggle") then local v435=1206 -(741 + 465) ;local v436;local v437;local v438;while true do if (v435==(468 -(170 + 295))) then if v437 then v14:Tween(v437,{Color=(v436 and v153.Accent) or v153.Border },v156);end v438=v238.Frame:FindFirstChildOfClass("UIStroke");v435=4;end if (v435==1) then v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v14:Tween(v238.Switch,{BackgroundColor3=(v436 and v153.Accent) or v153.Element ,BackgroundTransparency=(v436 and (0 + 0)) or (v153.ElementTransparency-(0.1 + 0)) },v156);v435=4 -2 ;end if (v435==0) then local v583=0;while true do if (v583==(0 + 0)) then v436=v238.Element.Value;v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v583=1;end if (v583==(1 + 0)) then v435=1 + 0 ;break;end end end if ((1232 -(957 + 273))==v435) then v14:Tween(v238.Circle,{BackgroundColor3=v153.Text},v156);v437=v238.Switch:FindFirstChild("SwitchStroke");v435=3;end if (v435==(2 + 2)) then if v438 then v14:Tween(v438,{Color=v153.Border},v156);end break;end end elseif (v238.Type=="Slider") then local v563=0;local v564;local v565;local v566;while true do if (v563==(1 + 0)) then v14:Tween(v238.Fill,{BackgroundColor3=v153.Accent},v156);v14:Tween(v238.Knob,{BackgroundColor3=v153.Text},v156);v564=v238.Knob:FindFirstChildOfClass("UIStroke");if v564 then v14:Tween(v564,{Color=v153.Accent},v156);end v563=2;end if (0==v563) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v14:Tween(v238.ValueLabel,{TextColor3=v153.Accent},v156);v14:Tween(v238.BarBg,{BackgroundColor3=v153.Container,BackgroundTransparency=v153.ContainerTransparency-(0.1 -0) },v156);v563=2 -1 ;end if (v563==(5 -3)) then v565=v238.Fill:FindFirstChildOfClass("UIGradient");if v565 then v565.Color=ColorSequence.new({ColorSequenceKeypoint.new(0,v153.Accent),ColorSequenceKeypoint.new(1,v153.AccentGlow)});end v566=v238.Frame:FindFirstChildOfClass("UIStroke");if v566 then v14:Tween(v566,{Color=v153.Border},v156);end break;end end elseif (v238.Type=="Button") then local v617=0;local v618;while true do if (v617==(2 + 0)) then if v618 then v14:Tween(v618,{Color=v153.Border},v156);end break;end if (v617==1) then v14:Tween(v238.Icon,{TextColor3=v153.Accent},v156);v618=v238.Frame:FindFirstChildOfClass("UIStroke");v617=2;end if (v617==(0 + 0)) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v617=1;end end elseif (v238.Type=="Dropdown") then local v654=0;local v655;while true do if (v654==(0 -0)) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v654=952 -(783 + 168) ;end if ((9 -6)==v654) then for v720,v721 in pairs(v238.OptionsContainer:GetChildren()) do if v721:IsA("TextButton") then local v735=v238.Element.Value;local v736=false;if (type(v735)=="table") then v736=table.find(v735,v721.Name)~=nil ;else v736=v735==v721.Name ;end v14:Tween(v721,{BackgroundColor3=(v736 and v153.Accent) or v153.Container ,BackgroundTransparency=(v736 and (0 + 0)) or v153.ContainerTransparency ,TextColor3=(v736 and v153.Text) or v153.TextDark },v156);end end break;end if (v654==(313 -(309 + 2))) then local v715=0 -0 ;while true do if (v715==(1213 -(1090 + 122))) then v654=3;break;end if (v715==(0 + 0)) then v655=v238.Frame:FindFirstChildOfClass("UIStroke");if v655 then v14:Tween(v655,{Color=v153.Border},v156);end v715=1;end end end if (v654==(3 -2)) then v14:Tween(v238.Selected,{TextColor3=v153.TextDark},v156);v14:Tween(v238.Arrow,{TextColor3=v153.TextDark},v156);v654=2;end end elseif (v238.Type=="Input") then local v693=0;local v694;local v695;local v696;while true do if (v693==0) then v694=0;v695=nil;v693=1 + 0 ;end if (v693==(1119 -(628 + 490))) then v696=nil;while true do if (v694==(0 + 0)) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v694=1;end if ((2 -1)==v694) then v14:Tween(v238.BoxContainer,{BackgroundColor3=v153.Container,BackgroundTransparency=v153.ContainerTransparency},v156);v14:Tween(v238.TextBox,{TextColor3=v153.Text,PlaceholderColor3=v153.TextMuted},v156);v694=9 -7 ;end if (v694==(777 -(431 + 343))) then v696=v238.BoxContainer:FindFirstChild("BoxStroke");if v696 then v14:Tween(v696,{Color=v153.Border},v156);end break;end if (v694==(3 -1)) then local v754=0;while true do if (v754==(0 -0)) then v695=v238.Frame:FindFirstChildOfClass("UIStroke");if v695 then v14:Tween(v695,{Color=v153.Border},v156);end v754=1 + 0 ;end if (v754==1) then v694=1 + 2 ;break;end end end end break;end end elseif (v238.Type=="Keybind") then local v722=1695 -(556 + 1139) ;local v723;while true do if (v722==(17 -(6 + 9))) then if v723 then v14:Tween(v723,{Color=v153.Border},v156);end break;end if (v722==(1 + 0)) then v14:Tween(v238.KeyButton,{BackgroundColor3=v153.Container,BackgroundTransparency=v153.ContainerTransparency,TextColor3=v153.TextDark},v156);v723=v238.Frame:FindFirstChildOfClass("UIStroke");v722=2 + 0 ;end if (v722==0) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v722=170 -(28 + 141) ;end end elseif (v238.Type=="ColorPicker") then local v737=0;local v738;local v739;local v740;while true do if (v737==(0 + 0)) then v738=0 -0 ;v739=nil;v737=1 + 0 ;end if (1==v737) then v740=nil;while true do if (v738==(1320 -(486 + 831))) then if v740 then v14:Tween(v740,{Color=v153.Border},v156);end break;end if (v738==1) then v14:Tween(v238.RGBLabel,{TextColor3=v153.TextDark},v156);v739=v238.Display:FindFirstChildOfClass("UIStroke");v738=5 -3 ;end if (v738==2) then if v739 then v14:Tween(v739,{Color=v153.Border},v156);end v740=v238.Frame:FindFirstChildOfClass("UIStroke");v738=10 -7 ;end if (v738==(0 + 0)) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Label,{TextColor3=v153.Text},v156);v738=3 -2 ;end end break;end end elseif (v238.Type=="Label") then local v755=0;while true do if (v755==(1263 -(668 + 595))) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency + 0.1 },v156);v14:Tween(v238.Text,{TextColor3=v153.TextDark},v156);break;end end elseif (v238.Type=="Paragraph") then local v758=0 + 0 ;local v759;while true do if (v758==1) then v14:Tween(v238.Content,{TextColor3=v153.TextDark},v156);v759=v238.Frame:FindFirstChildOfClass("UIStroke");v758=2;end if ((1 + 1)==v758) then if v759 then v14:Tween(v759,{Color=v153.Border},v156);end break;end if ((0 -0)==v758) then v14:Tween(v238.Frame,{BackgroundColor3=v153.Element,BackgroundTransparency=v153.ElementTransparency},v156);v14:Tween(v238.Title,{TextColor3=v153.Text},v156);v758=1;end end end end v108.ScrollBarImageColor3=v153.Accent;for v239,v240 in pairs(v90.Tabs) do v240.Content.ScrollBarImageColor3=v153.Accent;end v110();end v90.ApplyTheme=v111;v90.Notify=function(v161,v162) v162=v162 or {} ;local v163=v162.Title or "Notification" ;local v164=v162.Content or "" ;local v165=v162.Duration or 5 ;local v166=v162.Type or "Info" ;local v167=v162.Buttons~=false ;local v168={Info=v91.Accent,Success=v91.Success,Warning=v91.Warning,Error=v91.Error};local v169=v168[v166] or v91.Accent ;local v170=v92:FindFirstChild("NotificationHolder");if  not v170 then v170=v14:Create("Frame",{Name="NotificationHolder",Parent=v92,BackgroundTransparency=291 -(23 + 267) ,Position=UDim2.new(1, -20,1945 -(1129 + 815) , -(407 -(371 + 16))),Size=UDim2.new(1750 -(1326 + 424) ,340,1 -0 , -(146 -106)),AnchorPoint=Vector2.new(119 -(88 + 30) ,1)},{v14:Create("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Bottom,Padding=UDim.new(0,783 -(720 + 51) )})});end local v171=v14:Create("Frame",{Name="Notification",Parent=v170,BackgroundColor3=v91.Background,BackgroundTransparency=v91.BackgroundTransparency-(0.05 -0) ,Size=UDim2.new(1,1776 -(421 + 1355) ,0 -0 ,0),AutomaticSize=Enum.AutomaticSize.Y,Position=UDim2.new(1 + 0 ,1133 -(286 + 797) ,0 -0 ,0 -0 ),ClipsDescendants=true},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.CornerRadius)}),v14:Create("UIStroke",{Color=v169,Transparency=0.3 -0 ,Thickness=786.5 -(222 + 563) }),v14:Create("UIGradient",{Color=ColorSequence.new({ColorSequenceKeypoint.new(190 -(23 + 167) ,v91.GradientStart),ColorSequenceKeypoint.new(1,v91.GradientEnd)}),Rotation=49 + 86 ,Transparency=NumberSequence.new(0.2 + 0 )})});local v172=v14:Create("Frame",{Name="AccentBar",Parent=v171,BackgroundColor3=v169,Size=UDim2.new(848 -(40 + 808) ,1 + 3 ,1,0 -0 ),Position=UDim2.new(0 + 0 ,0 + 0 ,0,0)},{v14:Create("UICorner",{CornerRadius=UDim.new(0,575 -(47 + 524) )})});local v173=v14:Create("Frame",{Name="ContentContainer",Parent=v171,BackgroundTransparency=1 + 0 ,Position=UDim2.new(0 -0 ,23 -7 ,0,0),Size=UDim2.new(2 -1 , -20,1726 -(1165 + 561) ,0 + 0 ),AutomaticSize=Enum.AutomaticSize.Y},{v14:Create("UIPadding",{PaddingTop=UDim.new(0 + 0 ,493 -(341 + 138) ),PaddingBottom=UDim.new(0,4 + 10 ),PaddingRight=UDim.new(0 -0 ,336 -(89 + 237) )}),v14:Create("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0 -0 ,16 -8 )})});local v174=v14:Create("Frame",{Name="Header",Parent=v173,BackgroundTransparency=882 -(581 + 300) ,Size=UDim2.new(1,1220 -(855 + 365) ,0 -0 ,8 + 16 )});local v175=v14:Create("TextLabel",{Name="Icon",Parent=v174,BackgroundTransparency=1236 -(1030 + 205) ,Position=UDim2.new(0 + 0 ,0,0 + 0 ,0),Size=UDim2.new(286 -(156 + 130) ,54 -30 ,0,24),Font=Enum.Font.GothamBold,Text=((v166=="Success") and "✓") or ((v166=="Warning") and "!") or ((v166=="Error") and "✗") or "i" ,TextColor3=v169,TextSize=26 -10 });local v176=v14:Create("TextLabel",{Name="Title",Parent=v174,BackgroundTransparency=1 -0 ,Position=UDim2.new(0 + 0 ,18 + 12 ,69 -(10 + 59) ,0 + 0 ),Size=UDim2.new(1, -70,4 -3 ,0),Font=Enum.Font.GothamBold,Text=v163,TextColor3=v91.Text,TextSize=1178 -(671 + 492) ,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd});local v177=v14:Create("TextButton",{Name="Close",Parent=v174,BackgroundColor3=v91.Element,BackgroundTransparency=0.5,Position=UDim2.new(1 + 0 , -24,1215 -(369 + 846) ,0 + 0 ),Size=UDim2.new(0,21 + 3 ,1945 -(1036 + 909) ,20 + 4 ),Font=Enum.Font.GothamBold,Text="X",TextColor3=v91.TextDark,TextSize=19 -7 ,AutoButtonColor=false},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,181 -(135 + 40) )})});local v178=v14:Create("TextLabel",{Name="Content",Parent=v173,BackgroundTransparency=2 -1 ,Size=UDim2.new(1 + 0 ,0 -0 ,0,0 -0 ),AutomaticSize=Enum.AutomaticSize.Y,Font=Enum.Font.Gotham,Text=v164,TextColor3=v91.TextDark,TextSize=189 -(50 + 126) ,TextXAlignment=Enum.TextXAlignment.Left,TextWrapped=true});local v179=v14:Create("Frame",{Name="ProgressContainer",Parent=v173,BackgroundColor3=v91.Element,BackgroundTransparency=0.5 -0 ,Size=UDim2.new(1 + 0 ,0,1413 -(1233 + 180) ,973 -(522 + 447) )},{v14:Create("UICorner",{CornerRadius=UDim.new(1 + 0 ,0 -0 )})});local v180=v14:Create("Frame",{Name="Fill",Parent=v179,BackgroundColor3=v169,Size=UDim2.new(1 + 0 ,0 -0 ,3 -2 ,1910 -(716 + 1194) )},{v14:Create("UICorner",{CornerRadius=UDim.new(1 + 0 ,503 -(74 + 429) )})});if v167 then local v281=0 -0 ;local v282;local v283;local v284;while true do if ((0 + 0)==v281) then v282=0;v283=nil;v281=1;end if (v281==(2 -1)) then v284=nil;while true do if (v282==(0 + 0)) then local v629=0 -0 ;while true do if (v629==(0 -0)) then v283=v14:Create("Frame",{Name="Buttons",Parent=v173,BackgroundTransparency=434 -(279 + 154) ,Size=UDim2.new(779 -(454 + 324) ,0 + 0 ,17 -(12 + 5) ,32)},{v14:Create("UIListLayout",{FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Right,VerticalAlignment=Enum.VerticalAlignment.Center,Padding=UDim.new(0 -0 ,8)})});v284=v14:Create("TextButton",{Name="OK",Parent=v283,BackgroundColor3=v169,Size=UDim2.new(0,70,0,11 + 17 ),Font=Enum.Font.GothamBold,Text="OK",TextColor3=v91.Text,TextSize=1105 -(277 + 816) ,AutoButtonColor=false},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,6)})});v629=1184 -(1058 + 125) ;end if ((1 + 0)==v629) then v282=976 -(815 + 160) ;break;end end end if (v282==1) then v284.MouseEnter:Connect(function() v14:Tween(v284,{BackgroundColor3=v91.AccentDark},v89.AnimationSpeed * (0.5 -0) );end);v284.MouseLeave:Connect(function() v14:Tween(v284,{BackgroundColor3=v169},v89.AnimationSpeed * 0.5 );end);break;end end break;end end end v14:Tween(v171,{Position=UDim2.new(0 -0 ,0 + 0 ,0 -0 ,1898 -(41 + 1857) )},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.Out);v14:Tween(v180,{Size=UDim2.new(1893 -(1222 + 671) ,0,2 -1 ,0)},v165,Enum.EasingStyle.Linear);local function v181() local v243=0 -0 ;while true do if (v243==(1182 -(229 + 953))) then v14:Tween(v171,{Position=UDim2.new(1,1824 -(1111 + 663) ,1579 -(874 + 705) ,0 + 0 )},v89.AnimationSpeed);task.wait(v89.AnimationSpeed + 0.1 );v243=1;end if (v243==(1 + 0)) then if v171 then v171:Destroy();end break;end end end v177.MouseButton1Click:Connect(v181);if v167 then local v285=0;local v286;while true do if (v285==(0 -0)) then v286=v173:FindFirstChild("Buttons") and v173.Buttons:FindFirstChild("OK") ;if v286 then v286.MouseButton1Click:Connect(v181);end break;end end end task.delay(v165,function() if (v171 and v171.Parent) then v181();end end);end;v90.CreateTab=function(v182,v183) v183=v183 or {} ;local v184=v183.Name or "Tab" ;local v185=v183.Icon or "📁" ;local v186={Name=v184,Sections={}};local v187=v14:Create("TextButton",{Name=v184,Parent=v108,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1 + 0 ,679 -(642 + 37) ,0 + 0 ,40),Text="",AutoButtonColor=false},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (454.3 -(233 + 221)) ,Thickness=2 -1 })});local v188=v14:Create("TextLabel",{Name="Icon",Parent=v187,BackgroundTransparency=1 + 0 ,Position=UDim2.new(1541 -(718 + 823) ,7 + 3 ,805 -(266 + 539) ,0),Size=UDim2.new(0 -0 ,1250 -(636 + 589) ,2 -1 ,0 -0 ),Font=Enum.Font.Gotham,Text=v185,TextColor3=v91.TextDark,TextSize=13 + 3 });local v189=v14:Create("TextLabel",{Name="Label",Parent=v187,BackgroundTransparency=1 + 0 ,Position=UDim2.new(1015 -(657 + 358) ,100 -62 ,0 -0 ,0),Size=UDim2.new(1188 -(1151 + 36) , -(47 + 1),1 + 0 ,0 -0 ),Font=Enum.Font.GothamSemibold,Text=v184,TextColor3=v91.TextDark,TextSize=13,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd});local v190=v14:Create("Frame",{Name="Indicator",Parent=v187,BackgroundColor3=v91.Accent,BackgroundTransparency=1833 -(1552 + 280) ,Position=UDim2.new(835 -(64 + 770) , -(3 + 1),0.2 -0 ,0 + 0 ),Size=UDim2.new(1243 -(157 + 1086) ,5 -2 ,0.6 -0 ,0 -0 )},{v14:Create("UICorner",{CornerRadius=UDim.new(820 -(599 + 220) ,0 -0 )})});local v191=v14:Create("ScrollingFrame",{Name=v184   .. "Content" ,Parent=v109,BackgroundTransparency=1932 -(1813 + 118) ,Position=UDim2.new(0 + 0 ,18,1217 -(841 + 376) ,15),Size=UDim2.new(1, -(49 -13),1 + 0 , -(81 -51)),ScrollBarThickness=863 -(464 + 395) ,ScrollBarImageColor3=v91.Accent,ScrollBarImageTransparency=0.3 -0 ,CanvasSize=UDim2.new(0 + 0 ,837 -(467 + 370) ,0 -0 ,0),AutomaticCanvasSize=Enum.AutomaticSize.Y,Visible=false,ClipsDescendants=true},{v14:Create("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0 -0 ,2 + 8 )}),v14:Create("UIPadding",{PaddingLeft=UDim.new(0,2),PaddingRight=UDim.new(0,13 -7 )})});v186.Button=v187;v186.Content=v191;v186.Icon=v188;v186.Label=v189;v186.Indicator=v190;local function v197(v244) local v245=520 -(150 + 370) ;while true do if (v245==0) then local v541=0;while true do if (v541==(1282 -(74 + 1208))) then for v630,v631 in ipairs(v90.Tabs) do if (v631==v244) then return v630;end end return 0 -0 ;end end end end end local function v198() if (v90.CurrentTab==v186) then return;end local v246=v90.CurrentTab;local v247=(v246 and v197(v246)) or (0 -0) ;local v248=v197(v186);local v249=v248>v247 ;if v246 then local v439=0;local v440;while true do if ((1 + 0)==v439) then v14:Tween(v246.Icon,{TextColor3=v91.TextDark},v89.AnimationSpeed);v14:Tween(v246.Indicator,{BackgroundTransparency=1},v89.AnimationSpeed);v439=392 -(14 + 376) ;end if (v439==(0 -0)) then v14:Tween(v246.Button,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed);v14:Tween(v246.Label,{TextColor3=v91.TextDark},v89.AnimationSpeed);v439=1 + 0 ;end if (v439==2) then v440=(v249 and  -(53 + 7)) or (58 + 2) ;v14:Tween(v246.Content,{Position=UDim2.new(0,15,0 -0 ,v440)},v89.AnimationSpeed * 0.6 ,Enum.EasingStyle.Quart,Enum.EasingDirection.In);v439=3 + 0 ;end if (v439==3) then task.delay(v89.AnimationSpeed * (78.5 -(23 + 55)) ,function() if v246.Content then v246.Content.Visible=false;v246.Content.Position=UDim2.new(0 -0 ,15,0 + 0 ,14 + 1 );end end);break;end end end v90.CurrentTab=v186;v14:Tween(v187,{BackgroundColor3=v91.Accent,BackgroundTransparency=0 -0 },v89.AnimationSpeed);v14:Tween(v189,{TextColor3=v91.Text},v89.AnimationSpeed);v14:Tween(v188,{TextColor3=v91.Text},v89.AnimationSpeed);v14:Tween(v190,{BackgroundTransparency=0 + 0 },v89.AnimationSpeed);local v251=(v249 and (961 -(652 + 249))) or  -(160 -100) ;v191.Position=UDim2.new(1868 -(708 + 1160) ,40 -25 ,0 -0 ,v251);v191.Visible=true;v191.CanvasPosition=Vector2.new(27 -(10 + 17) ,0 + 0 );v14:Tween(v191,{Position=UDim2.new(1732 -(1400 + 332) ,28 -13 ,1908 -(242 + 1666) ,7 + 8 )},v89.AnimationSpeed * (0.8 + 0) ,Enum.EasingStyle.Quart,Enum.EasingDirection.Out);v14:Ripple(v187,v91,v89);end v187.MouseEnter:Connect(function() if (v90.CurrentTab~=v186) then v14:Tween(v187,{BackgroundColor3=v91.ElementHover,BackgroundTransparency=v91.ElementTransparency-(0.1 + 0) },v89.AnimationSpeed * (940.5 -(850 + 90)) );end end);v187.MouseLeave:Connect(function() if (v90.CurrentTab~=v186) then v14:Tween(v187,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed * (0.5 -0) );end end);v187.MouseButton1Click:Connect(v198);if ( #v90.Tabs==(1390 -(360 + 1030))) then local v287=0;local v288;while true do if (v287==(0 + 0)) then v288=0 -0 ;while true do if (v288==(0 -0)) then v90.CurrentTab=v186;v187.BackgroundColor3=v91.Accent;v288=1662 -(909 + 752) ;end if (v288==2) then v188.TextColor3=v91.Text;v190.BackgroundTransparency=0;v288=1226 -(109 + 1114) ;end if (v288==(5 -2)) then v191.Visible=true;break;end if (v288==(1 + 0)) then v187.BackgroundTransparency=0;v189.TextColor3=v91.Text;v288=244 -(6 + 236) ;end end break;end end end table.insert(v90.Tabs,v186);v186.CreateSection=function(v255,v256) local v257={Name=v256};local v258=v14:Create("Frame",{Name=v256 or "Section" ,Parent=v191,BackgroundTransparency=1,Size=UDim2.new(1 + 0 ,0 + 0 ,0 -0 ,0 -0 ),AutomaticSize=Enum.AutomaticSize.Y},{v14:Create("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0,8)})});if v256 then local v441=0 + 0 ;local v442;while true do if (v441==(690 -(579 + 110))) then v14:Create("Frame",{Name="Line",Parent=v442,BackgroundColor3=v91.Border,BackgroundTransparency=v91.BorderTransparency,Position=UDim2.new(0 + 0 ,0 + 0 ,1, -1),Size=UDim2.new(1 + 0 ,0,407 -(174 + 233) ,1)});break;end if (v441==0) then v442=v14:Create("Frame",{Parent=v258,BackgroundTransparency=1,Size=UDim2.new(2 -1 ,0,0 -0 ,28)});v14:Create("TextLabel",{Parent=v442,BackgroundTransparency=1,Position=UDim2.new(0,5,0 + 0 ,0),Size=UDim2.new(1, -10,1,1174 -(663 + 511) ),Font=Enum.Font.GothamBold,Text=v256:upper(),TextColor3=v91.TextMuted,TextSize=10 + 1 ,TextXAlignment=Enum.TextXAlignment.Left});v441=1 + 0 ;end end end table.insert(v186.Sections,v257);v257.CreateButton=function(v289,v290) local v291=0 -0 ;local v292;local v293;local v294;local v295;local v296;local v297;while true do if (v291==2) then v297.MouseEnter:Connect(function() local v584=0 + 0 ;while true do if (0==v584) then v14:Tween(v294,{BackgroundColor3=v91.ElementHover,BackgroundTransparency=v91.ElementTransparency-(0.1 -0) },v89.AnimationSpeed * 0.5 );v14:Tween(v296,{Position=UDim2.new(1, -(84 -49),0 + 0 ,0 -0 )},v89.AnimationSpeed * (0.5 + 0) );break;end end end);v297.MouseLeave:Connect(function() local v585=0;local v586;while true do if (v585==(0 + 0)) then v586=722 -(478 + 244) ;while true do if ((517 -(440 + 77))==v586) then v14:Tween(v294,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed * (0.5 + 0) );v14:Tween(v296,{Position=UDim2.new(1, -40,0 -0 ,1556 -(655 + 901) )},v89.AnimationSpeed * (0.5 + 0) );break;end end break;end end end);v297.MouseButton1Click:Connect(function() local v587=0;local v588;while true do if (v587==(0 + 0)) then v588=0 + 0 ;while true do if (v588==(7 -5)) then v293();break;end if (v588==(1446 -(695 + 750))) then task.wait(v89.AnimationSpeed * (0.3 -0) );v14:Tween(v294,{Size=UDim2.new(1 -0 ,0 -0 ,0,393 -(285 + 66) )},v89.AnimationSpeed * 0.3 );v588=4 -2 ;end if (v588==(1310 -(682 + 628))) then v14:Ripple(v297,v91,v89);v14:Tween(v294,{Size=UDim2.new(1 + 0 , -(303 -(176 + 123)),0,17 + 23 )},v89.AnimationSpeed * (0.3 + 0) );v588=270 -(239 + 30) ;end end break;end end end);return {SetText=function(v589,v590) v295.Text=v590;end};end if (v291==1) then v295=v14:Create("TextLabel",{Name="Label",Parent=v294,BackgroundTransparency=1,Position=UDim2.new(0 + 0 ,15,0 + 0 ,0),Size=UDim2.new(1 -0 , -(187 -127),316 -(306 + 9) ,0 -0 ),Font=Enum.Font.GothamSemibold,Text=v292,TextColor3=v91.Text,TextSize=14,TextXAlignment=Enum.TextXAlignment.Left});v296=v14:Create("TextLabel",{Name="Icon",Parent=v294,BackgroundTransparency=1 + 0 ,Position=UDim2.new(1, -(25 + 15),0 + 0 ,0 -0 ),Size=UDim2.new(1375 -(1140 + 235) ,20 + 10 ,1 + 0 ,0),Font=Enum.Font.GothamBold,Text="→",TextColor3=v91.Accent,TextSize=16});v297=v14:Create("TextButton",{Parent=v294,BackgroundTransparency=1,Size=UDim2.new(1 + 0 ,52 -(33 + 19) ,1 + 0 ,0),Text="",AutoButtonColor=false});table.insert(v90.ElementRefs,{Type="Button",Frame=v294,Label=v295,Icon=v296});v291=5 -3 ;end if (v291==(0 + 0)) then v290=v290 or {} ;v292=v290.Name or "Button" ;v293=v290.Callback or function() end ;v294=v14:Create("Frame",{Name=v292   .. "Button" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1,0 -0 ,0,40 + 2 )},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (1488.2 -(1309 + 179)) ,Thickness=1})});v291=1;end end end;v257.CreateToggle=function(v298,v299) v299=v299 or {} ;local v300=v299.Name or "Toggle" ;local v301=v299.Flag or v300 ;local v302=v299.CurrentValue or false ;local v303=v299.Callback or function() end ;if (v90.ConfigData.Elements and (v90.ConfigData.Elements[v301]~=nil)) then v302=v90.ConfigData.Elements[v301];end local v304={Value=v302};v90.Elements[v301]=v304;local v306=v14:Create("Frame",{Name=v300   .. "Toggle" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1 -0 ,0 + 0 ,0,112 -70 )},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (0.2 -0) ,Thickness=1})});local v307=v14:Create("TextLabel",{Name="Label",Parent=v306,BackgroundTransparency=610 -(295 + 314) ,Position=UDim2.new(0 -0 ,1977 -(1300 + 662) ,0 -0 ,0),Size=UDim2.new(1756 -(1178 + 577) , -(37 + 33),2 -1 ,1405 -(851 + 554) ),Font=Enum.Font.GothamSemibold,Text=v300,TextColor3=v91.Text,TextSize=14,TextXAlignment=Enum.TextXAlignment.Left});local v308=v14:Create("Frame",{Name="Switch",Parent=v306,BackgroundColor3=(v302 and v91.Accent) or v91.Element ,BackgroundTransparency=(v302 and (0 + 0)) or (v91.ElementTransparency-0.1) ,Position=UDim2.new(2 -1 , -(119 -64),302.5 -(115 + 187) ,0 + 0 ),Size=UDim2.new(0,42 + 2 ,0 -0 ,1185 -(160 + 1001) ),AnchorPoint=Vector2.new(0,0.5 + 0 )},{v14:Create("UICorner",{CornerRadius=UDim.new(1 + 0 ,0 -0 )}),v14:Create("UIStroke",{Name="SwitchStroke",Color=(v302 and v91.Accent) or v91.Border ,Transparency=(v302 and (897.3 -(525 + 372))) or v91.BorderTransparency ,Thickness=1})});local v309=v14:Create("Frame",{Name="Circle",Parent=v308,BackgroundColor3=v91.Text,Position=(v302 and UDim2.new(1 -0 , -(71 -49),142.5 -(96 + 46) ,777 -(643 + 134) )) or UDim2.new(0,2 + 2 ,0.5 -0 ,0) ,Size=UDim2.new(0,18,0,66 -48 ),AnchorPoint=Vector2.new(0 + 0 ,0.5 -0 )},{v14:Create("UICorner",{CornerRadius=UDim.new(1 -0 ,0)})});local v310=v14:Create("TextButton",{Parent=v306,BackgroundTransparency=720 -(316 + 403) ,Size=UDim2.new(1 + 0 ,0,2 -1 ,0),Text="",AutoButtonColor=false});table.insert(v90.ElementRefs,{Type="Toggle",Element=v304,Frame=v306,Label=v307,Switch=v308,Circle=v309});local function v311(v443) local v444=0 + 0 ;local v445;local v446;while true do if (v444==(2 -1)) then if v304.Value then v14:Tween(v308,{BackgroundColor3=v446.Accent,BackgroundTransparency=0 + 0 },v445);v14:Tween(v309,{Position=UDim2.new(1 + 0 , -(75 -53),0.5,0)},v445,Enum.EasingStyle.Back,Enum.EasingDirection.Out);v14:Tween(v308:FindFirstChild("SwitchStroke"),{Color=v446.Accent,Transparency=0.3},v445);else v14:Tween(v308,{BackgroundColor3=v446.Element,BackgroundTransparency=v446.ElementTransparency-(0.1 -0) },v445);v14:Tween(v309,{Position=UDim2.new(0 -0 ,1 + 3 ,0.5,0 -0 )},v445,Enum.EasingStyle.Back,Enum.EasingDirection.Out);v14:Tween(v308:FindFirstChild("SwitchStroke"),{Color=v446.Border,Transparency=v446.BorderTransparency},v445);end break;end if (0==v444) then local v592=0 + 0 ;while true do if (v592==0) then v445=(v443 and v89.AnimationSpeed) or 0 ;v446=v90.Theme;v592=1;end if ((2 -1)==v592) then v444=1;break;end end end end end v310.MouseEnter:Connect(function() v14:Tween(v306,{BackgroundColor3=v91.ElementHover,BackgroundTransparency=v91.ElementTransparency-0.1 },v89.AnimationSpeed * 0.5 );end);v310.MouseLeave:Connect(function() v14:Tween(v306,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed * 0.5 );end);v310.MouseButton1Click:Connect(function() v304.Value= not v304.Value;v311(true);v14:Ripple(v310,v91,v89);v110();v303(v304.Value);end);v304.Set=function(v448,v449,v450) local v451=17 -(12 + 5) ;while true do if (v451==0) then v304.Value=v449;v311(true);v451=3 -2 ;end if ((1 -0)==v451) then v110();if  not v450 then v303(v449);end break;end end end;if v302 then v303(v302);end return v304;end;v257.CreateSlider=function(v313,v314) v314=v314 or {} ;local v315=v314.Name or "Slider" ;local v316=v314.Flag or v315 ;local v317=(v314.Range and v314.Range[1 -0 ]) or (0 -0) ;local v318=(v314.Range and v314.Range[1 + 1 ]) or (2073 -(1656 + 317)) ;local v319=v314.Increment or (1 + 0) ;local v320=v314.CurrentValue or v317 ;local v321=v314.Suffix or "" ;local v322=v314.Callback or function() end ;if (v90.ConfigData.Elements and (v90.ConfigData.Elements[v316]~=nil)) then v320=v90.ConfigData.Elements[v316];end local v323={Value=v320};v90.Elements[v316]=v323;local v325=v14:Create("Frame",{Name=v315   .. "Slider" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1 + 0 ,0,0 -0 ,285 -227 )},{v14:Create("UICorner",{CornerRadius=UDim.new(354 -(5 + 349) ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + 0.2 ,Thickness=4 -3 })});local v326=v14:Create("TextLabel",{Name="Label",Parent=v325,BackgroundTransparency=1272 -(266 + 1005) ,Position=UDim2.new(0 + 0 ,51 -36 ,0 -0 ,8),Size=UDim2.new(0.6,0,1696 -(561 + 1135) ,23 -5 ),Font=Enum.Font.GothamSemibold,Text=v315,TextColor3=v91.Text,TextSize=14,TextXAlignment=Enum.TextXAlignment.Left});local v327=v14:Create("TextLabel",{Name="Value",Parent=v325,BackgroundTransparency=1,Position=UDim2.new(0.6,0 -0 ,1066 -(507 + 559) ,20 -12 ),Size=UDim2.new(0.4 -0 , -(403 -(212 + 176)),905 -(250 + 655) ,49 -31 ),Font=Enum.Font.GothamBold,Text=tostring(v320)   .. v321 ,TextColor3=v91.Accent,TextSize=23 -9 ,TextXAlignment=Enum.TextXAlignment.Right});local v328=v14:Create("Frame",{Name="BarBg",Parent=v325,BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency-(0.1 -0) ,Position=UDim2.new(1956 -(1869 + 87) ,15,0 -0 ,1937 -(484 + 1417) ),Size=UDim2.new(1, -(64 -34),0 -0 ,783 -(48 + 725) )},{v14:Create("UICorner",{CornerRadius=UDim.new(2 -1 ,0 + 0 )})});local v329=(v320-v317)/(v318-v317) ;local v330=v14:Create("Frame",{Name="Fill",Parent=v328,BackgroundColor3=v91.Accent,Size=UDim2.new(v329,0 -0 ,1 + 0 ,0)},{v14:Create("UICorner",{CornerRadius=UDim.new(1,0 + 0 )}),v14:Create("UIGradient",{Color=ColorSequence.new({ColorSequenceKeypoint.new(0 + 0 ,v91.Accent),ColorSequenceKeypoint.new(1,v91.AccentGlow)}),Rotation=895 -(557 + 338) })});local v331=v14:Create("Frame",{Name="Knob",Parent=v328,BackgroundColor3=v91.Text,Position=UDim2.new(v329,0 + 0 ,0.5,0 -0 ),Size=UDim2.new(0 -0 ,47 -29 ,0 -0 ,18),AnchorPoint=Vector2.new(801.5 -(499 + 302) ,866.5 -(39 + 827) ),ZIndex=5},{v14:Create("UICorner",{CornerRadius=UDim.new(2 -1 ,0)}),v14:Create("UIStroke",{Color=v91.Accent,Thickness=2 -0 })});local v332=v14:Create("TextButton",{Parent=v328,BackgroundTransparency=1,Size=UDim2.new(1 + 0 ,0 -0 ,1 + 0 ,31 -11 ),Position=UDim2.new(104 -(103 + 1) ,554 -(475 + 79) ,0, -(21 -11)),Text="",AutoButtonColor=false});table.insert(v90.ElementRefs,{Type="Slider",Element=v323,Frame=v325,Label=v326,ValueLabel=v327,BarBg=v328,Fill=v330,Knob=v331});local v333=false;local function v334(v452,v453) local v454=0 -0 ;local v455;local v456;local v457;local v458;while true do if (v454==(1 + 0)) then v323.Value=v456;v457=(v456-v317)/(v318-v317) ;v458=(v453 and (v89.AnimationSpeed * 0.5)) or 0 ;v454=2;end if (v454==(0 + 0)) then local v595=0;while true do if (v595==(1503 -(1395 + 108))) then v455=math.clamp((v452.Position.X-v328.AbsolutePosition.X)/v328.AbsoluteSize.X ,0,2 -1 );v456=math.floor(((v317 + ((v318-v317) * v455))/v319) + (1204.5 -(7 + 1197)) ) * v319 ;v595=1 + 0 ;end if (v595==(1 + 0)) then v456=math.clamp(v456,v317,v318);v454=320 -(27 + 292) ;break;end end end if (v454==(8 -5)) then v110();v322(v456);break;end if ((2 -0)==v454) then v327.Text=tostring(v456)   .. v321 ;v14:Tween(v330,{Size=UDim2.new(v457,0 -0 ,1 -0 ,0)},v458);v14:Tween(v331,{Position=UDim2.new(v457,0,0.5 -0 ,139 -(43 + 96) )},v458);v454=3;end end end v332.MouseButton1Down:Connect(function() v333=true;v14:Tween(v331,{Size=UDim2.new(0 -0 ,22,0 -0 ,19 + 3 )},v89.AnimationSpeed * (0.3 + 0) );end);local v335=v2.InputEnded:Connect(function(v459) if ((v459.UserInputType==Enum.UserInputType.MouseButton1) and v333) then local v567=0 -0 ;while true do if (v567==(0 + 0)) then v333=false;v14:Tween(v331,{Size=UDim2.new(0,33 -15 ,0 + 0 ,2 + 16 )},v89.AnimationSpeed * (1751.3 -(1414 + 337)) );break;end end end end);table.insert(v90.Connections,v335);local v336=v2.InputChanged:Connect(function(v460) if (v333 and (v460.UserInputType==Enum.UserInputType.MouseMovement)) then v334(v460,false);end end);table.insert(v90.Connections,v336);v332.MouseButton1Click:Connect(function() local v461=0;local v462;while true do if (v461==(1940 -(1642 + 298))) then v462=0;while true do if (v462==(0 -0)) then v334({Position=Vector3.new(v9.X,v9.Y,0)},true);v14:Ripple(v332,v91,v89);break;end end break;end end end);v323.Set=function(v463,v464,v465) v464=math.clamp(v464,v317,v318);v323.Value=v464;local v467=(v464-v317)/(v318-v317) ;v327.Text=tostring(v464)   .. v321 ;v330.Size=UDim2.new(v467,0 -0 ,2 -1 ,0);v331.Position=UDim2.new(v467,0 + 0 ,0.5,0 + 0 );v110();if  not v465 then v322(v464);end end;v322(v320);return v323;end;v257.CreateDropdown=function(v338,v339) v339=v339 or {} ;local v340=v339.Name or "Dropdown" ;local v341=v339.Flag or v340 ;local v342=v339.Options or {} ;local v343=v339.CurrentOption or v342[1] or "" ;local v344=v339.MultiSelect or false ;local v345=v339.Callback or function() end ;if (v90.ConfigData.Elements and (v90.ConfigData.Elements[v341]~=nil)) then v343=v90.ConfigData.Elements[v341];end local v346={Value=(v344 and (((type(v343)=="table") and v343) or {v343})) or v343 ,Open=false,Options=v342};v90.Elements[v341]=v346;local v348=v14:Create("Frame",{Name=v340   .. "Dropdown" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1,972 -(357 + 615) ,0 + 0 ,42),ClipsDescendants=true},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + 0.2 ,Thickness=1})});local v349=v14:Create("TextButton",{Name="Header",Parent=v348,BackgroundTransparency=1,Size=UDim2.new(1 + 0 ,0 -0 ,0 + 0 ,3 + 39 ),Text="",AutoButtonColor=false});local v350=v14:Create("TextLabel",{Name="Label",Parent=v349,BackgroundTransparency=1,Position=UDim2.new(0,10 + 5 ,1301 -(384 + 917) ,0),Size=UDim2.new(697.5 -(128 + 569) , -(1558 -(1407 + 136)),1,0),Font=Enum.Font.GothamSemibold,Text=v340,TextColor3=v91.Text,TextSize=1901 -(687 + 1200) ,TextXAlignment=Enum.TextXAlignment.Left});local function v351() if v344 then if ( #v346.Value==(1710 -(556 + 1154))) then return "None";elseif ( #v346.Value==(3 -2)) then return v346.Value[1];else return  #v346.Value   .. " selected" ;end else return v346.Value or "Select..." ;end end local v352=v14:Create("TextLabel",{Name="Selected",Parent=v349,BackgroundTransparency=96 -(9 + 86) ,Position=UDim2.new(421.5 -(275 + 146) ,0 + 0 ,64 -(29 + 35) ,0 -0 ),Size=UDim2.new(0.5 -0 , -(198 -153),1 + 0 ,0),Font=Enum.Font.Gotham,Text=v351(),TextColor3=v91.TextDark,TextSize=1025 -(53 + 959) ,TextXAlignment=Enum.TextXAlignment.Right,TextTruncate=Enum.TextTruncate.AtEnd});local v353=v14:Create("TextLabel",{Name="Arrow",Parent=v349,BackgroundTransparency=409 -(312 + 96) ,Position=UDim2.new(1 -0 , -35,285 -(147 + 138) ,0),Size=UDim2.new(899 -(813 + 86) ,23 + 2 ,1 -0 ,0),Font=Enum.Font.GothamBold,Text="v",TextColor3=v91.TextDark,TextSize=504 -(18 + 474) ,Rotation=0});local v354=v14:Create("Frame",{Name="Options",Parent=v348,BackgroundTransparency=1 + 0 ,Position=UDim2.new(0 -0 ,8,1086 -(860 + 226) ,48),Size=UDim2.new(1, -(319 -(121 + 182)),0 + 0 ,1240 -(988 + 252) ),AutomaticSize=Enum.AutomaticSize.Y},{v14:Create("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,Padding=UDim.new(0 + 0 ,1974 -(49 + 1921) )})});table.insert(v90.ElementRefs,{Type="Dropdown",Element=v346,Frame=v348,Label=v350,Selected=v352,Arrow=v353,OptionsContainer=v354});local function v355(v471) local v472=(v344 and table.find(v346.Value,v471)) or (v346.Value==v471) ;local v473=v14:Create("TextButton",{Name=v471,Parent=v354,BackgroundColor3=(v472 and v91.Accent) or v91.Container ,BackgroundTransparency=(v472 and (890 -(223 + 667))) or v91.ContainerTransparency ,Size=UDim2.new(53 -(51 + 1) ,0,0 -0 ,68 -36 ),Font=Enum.Font.Gotham,Text=v471,TextColor3=(v472 and v91.Text) or v91.TextDark ,TextSize=13,AutoButtonColor=false},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.ElementCornerRadius-(607 -(311 + 294)) )})});v473.MouseEnter:Connect(function() local v545=0 -0 ;local v546;while true do if ((0 + 0)==v545) then v546=(v344 and table.find(v346.Value,v471)) or (v346.Value==v471) ;if  not v546 then v14:Tween(v473,{BackgroundColor3=v91.AccentDark,BackgroundTransparency=1443.5 -(496 + 947) ,TextColor3=v91.Text},v89.AnimationSpeed * (1358.5 -(1233 + 125)) );end break;end end end);v473.MouseLeave:Connect(function() local v547=0 + 0 ;local v548;local v549;while true do if (v547==(1 + 0)) then v14:Tween(v473,{BackgroundColor3=(v548 and v549.Accent) or v549.Container ,BackgroundTransparency=(v548 and 0) or v549.ContainerTransparency ,TextColor3=(v548 and v549.Text) or v549.TextDark },v89.AnimationSpeed * (0.5 + 0) );break;end if (v547==0) then v548=(v344 and table.find(v346.Value,v471)) or (v346.Value==v471) ;v549=v90.Theme;v547=1646 -(963 + 682) ;end end end);v473.MouseButton1Click:Connect(function() local v550=0;local v551;while true do if (v550==1) then if v344 then local v659=0 + 0 ;local v660;while true do if (v659==2) then v345(v346.Value);break;end if (v659==(1505 -(504 + 1000))) then v352.Text=v351();v110();v659=2 + 0 ;end if (v659==(0 + 0)) then v660=table.find(v346.Value,v471);if v660 then table.remove(v346.Value,v660);v14:Tween(v473,{BackgroundColor3=v551.Container,BackgroundTransparency=v551.ContainerTransparency,TextColor3=v551.TextDark},v89.AnimationSpeed);else table.insert(v346.Value,v471);v14:Tween(v473,{BackgroundColor3=v551.Accent,BackgroundTransparency=0 + 0 ,TextColor3=v551.Text},v89.AnimationSpeed);end v659=1;end end else local v661=0 -0 ;local v662;while true do if (v661==(0 + 0)) then v662=0 + 0 ;while true do if (v662==(184 -(156 + 26))) then v345(v471);task.wait(v89.AnimationSpeed * (0.3 + 0) );v662=3;end if (v662==(6 -2)) then v14:Tween(v353,{Rotation=0},v89.AnimationSpeed);break;end if (v662==3) then v346.Open=false;v14:Tween(v348,{Size=UDim2.new(1,164 -(149 + 15) ,960 -(890 + 70) ,159 -(39 + 78) )},v89.AnimationSpeed);v662=486 -(14 + 468) ;end if (v662==(2 -1)) then for v745,v746 in pairs(v354:GetChildren()) do if v746:IsA("TextButton") then local v756=0 -0 ;local v757;while true do if (0==v756) then v757=v746.Name==v471 ;v14:Tween(v746,{BackgroundColor3=(v757 and v551.Accent) or v551.Container ,BackgroundTransparency=(v757 and 0) or v551.ContainerTransparency ,TextColor3=(v757 and v551.Text) or v551.TextDark },v89.AnimationSpeed);break;end end end end v110();v662=2 + 0 ;end if (0==v662) then v346.Value=v471;v352.Text=v471;v662=1 + 0 ;end end break;end end end break;end if (v550==(0 + 0)) then v14:Ripple(v473,v91,v89);v551=v90.Theme;v550=1 + 0 ;end end end);return v473;end for v474,v475 in pairs(v342) do v355(v475);end v349.MouseEnter:Connect(function() v14:Tween(v348,{BackgroundColor3=v91.ElementHover,BackgroundTransparency=v91.ElementTransparency-(0.1 + 0) },v89.AnimationSpeed * (0.5 -0) );end);v349.MouseLeave:Connect(function() v14:Tween(v348,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed * (0.5 + 0) );end);v349.MouseButton1Click:Connect(function() local v476=0;local v477;local v478;local v479;while true do if (v476==0) then v477=0;v478=nil;v476=3 -2 ;end if (v476==(1 + 0)) then v479=nil;while true do if (v477==(52 -(12 + 39))) then v478= #v342;v479=(v346.Open and math.min(40 + 2 + 8 + (v478 * 36) ,773 -523 )) or 42 ;v477=6 -4 ;end if (v477==(0 + 0)) then v346.Open= not v346.Open;v14:Ripple(v349,v91,v89);v477=1;end if ((2 + 0)==v477) then v14:Tween(v348,{Size=UDim2.new(1,0 -0 ,0,v479)},v89.AnimationSpeed);v14:Tween(v353,{Rotation=(v346.Open and (120 + 60)) or (0 -0) },v89.AnimationSpeed);break;end end break;end end end);v346.Set=function(v480,v481,v482) local v483=v90.Theme;if v344 then v346.Value=((type(v481)=="table") and v481) or {v481} ;for v597,v598 in pairs(v354:GetChildren()) do if v598:IsA("TextButton") then local v642=0 -0 ;local v643;while true do if ((714 -(164 + 549))==v642) then v598.BackgroundTransparency=(v643 and (1438 -(1059 + 379))) or v483.ContainerTransparency ;v598.TextColor3=(v643 and v483.Text) or v483.TextDark ;break;end if ((0 -0)==v642) then local v699=0 + 0 ;while true do if (v699==(1 + 0)) then v642=393 -(145 + 247) ;break;end if (v699==0) then v643=table.find(v346.Value,v598.Name);v598.BackgroundColor3=(v643 and v483.Accent) or v483.Container ;v699=1 + 0 ;end end end end end end else local v569=0;while true do if (v569==(0 + 0)) then v346.Value=v481;for v664,v665 in pairs(v354:GetChildren()) do if v665:IsA("TextButton") then local v700=0;local v701;while true do if (v700==0) then v701=v665.Name==v481 ;v665.BackgroundColor3=(v701 and v483.Accent) or v483.Container ;v700=2 -1 ;end if (v700==1) then v665.BackgroundTransparency=(v701 and (0 + 0)) or v483.ContainerTransparency ;v665.TextColor3=(v701 and v483.Text) or v483.TextDark ;break;end end end end break;end end end v352.Text=v351();v110();if  not v482 then v345(v346.Value);end end;v346.Refresh=function(v485,v486,v487) local v488=0 + 0 ;local v489;while true do if (v488==(0 -0)) then v489=720 -(254 + 466) ;while true do if (v489==2) then for v684,v685 in pairs(v486) do v355(v685);end v352.Text=v351();v489=563 -(544 + 16) ;end if (v489==1) then for v686,v687 in pairs(v354:GetChildren()) do if v687:IsA("TextButton") then v687:Destroy();end end if  not v487 then v346.Value=(v344 and {}) or v486[2 -1 ] or "" ;end v489=630 -(294 + 334) ;end if (v489==(256 -(236 + 17))) then if v346.Open then local v703=0 + 0 ;local v704;local v705;local v706;while true do if (v703==(1 + 0)) then v706=nil;while true do if (v704==(3 -2)) then v14:Tween(v348,{Size=UDim2.new(4 -3 ,0,0,v706)},v89.AnimationSpeed);break;end if (v704==0) then v705= #v486;v706=math.min(42 + 8 + (v705 * (19 + 17)) ,250);v704=1 + 0 ;end end break;end if (v703==0) then v704=794 -(413 + 381) ;v705=nil;v703=1;end end end break;end if (v489==0) then v342=v486;v346.Options=v486;v489=1;end end break;end end end;if v343 then v345(v346.Value);end return v346;end;v257.CreateInput=function(v358,v359) v359=v359 or {} ;local v360=v359.Name or "Input" ;local v361=v359.Flag or v360 ;local v362=v359.PlaceholderText or "Enter text..." ;local v363=v359.CurrentValue or "" ;local v364=v359.RemoveTextAfterFocusLost or false ;local v365=v359.Callback or function() end ;if (v90.ConfigData.Elements and (v90.ConfigData.Elements[v361]~=nil)) then v363=v90.ConfigData.Elements[v361];end local v366={Value=v363};v90.Elements[v361]=v366;local v368=v14:Create("Frame",{Name=v360   .. "Input" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1 + 0 ,0 -0 ,0 -0 ,2012 -(582 + 1388) )},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + 0.2 ,Thickness=2 -1 })});local v369=v14:Create("TextLabel",{Name="Label",Parent=v368,BackgroundTransparency=1 -0 ,Position=UDim2.new(620 -(47 + 573) ,6 + 9 ,0 -0 ,0 -0 ),Size=UDim2.new(1664.35 -(1269 + 395) ,492 -(76 + 416) ,444 -(319 + 124) ,0 -0 ),Font=Enum.Font.GothamSemibold,Text=v360,TextColor3=v91.Text,TextSize=14,TextXAlignment=Enum.TextXAlignment.Left,TextTruncate=Enum.TextTruncate.AtEnd});local v370=v14:Create("Frame",{Name="BoxContainer",Parent=v368,BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency,Position=UDim2.new(0.35,1012 -(564 + 443) ,0.15 -0 ,458 -(337 + 121) ),Size=UDim2.new(0.65 -0 , -20,0.7 -0 ,0)},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.ElementCornerRadius-(2 -0) )}),v14:Create("UIStroke",{Name="BoxStroke",Color=v91.Border,Transparency=v91.BorderTransparency,Thickness=1818 -(772 + 1045) })});local v371=v14:Create("TextBox",{Name="TextBox",Parent=v370,BackgroundTransparency=1,Position=UDim2.new(0 + 0 ,10,144 -(102 + 42) ,1844 -(1524 + 320) ),Size=UDim2.new(1, -(1290 -(1049 + 221)),1,156 -(18 + 138) ),Font=Enum.Font.Gotham,PlaceholderText=v362,PlaceholderColor3=v91.TextMuted,Text=v363,TextColor3=v91.Text,TextSize=31 -18 ,ClearTextOnFocus=false,ClipsDescendants=true});table.insert(v90.ElementRefs,{Type="Input",Element=v366,Frame=v368,Label=v369,BoxContainer=v370,TextBox=v371});v371.Focused:Connect(function() local v490=1102 -(67 + 1035) ;while true do if (0==v490) then v14:Tween(v370:FindFirstChild("BoxStroke"),{Color=v91.Accent,Transparency=348 -(136 + 212) },v89.AnimationSpeed);v14:Tween(v368,{BackgroundColor3=v91.ElementHover,BackgroundTransparency=v91.ElementTransparency-(0.1 -0) },v89.AnimationSpeed);break;end end end);v371.FocusLost:Connect(function(v491) local v492=0 + 0 ;while true do if (v492==(1 + 0)) then v366.Value=v371.Text;v110();v492=1606 -(240 + 1364) ;end if ((1084 -(1050 + 32))==v492) then if (v491 or  not v364) then v365(v371.Text);end if v364 then local v645=0 -0 ;local v646;while true do if (v645==(0 + 0)) then v646=0;while true do if (v646==(1055 -(331 + 724))) then v371.Text="";v366.Value="";break;end end break;end end end break;end if (v492==(0 + 0)) then v14:Tween(v370:FindFirstChild("BoxStroke"),{Color=v91.Border,Transparency=v91.BorderTransparency},v89.AnimationSpeed);v14:Tween(v368,{BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed);v492=1;end end end);v366.Set=function(v493,v494,v495) local v496=644 -(269 + 375) ;while true do if (v496==(725 -(267 + 458))) then v371.Text=v494;v366.Value=v494;v496=1;end if ((1 + 0)==v496) then v110();if  not v495 then v365(v494);end break;end end end;return v366;end;v257.CreateKeybind=function(v373,v374) v374=v374 or {} ;local v375=v374.Name or "Keybind" ;local v376=v374.Flag or v375 ;local v377=v374.CurrentKeybind or "None" ;local v378=v374.HoldToInteract or false ;local v379=v374.Callback or function() end ;if (v90.ConfigData.Elements and (v90.ConfigData.Elements[v376]~=nil)) then v377=v90.ConfigData.Elements[v376];end local v380={Value=((v377~="None") and Enum.KeyCode[v377]) or nil ,Listening=false};v90.Elements[v376]={Value=v377};local v382=v14:Create("Frame",{Name=v375   .. "Keybind" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1 -0 ,818 -(667 + 151) ,0,42)},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (0.2 -0) ,Thickness=1})});local v383=v14:Create("TextLabel",{Name="Label",Parent=v382,BackgroundTransparency=1,Position=UDim2.new(0 -0 ,811 -(461 + 335) ,0 + 0 ,1761 -(1730 + 31) ),Size=UDim2.new(0.6,1667 -(728 + 939) ,3 -2 ,0 -0 ),Font=Enum.Font.GothamSemibold,Text=v375,TextColor3=v91.Text,TextSize=14,TextXAlignment=Enum.TextXAlignment.Left});local v384=v14:Create("TextButton",{Name="KeyButton",Parent=v382,BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency,Position=UDim2.new(1, -(229 -129),1068.15 -(138 + 930) ,0 + 0 ),Size=UDim2.new(0 + 0 ,73 + 12 ,0.7 -0 ,1766 -(459 + 1307) ),Font=Enum.Font.GothamBold,Text=v377,TextColor3=v91.TextDark,TextSize=1882 -(474 + 1396) ,AutoButtonColor=false},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,v89.ElementCornerRadius-2 )}),v14:Create("UIStroke",{Name="ButtonStroke",Color=v91.Border,Transparency=v91.BorderTransparency,Thickness=1 + 0 })});table.insert(v90.ElementRefs,{Type="Keybind",Element=v380,Frame=v382,Label=v383,KeyButton=v384});v384.MouseEnter:Connect(function() if  not v380.Listening then v14:Tween(v384,{BackgroundTransparency=v91.ContainerTransparency-(0.15 -0) },v89.AnimationSpeed * (0.5 + 0) );end end);v384.MouseLeave:Connect(function() if  not v380.Listening then v14:Tween(v384,{BackgroundTransparency=v91.ContainerTransparency},v89.AnimationSpeed * (0.5 -0) );end end);v384.MouseButton1Click:Connect(function() local v497=0 -0 ;local v498;while true do if (v497==0) then v498=591 -(562 + 29) ;while true do if (v498==(1 + 0)) then v14:Tween(v384,{BackgroundColor3=v91.Accent,BackgroundTransparency=1419 -(374 + 1045) },v89.AnimationSpeed);v14:Tween(v384:FindFirstChild("ButtonStroke"),{Color=v91.Accent,Transparency=0.3 + 0 },v89.AnimationSpeed);v498=5 -3 ;end if (v498==(640 -(448 + 190))) then v14:Ripple(v384,v91,v89);break;end if (v498==(0 + 0)) then v380.Listening=true;v384.Text="...";v498=1;end end break;end end end);local v385=v2.InputBegan:Connect(function(v499,v500) local v501=0;while true do if (v501==0) then if v500 then return;end if v380.Listening then if (v499.UserInputType==Enum.UserInputType.Keyboard) then local v688=v499.KeyCode.Name;if (v499.KeyCode==Enum.KeyCode.Escape) then local v717=0 + 0 ;while true do if (v717==(0 + 0)) then v380.Value=nil;v688="None";break;end end else v380.Value=v499.KeyCode;end v380.Listening=false;v384.Text=v688;v90.Elements[v376].Value=v688;v14:Tween(v384,{BackgroundColor3=v91.Container,BackgroundTransparency=v91.ContainerTransparency},v89.AnimationSpeed);v14:Tween(v384:FindFirstChild("ButtonStroke"),{Color=v91.Border,Transparency=v91.BorderTransparency},v89.AnimationSpeed);v110();end elseif (v380.Value and (v499.KeyCode==v380.Value)) then if v378 then v379(true);else v379();end end break;end end end);table.insert(v90.Connections,v385);if v378 then local v554=0 -0 ;local v555;while true do if (v554==(0 -0)) then v555=v2.InputEnded:Connect(function(v647,v648) local v649=1494 -(1307 + 187) ;while true do if (v649==(0 -0)) then if v648 then return;end if (v380.Value and (v647.KeyCode==v380.Value)) then v379(false);end break;end end end);table.insert(v90.Connections,v555);break;end end end v380.Set=function(v502,v503,v504) local v505=0 -0 ;local v506;while true do if (v505==(0 -0)) then v506=0;while true do if (v506==(683 -(232 + 451))) then if (type(v503)=="string") then local v707=0;while true do if (v707==(1 + 0)) then v90.Elements[v376].Value=v503;break;end if (v707==(0 + 0)) then if (v503=="None") then v380.Value=nil;else v380.Value=Enum.KeyCode[v503];end v384.Text=v503;v707=565 -(510 + 54) ;end end else v380.Value=v503;v384.Text=(v503 and v503.Name) or "None" ;v90.Elements[v376].Value=(v503 and v503.Name) or "None" ;end v110();break;end end break;end end end;return v380;end;v257.CreateColorPicker=function(v387,v388) v388=v388 or {} ;local v389=v388.Name or "Color Picker" ;local v390=v388.Flag or v389 ;local v391=v388.Color or Color3.fromRGB(255,255,513 -258 ) ;local v392=v388.Callback or function() end ;if (v90.ConfigData.Elements and (v90.ConfigData.Elements[v390]~=nil)) then local v556=36 -(13 + 23) ;local v557;while true do if (v556==0) then v557=v90.ConfigData.Elements[v390];if (type(v557)=="table") then v391=Color3.fromRGB(v557[1 -0 ],v557[2],v557[3 -0 ]);end break;end end end local v393={Value=v391,Open=false};v90.Elements[v390]={Value={math.floor(v391.R * (1343 -(830 + 258)) ),math.floor(v391.G * (160 + 95) ),math.floor(v391.B * (1696 -(860 + 581)) )}};local v395,v396,v397=v391:ToHSV();local v398=v14:Create("Frame",{Name=v389   .. "ColorPicker" ,Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(3 -2 ,0 + 0 ,241 -(237 + 4) ,42),ClipsDescendants=true},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + (0.2 -0) ,Thickness=1})});local v399=v14:Create("TextLabel",{Name="Label",Parent=v398,BackgroundTransparency=1,Position=UDim2.new(0,13 + 2 ,0 + 0 ,0),Size=UDim2.new(0.6 -0 ,0 + 0 ,0 + 0 ,1468 -(85 + 1341) ),Font=Enum.Font.GothamSemibold,Text=v389,TextColor3=v91.Text,TextSize=14,TextXAlignment=Enum.TextXAlignment.Left});local v400=v14:Create("TextButton",{Name="Display",Parent=v398,BackgroundColor3=v391,Position=UDim2.new(1 -0 , -(155 -100),372 -(45 + 327) ,16 -7 ),Size=UDim2.new(502 -(444 + 58) ,18 + 22 ,0 + 0 ,12 + 12 ),Text="",AutoButtonColor=false},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,v89.ElementCornerRadius-(1734 -(64 + 1668)) )}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency,Thickness=2 -1 })});local v401=v14:Create("Frame",{Name="Picker",Parent=v398,BackgroundTransparency=1,Position=UDim2.new(0 -0 ,509 -(415 + 79) ,0 + 0 ,50),Size=UDim2.new(492 -(142 + 349) , -(13 + 17),0,178 -48 )});local v402=v14:Create("ImageLabel",{Name="SatVal",Parent=v401,BackgroundColor3=Color3.fromHSV(v395,1 + 0 ,1 + 0 ),Size=UDim2.new(2 -1 , -40,1864 -(1710 + 154) ,100),Image="rbxassetid://4155801252",ScaleType=Enum.ScaleType.Stretch},{v14:Create("UICorner",{CornerRadius=UDim.new(318 -(200 + 118) ,v89.ElementCornerRadius-(1 + 1) )})});local v403=v14:Create("Frame",{Name="Cursor",Parent=v402,BackgroundColor3=Color3.new(1,1 -0 ,1 -0 ),Position=UDim2.new(v396,0 + 0 ,(1 + 0) -v397 ,0 + 0 ),Size=UDim2.new(0 + 0 ,25 -13 ,1250 -(363 + 887) ,20 -8 ),AnchorPoint=Vector2.new(0.5,0.5 -0 ),ZIndex=5},{v14:Create("UICorner",{CornerRadius=UDim.new(1,0 -0 )}),v14:Create("UIStroke",{Color=Color3.new(0,1664 -(674 + 990) ,0),Thickness=2})});local v404=v14:Create("Frame",{Name="Hue",Parent=v401,BackgroundColor3=Color3.new(1 + 0 ,1,1),Position=UDim2.new(1 + 0 , -(47 -17),0,0),Size=UDim2.new(1055 -(507 + 548) ,862 -(289 + 548) ,1818 -(821 + 997) ,355 -(195 + 60) )},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.ElementCornerRadius-(1503 -(251 + 1250)) )}),v14:Create("UIGradient",{Color=ColorSequence.new({ColorSequenceKeypoint.new(0 + 0 ,Color3.fromRGB(255,0,1032 -(809 + 223) )),ColorSequenceKeypoint.new(0.167,Color3.fromRGB(765 -510 ,255,0 -0 )),ColorSequenceKeypoint.new(0.333 + 0 ,Color3.fromRGB(0,134 + 121 ,0)),ColorSequenceKeypoint.new(129.5 -(118 + 11) ,Color3.fromRGB(0,255,255)),ColorSequenceKeypoint.new(0.667 + 0 ,Color3.fromRGB(0 + 0 ,0,742 -487 )),ColorSequenceKeypoint.new(949.833 -(551 + 398) ,Color3.fromRGB(255,0,255)),ColorSequenceKeypoint.new(1 + 0 ,Color3.fromRGB(91 + 164 ,0,0))}),Rotation=74 + 16 })});local v405=v14:Create("Frame",{Name="Cursor",Parent=v404,BackgroundColor3=Color3.new(3 -2 ,2 -1 ,1 + 0 ),Position=UDim2.new(0.5 -0 ,0 + 0 ,v395,0),Size=UDim2.new(90 -(40 + 49) ,22 -16 ,490 -(99 + 391) ,7 + 1 ),AnchorPoint=Vector2.new(0.5 -0 ,0.5 -0 ),ZIndex=5},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,1608 -(1032 + 572) )}),v14:Create("UIStroke",{Color=Color3.new(1817 -(568 + 1249) ,0 + 0 ,0 -0 ),Thickness=7 -5 })});local v406=v14:Create("TextLabel",{Name="RGB",Parent=v401,BackgroundTransparency=1307 -(913 + 393) ,Position=UDim2.new(0,0,0,304 -196 ),Size=UDim2.new(1,0,0,20),Font=Enum.Font.Gotham,Text=string.format("RGB: %d, %d, %d",math.floor(v391.R * (359 -104) ),math.floor(v391.G * (665 -(269 + 141)) ),math.floor(v391.B * (567 -312) )),TextColor3=v91.TextDark,TextSize=1992 -(362 + 1619) ,TextXAlignment=Enum.TextXAlignment.Left});table.insert(v90.ElementRefs,{Type="ColorPicker",Element=v393,Frame=v398,Label=v399,Display=v400,RGBLabel=v406});local function v407() local v507=1625 -(950 + 675) ;local v508;while true do if (v507==(0 + 0)) then local v603=0;while true do if (v603==0) then v508=Color3.fromHSV(v395,v396,v397);v393.Value=v508;v603=1180 -(216 + 963) ;end if (v603==1) then v507=1;break;end end end if (v507==2) then v406.Text=string.format("RGB: %d, %d, %d",math.floor(v508.R * 255 ),math.floor(v508.G * (1542 -(485 + 802)) ),math.floor(v508.B * (814 -(432 + 127)) ));v90.Elements[v390].Value={math.floor(v508.R * (142 + 113) ),math.floor(v508.G * (184 + 71) ),math.floor(v508.B * (634 -379) )};v507=3;end if ((2 + 1)==v507) then v110();v392(v508);break;end if (v507==1) then v400.BackgroundColor3=v508;v402.BackgroundColor3=Color3.fromHSV(v395,1 -0 ,1 + 0 );v507=3 -1 ;end end end local v408,v409=false,false;local v410=v14:Create("TextButton",{Parent=v402,BackgroundTransparency=3 -2 ,Size=UDim2.new(1,0,1,0 -0 ),Text="",AutoButtonColor=false});local function v411(v509) local v510=0 -0 ;local v511;local v512;local v513;while true do if (v510==(1 + 0)) then v513=nil;while true do if (v511==(530 -(318 + 211))) then v396=v512;v397=(4 -3) -v513 ;v511=1589 -(963 + 624) ;end if (v511==(0 + 0)) then local v671=846 -(518 + 328) ;while true do if (1==v671) then v511=2 -1 ;break;end if (v671==(0 -0)) then v512=math.clamp((v509.Position.X-v402.AbsolutePosition.X)/v402.AbsoluteSize.X ,317 -(301 + 16) ,2 -1 );v513=math.clamp((v509.Position.Y-v402.AbsolutePosition.Y)/v402.AbsoluteSize.Y ,0,1);v671=1;end end end if ((5 -3)==v511) then v14:Tween(v403,{Position=UDim2.new(v512,0,v513,0 -0 )},v89.AnimationSpeed * (0.3 + 0) );v407();break;end end break;end if ((0 + 0)==v510) then v511=0 -0 ;v512=nil;v510=1 + 0 ;end end end v410.InputBegan:Connect(function(v514) if (v514.UserInputType==Enum.UserInputType.MouseButton1) then v408=true;v411(v514);end end);local v412=v14:Create("TextButton",{Parent=v404,BackgroundTransparency=1,Size=UDim2.new(1 + 0 ,0 -0 ,1,0),Text="",AutoButtonColor=false});local function v413(v515) local v516=0 + 0 ;local v517;while true do if (v516==0) then local v608=1019 -(829 + 190) ;while true do if (v608==(0 -0)) then v517=math.clamp((v515.Position.Y-v404.AbsolutePosition.Y)/v404.AbsoluteSize.Y ,0 -0 ,1 -0 );v395=v517;v608=2 -1 ;end if (v608==(1 + 0)) then v516=1 + 0 ;break;end end end if (v516==(2 -1)) then v14:Tween(v405,{Position=UDim2.new(0.5,0 + 0 ,v517,613 -(520 + 93) )},v89.AnimationSpeed * (276.3 -(259 + 17)) );v407();break;end end end v412.InputBegan:Connect(function(v518) if (v518.UserInputType==Enum.UserInputType.MouseButton1) then local v570=0;while true do if (v570==0) then v409=true;v413(v518);break;end end end end);local v414=v2.InputEnded:Connect(function(v519) if (v519.UserInputType==Enum.UserInputType.MouseButton1) then local v571=0 + 0 ;while true do if (v571==0) then v408=false;v409=false;break;end end end end);table.insert(v90.Connections,v414);local v415=v2.InputChanged:Connect(function(v520) if (v520.UserInputType==Enum.UserInputType.MouseMovement) then if v408 then v411(v520);elseif v409 then v413(v520);end end end);table.insert(v90.Connections,v415);v400.MouseButton1Click:Connect(function() local v521=0;local v522;while true do if (v521==(0 + 0)) then v522=0 -0 ;while true do if ((592 -(396 + 195))==v522) then v14:Tween(v398,{Size=UDim2.new(1,0 -0 ,1761 -(440 + 1321) ,(v393.Open and (2019 -(1059 + 770))) or 42 )},v89.AnimationSpeed);break;end if (v522==(0 -0)) then v393.Open= not v393.Open;v14:Ripple(v400,v91,v89);v522=546 -(424 + 121) ;end end break;end end end);v393.Set=function(v523,v524,v525) local v526=0 + 0 ;local v527;while true do if (v526==(1347 -(641 + 706))) then v527=0 + 0 ;while true do if (v527==(441 -(249 + 191))) then v400.BackgroundColor3=v524;v402.BackgroundColor3=Color3.fromHSV(v395,4 -3 ,1 + 0 );v527=7 -5 ;end if (v527==3) then v406.Text=string.format("RGB: %d, %d, %d",math.floor(v524.R * (682 -(183 + 244)) ),math.floor(v524.G * (13 + 242) ),math.floor(v524.B * 255 ));v90.Elements[v390].Value={math.floor(v524.R * 255 ),math.floor(v524.G * (813 -558) ),math.floor(v524.B * 255 )};v527=4 + 0 ;end if (v527==(3 -1)) then v403.Position=UDim2.new(v396,0 -0 ,(1 + 0) -v397 ,0);v405.Position=UDim2.new(0.5,0 -0 ,v395,0);v527=1126 -(651 + 472) ;end if ((4 + 0)==v527) then v110();if  not v525 then v392(v524);end break;end if ((0 + 0)==v527) then v395,v396,v397=v524:ToHSV();v393.Value=v524;v527=1 -0 ;end end break;end end end;v392(v391);return v393;end;v257.CreateLabel=function(v417,v418) local v419=v14:Create("Frame",{Name="Label",Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency + 0.1 ,Size=UDim2.new(484 -(397 + 86) ,876 -(423 + 453) ,0,4 + 28 )},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.ElementCornerRadius)})});local v420=v14:Create("TextLabel",{Name="Text",Parent=v419,BackgroundTransparency=1 + 0 ,Position=UDim2.new(0 + 0 ,14 + 1 ,0,1190 -(50 + 1140) ),Size=UDim2.new(1 + 0 , -(18 + 12),1 + 0 ,0 -0 ),Font=Enum.Font.Gotham,Text=v418 or "Label" ,TextColor3=v91.TextDark,TextSize=10 + 3 ,TextXAlignment=Enum.TextXAlignment.Left});table.insert(v90.ElementRefs,{Type="Label",Frame=v419,Text=v420});return {Set=function(v528,v529) local v530=0;local v531;while true do if (v530==(596 -(157 + 439))) then v531=0;while true do if (v531==(0 -0)) then v420.Text=v529;v420.TextTransparency=0.5 -0 ;v531=2 -1 ;end if (v531==(919 -(782 + 136))) then v14:Tween(v420,{TextTransparency=855 -(112 + 743) },v89.AnimationSpeed);break;end end break;end end end};end;v257.CreateParagraph=function(v421,v422) local v423=1171 -(1026 + 145) ;local v424;local v425;local v426;local v427;local v428;while true do if (v423==(1 + 1)) then v427=v14:Create("TextLabel",{Name="Title",Parent=v426,BackgroundTransparency=1,Size=UDim2.new(719 -(493 + 225) ,0 -0 ,0 + 0 ,53 -33 ),Font=Enum.Font.GothamBold,Text=v424,TextColor3=v91.Text,TextSize=1 + 14 ,TextXAlignment=Enum.TextXAlignment.Left});v428=v14:Create("TextLabel",{Name="Content",Parent=v426,BackgroundTransparency=2 -1 ,Position=UDim2.new(0 + 0 ,0 -0 ,1595 -(210 + 1385) ,1713 -(1201 + 488) ),Size=UDim2.new(1 + 0 ,0,0,0 -0 ),AutomaticSize=Enum.AutomaticSize.Y,Font=Enum.Font.Gotham,Text=v425,TextColor3=v91.TextDark,TextSize=23 -10 ,TextXAlignment=Enum.TextXAlignment.Left,TextWrapped=true,RichText=true});v423=588 -(352 + 233) ;end if (v423==(7 -4)) then table.insert(v90.ElementRefs,{Type="Paragraph",Frame=v426,Title=v427,Content=v428});return {Set=function(v609,v610,v611) local v612=0;while true do if (v612==1) then v426.BackgroundTransparency=v91.ElementTransparency + 0.2 + 0 ;v14:Tween(v426,{BackgroundTransparency=v91.ElementTransparency},v89.AnimationSpeed);break;end if ((0 -0)==v612) then if v610 then v427.Text=v610;end if v611 then v428.Text=v611;end v612=575 -(489 + 85) ;end end end};end if (v423==(1502 -(277 + 1224))) then v425=v422.Content or "Content" ;v426=v14:Create("Frame",{Name="Paragraph",Parent=v258,BackgroundColor3=v91.Element,BackgroundTransparency=v91.ElementTransparency,Size=UDim2.new(1,1493 -(663 + 830) ,0,0),AutomaticSize=Enum.AutomaticSize.Y},{v14:Create("UICorner",{CornerRadius=UDim.new(0 -0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency + 0.2 + 0 ,Thickness=1 + 0 }),v14:Create("UIPadding",{PaddingTop=UDim.new(0 + 0 ,12),PaddingBottom=UDim.new(0 + 0 ,262 -(172 + 78) ),PaddingLeft=UDim.new(0 -0 ,6 + 9 ),PaddingRight=UDim.new(0 -0 ,15)})});v423=2;end if (v423==0) then v422=v422 or {} ;v424=v422.Title or "Paragraph" ;v423=1 + 0 ;end end end;v257.CreateDivider=function(v429) return v14:Create("Frame",{Name="Divider",Parent=v258,BackgroundColor3=v91.Border,BackgroundTransparency=v91.BorderTransparency,Size=UDim2.new(1,0 + 0 ,0 -0 ,1)});end;return v257;end;return v186;end;v90.Dialog=function(v200,v201) v201=v201 or {} ;local v202=v201.Title or "Dialog" ;local v203=v201.Content or "" ;local v204=v201.Buttons or {} ;local v205=v14:Create("Frame",{Name="DialogBackground",Parent=v92,BackgroundColor3=Color3.new(0 -0 ,0 + 0 ,0),BackgroundTransparency=1,Size=UDim2.new(1 + 0 ,0,1 + 0 ,0 -0 ),ZIndex=232 -132 });local v206=v14:Create("Frame",{Name="Dialog",Parent=v205,BackgroundColor3=v91.Background,BackgroundTransparency=v91.BackgroundTransparency,Position=UDim2.new(0.5 + 0 ,0,0.5 + 0 ,0),Size=UDim2.new(0,0,447 -(133 + 314) ,0 + 0 ),AnchorPoint=Vector2.new(213.5 -(199 + 14) ,0.5 -0 ),ZIndex=101,ClipsDescendants=true},{v14:Create("UICorner",{CornerRadius=UDim.new(0,v89.CornerRadius + (11 -7) )}),v14:Create("UIStroke",{Color=v91.Border,Transparency=v91.BorderTransparency,Thickness=1.5}),v14:Create("UIGradient",{Color=ColorSequence.new({ColorSequenceKeypoint.new(0,v91.GradientStart),ColorSequenceKeypoint.new(1655 -(873 + 781) ,v91.GradientEnd)}),Rotation=180 -45 ,Transparency=NumberSequence.new(0.2 -0 )})});local v207=v14:Create("TextLabel",{Parent=v206,BackgroundTransparency=1 + 0 ,Position=UDim2.new(0,92 -67 ,0,20),Size=UDim2.new(1 -0 , -(148 -98),1947 -(414 + 1533) ,25),Font=Enum.Font.GothamBold,Text=v202,TextColor3=v91.Text,TextSize=16 + 2 ,TextXAlignment=Enum.TextXAlignment.Left,ZIndex=657 -(443 + 112) });local v208=v14:Create("TextLabel",{Parent=v206,BackgroundTransparency=1,Position=UDim2.new(0,1504 -(888 + 591) ,0 -0 ,3 + 47 ),Size=UDim2.new(1, -(188 -138),0 + 0 ,60),Font=Enum.Font.Gotham,Text=v203,TextColor3=v91.TextDark,TextSize=7 + 7 ,TextXAlignment=Enum.TextXAlignment.Left,TextYAlignment=Enum.TextYAlignment.Top,TextWrapped=true,ZIndex=11 + 91 });local v209=v14:Create("Frame",{Parent=v206,BackgroundTransparency=1,Position=UDim2.new(0 -0 ,25,1 -0 , -60),Size=UDim2.new(1679 -(136 + 1542) , -(163 -113),0,38 + 0 ),ZIndex=161 -59 },{v14:Create("UIListLayout",{FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Right,VerticalAlignment=Enum.VerticalAlignment.Center,Padding=UDim.new(0,498 -(68 + 418) )})});v14:Tween(v205,{BackgroundTransparency=0.5 -0 },v89.AnimationSpeed);v14:Tween(v206,{Size=UDim2.new(0,380,0 -0 ,156 + 24 )},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.Out);if v93 then v14:Tween(v93,{Size=1107 -(770 + 322) },v89.AnimationSpeed);end local function v210() local v269=0;while true do if (v269==(1 + 1)) then v205:Destroy();break;end if (v269==1) then if v93 then v14:Tween(v93,{Size=3 + 7 },v89.AnimationSpeed);end task.wait(v89.AnimationSpeed + 0.1 + 0 );v269=2 -0 ;end if (v269==(0 -0)) then v14:Tween(v205,{BackgroundTransparency=1},v89.AnimationSpeed);v14:Tween(v206,{Size=UDim2.new(0 -0 ,0,0 -0 ,0 + 0 )},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.In);v269=1 -0 ;end end end for v270,v271 in pairs(v204) do local v272=0;local v273;local v274;local v275;local v276;while true do if (v272==(2 + 1)) then v276.MouseButton1Click:Connect(function() local v572=0 + 0 ;local v573;while true do if (v572==(0 + 0)) then v573=0 -0 ;while true do if (v573==(1 -0)) then v210();break;end if ((0 + 0)==v573) then v14:Ripple(v276,v91,v89);v274();v573=1;end end break;end end end);break;end if (v272==(4 -3)) then v275=v271.Primary or false ;v276=v14:Create("TextButton",{Parent=v209,BackgroundColor3=(v275 and v91.Accent) or v91.Element ,BackgroundTransparency=(v275 and (0 -0)) or v91.ElementTransparency ,Size=UDim2.new(0 + 0 ,445 -355 ,0,867 -(762 + 69) ),Font=Enum.Font.GothamBold,Text=v273,TextColor3=(v275 and v91.Text) or v91.TextDark ,TextSize=41 -28 ,AutoButtonColor=false,ZIndex=103},{v14:Create("UICorner",{CornerRadius=UDim.new(0 + 0 ,v89.ElementCornerRadius)}),v14:Create("UIStroke",{Color=(v275 and v91.Accent) or v91.Border ,Transparency=(v275 and (0.3 + 0)) or v91.BorderTransparency ,Thickness=1 + 0 })});v272=7 -5 ;end if (v272==0) then v273=v271.Title or "Button" ;v274=v271.Callback or function() end ;v272=158 -(8 + 149) ;end if (v272==(1322 -(1199 + 121))) then v276.MouseEnter:Connect(function() v14:Tween(v276,{BackgroundTransparency=0,BackgroundColor3=(v275 and v91.AccentDark) or v91.Accent ,TextColor3=v91.Text},v89.AnimationSpeed * 0.5 );end);v276.MouseLeave:Connect(function() v14:Tween(v276,{BackgroundColor3=(v275 and v91.Accent) or v91.Element ,BackgroundTransparency=(v275 and 0) or v91.ElementTransparency ,TextColor3=(v275 and v91.Text) or v91.TextDark },v89.AnimationSpeed * (0.5 -0) );end);v272=3;end end end v205.InputBegan:Connect(function(v277) if (v277.UserInputType==Enum.UserInputType.MouseButton1) then local v532=0 -0 ;local v533;local v534;local v535;while true do if ((1 + 0)==v532) then v535=v206.AbsoluteSize;if ((v533.X<v534.X) or (v533.X>(v534.X + v535.X)) or (v533.Y<v534.Y) or (v533.Y>(v534.Y + v535.Y))) then v210();end break;end if (v532==(0 -0)) then v533=v2:GetMouseLocation();v534=v206.AbsolutePosition;v532=1;end end end end);end;v90.Destroy=function(v211) local v212=0 -0 ;while true do if (v212==2) then v12();v92:Destroy();break;end if (v212==(1 + 0)) then v14:Tween(v99,{Size=UDim2.new(1807 -(518 + 1289) ,0 -0 ,0 + 0 ,0)},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.In);task.wait(v89.AnimationSpeed + (0.1 -0) );v212=2 + 0 ;end if (v212==0) then for v558,v559 in pairs(v90.Connections) do if (v559 and v559.Connected) then v559:Disconnect();end end if v93 then v14:Tween(v93,{Size=0},v89.AnimationSpeed);end v212=470 -(304 + 165) ;end end end;v90.Toggle=function(v213,v214) local v215=0;while true do if ((0 + 0)==v215) then if (v214==nil) then v214= not v99.Visible;end if v214 then local v574=160 -(54 + 106) ;while true do if (v574==1) then v14:Tween(v99,{Size=UDim2.new(1969 -(1618 + 351) ,494 + 206 ,1016 -(10 + 1006) ,121 + 359 )},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.Out);if v93 then v14:Tween(v93,{Size=2 + 8 },v89.AnimationSpeed);end break;end if (v574==(0 -0)) then v99.Visible=true;v99.Size=UDim2.new(1033 -(912 + 121) ,0,0 + 0 ,0);v574=1290 -(1140 + 149) ;end end else local v575=0 + 0 ;local v576;while true do if ((0 -0)==v575) then v576=0 + 0 ;while true do if (v576==(3 -2)) then task.wait(v89.AnimationSpeed + (0.1 -0) );v99.Visible=false;break;end if (v576==(0 + 0)) then v14:Tween(v99,{Size=UDim2.new(0,0,0,0 -0 )},v89.AnimationSpeed,Enum.EasingStyle.Back,Enum.EasingDirection.In);if v93 then v14:Tween(v93,{Size=186 -(165 + 21) },v89.AnimationSpeed);end v576=112 -(61 + 50) ;end end break;end end end break;end end end;v90.GetTheme=function(v216) return v90.ThemeName;end;v90.SetTheme=function(v217,v218) v111(v218,true);end;v90.GetThemes=function(v219) local v220=0 + 0 ;local v221;while true do if (v220==1) then return v221;end if (v220==0) then local v536=0 -0 ;while true do if (v536==1) then v220=1;break;end if (v536==(0 -0)) then v221={};for v622,v623 in pairs(v13) do table.insert(v221,v622);end v536=1 + 0 ;end end end end end;local v121=v78.ToggleKey or Enum.KeyCode.RightShift ;local v122=v2.InputBegan:Connect(function(v222,v223) local v224=0;while true do if (v224==0) then if v223 then return;end if (v222.KeyCode==v121) then v90:Toggle();end break;end end end);table.insert(v90.Connections,v122);return v90;end;v0.GetThemes=function(v123) local v124=1460 -(1295 + 165) ;local v125;while true do if (v124==(1 + 0)) then return v125;end if (v124==(0 + 0)) then v125={};for v537,v538 in pairs(v13) do table.insert(v125,v537);end v124=1;end end end;v0.AddTheme=function(v126,v127,v128) v13[v127]=v128;end;v0.IsMobile=function(v130) return v2.TouchEnabled and  not v2.KeyboardEnabled ;end;return v0;
--- ⚠️ WARNING: integrity protected!
 --[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.9) ~  Much Love, Ferib 
+    Alexchad Ui Library COMPLETE REMAKE. The old one was just a waste of space so  i deleted it.
+	This is just generally better and in production and the OFFICAL ONE PLEASE ATLEAST CREDIT ME IF YOU PLAN TO edit it for yourself or else il have to add an license
+	You can see the creation of things are similar to rayfield which is intended because its easy and most developers use it, espacially small ones.
+	Also it take significantly longer because i decided to make it pretty readable and lots of error handling and stuff.
+	KNOWN BUGS AS OFF 26th november 2025 : 1.when changing themes previous selected theme button stays highlighted but atleast in the current theme always so should be a quick fix
+	2.Things getting cut off a little from the sides
+	Suggestions by some people : "better tab switching animation" yeah idk really, "lucide icon soppurt for tabs" yeah im gonna idk when, "Gradient to the glassy background configurable in themes" yeah thats kinda needed?
+	"More configurable settings for blurring" yeah ive been kinda annyoed having blur when gui is minimized so yeah pretty soon "KEYBIND FIX" dude idk keybinds been to annoying tho
+	"Make Notifications better with animations when dissapearing and better design" offensive just offensive
+]]
 
-]]--
+
+local AlexchadLibrary = {}
+
+-- Services
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+local HttpService = game:GetService("HttpService")
+local Lighting = game:GetService("Lighting")
+
+-- Variables
+local Player = Players.LocalPlayer
+local Mouse = Player:GetMouse()
+
+-- Get proper GUI parent
+local function GetGuiParent()
+    local success, result = pcall(function()
+        if gethui then
+            return gethui()
+        elseif syn and syn.protect_gui then
+            return CoreGui
+        end
+        return CoreGui
+    end)
+    return success and result or CoreGui
+end
+
+local GuiParent = GetGuiParent()
+
+-- Clean up ALL existing blur effects
+local function CleanupAllBlur()
+    for _, effect in pairs(Lighting:GetChildren()) do
+        if effect:IsA("BlurEffect") and effect.Name:find("Rayfield") then
+            effect:Destroy()
+        end
+    end
+end
+
+-- Theme Configuration
+local Themes = {
+    Default = {
+        Background = Color3.fromRGB(20, 20, 30),
+        BackgroundTransparency = 0.15,
+        Container = Color3.fromRGB(30, 30, 45),
+        ContainerTransparency = 0.25,
+        Element = Color3.fromRGB(40, 40, 60),
+        ElementTransparency = 0.3,
+        ElementHover = Color3.fromRGB(50, 50, 75),
+        Accent = Color3.fromRGB(100, 120, 255),
+        AccentDark = Color3.fromRGB(70, 90, 200),
+        AccentGlow = Color3.fromRGB(130, 150, 255),
+        Text = Color3.fromRGB(255, 255, 255),
+        TextDark = Color3.fromRGB(180, 180, 200),
+        TextMuted = Color3.fromRGB(120, 120, 150),
+        Border = Color3.fromRGB(80, 80, 120),
+        BorderTransparency = 0.5,
+        Success = Color3.fromRGB(80, 220, 120),
+        Warning = Color3.fromRGB(255, 180, 60),
+        Error = Color3.fromRGB(255, 80, 80),
+        GradientStart = Color3.fromRGB(60, 60, 100),
+        GradientEnd = Color3.fromRGB(30, 30, 50)
+    },
+    Dark = {
+        Background = Color3.fromRGB(10, 10, 15),
+        BackgroundTransparency = 0.1,
+        Container = Color3.fromRGB(18, 18, 25),
+        ContainerTransparency = 0.2,
+        Element = Color3.fromRGB(25, 25, 35),
+        ElementTransparency = 0.25,
+        ElementHover = Color3.fromRGB(35, 35, 50),
+        Accent = Color3.fromRGB(130, 100, 255),
+        AccentDark = Color3.fromRGB(100, 70, 200),
+        AccentGlow = Color3.fromRGB(160, 130, 255),
+        Text = Color3.fromRGB(255, 255, 255),
+        TextDark = Color3.fromRGB(160, 160, 180),
+        TextMuted = Color3.fromRGB(100, 100, 130),
+        Border = Color3.fromRGB(60, 60, 90),
+        BorderTransparency = 0.6,
+        Success = Color3.fromRGB(80, 220, 120),
+        Warning = Color3.fromRGB(255, 180, 60),
+        Error = Color3.fromRGB(255, 80, 80),
+        GradientStart = Color3.fromRGB(40, 40, 70),
+        GradientEnd = Color3.fromRGB(15, 15, 25)
+    },
+    Light = {
+        Background = Color3.fromRGB(240, 240, 250),
+        BackgroundTransparency = 0.1,
+        Container = Color3.fromRGB(250, 250, 255),
+        ContainerTransparency = 0.15,
+        Element = Color3.fromRGB(235, 235, 245),
+        ElementTransparency = 0.2,
+        ElementHover = Color3.fromRGB(225, 225, 240),
+        Accent = Color3.fromRGB(80, 100, 220),
+        AccentDark = Color3.fromRGB(60, 80, 180),
+        AccentGlow = Color3.fromRGB(110, 130, 255),
+        Text = Color3.fromRGB(30, 30, 50),
+        TextDark = Color3.fromRGB(80, 80, 110),
+        TextMuted = Color3.fromRGB(130, 130, 160),
+        Border = Color3.fromRGB(200, 200, 220),
+        BorderTransparency = 0.3,
+        Success = Color3.fromRGB(60, 180, 100),
+        Warning = Color3.fromRGB(230, 160, 40),
+        Error = Color3.fromRGB(220, 60, 60),
+        GradientStart = Color3.fromRGB(255, 255, 255),
+        GradientEnd = Color3.fromRGB(230, 230, 245)
+    },
+    Ocean = {
+        Background = Color3.fromRGB(15, 25, 40),
+        BackgroundTransparency = 0.15,
+        Container = Color3.fromRGB(20, 35, 55),
+        ContainerTransparency = 0.25,
+        Element = Color3.fromRGB(25, 45, 70),
+        ElementTransparency = 0.3,
+        ElementHover = Color3.fromRGB(35, 55, 85),
+        Accent = Color3.fromRGB(60, 180, 220),
+        AccentDark = Color3.fromRGB(40, 150, 190),
+        AccentGlow = Color3.fromRGB(90, 210, 250),
+        Text = Color3.fromRGB(255, 255, 255),
+        TextDark = Color3.fromRGB(170, 200, 220),
+        TextMuted = Color3.fromRGB(120, 150, 180),
+        Border = Color3.fromRGB(60, 100, 140),
+        BorderTransparency = 0.5,
+        Success = Color3.fromRGB(80, 220, 150),
+        Warning = Color3.fromRGB(255, 190, 80),
+        Error = Color3.fromRGB(255, 100, 100),
+        GradientStart = Color3.fromRGB(40, 80, 120),
+        GradientEnd = Color3.fromRGB(20, 40, 60)
+    },
+    Midnight = {
+        Background = Color3.fromRGB(8, 8, 15),
+        BackgroundTransparency = 0.1,
+        Container = Color3.fromRGB(12, 12, 22),
+        ContainerTransparency = 0.2,
+        Element = Color3.fromRGB(18, 18, 32),
+        ElementTransparency = 0.25,
+        ElementHover = Color3.fromRGB(28, 28, 45),
+        Accent = Color3.fromRGB(180, 80, 255),
+        AccentDark = Color3.fromRGB(140, 50, 200),
+        AccentGlow = Color3.fromRGB(210, 120, 255),
+        Text = Color3.fromRGB(255, 255, 255),
+        TextDark = Color3.fromRGB(180, 170, 200),
+        TextMuted = Color3.fromRGB(120, 110, 150),
+        Border = Color3.fromRGB(80, 60, 120),
+        BorderTransparency = 0.5,
+        Success = Color3.fromRGB(100, 255, 150),
+        Warning = Color3.fromRGB(255, 200, 80),
+        Error = Color3.fromRGB(255, 80, 100),
+        GradientStart = Color3.fromRGB(50, 30, 80),
+        GradientEnd = Color3.fromRGB(15, 10, 25)
+    },
+    Emerald = {
+        Background = Color3.fromRGB(15, 25, 20),
+        BackgroundTransparency = 0.15,
+        Container = Color3.fromRGB(20, 35, 28),
+        ContainerTransparency = 0.25,
+        Element = Color3.fromRGB(25, 45, 35),
+        ElementTransparency = 0.3,
+        ElementHover = Color3.fromRGB(35, 60, 48),
+        Accent = Color3.fromRGB(50, 205, 130),
+        AccentDark = Color3.fromRGB(35, 170, 100),
+        AccentGlow = Color3.fromRGB(80, 235, 160),
+        Text = Color3.fromRGB(255, 255, 255),
+        TextDark = Color3.fromRGB(180, 210, 195),
+        TextMuted = Color3.fromRGB(130, 160, 145),
+        Border = Color3.fromRGB(60, 120, 90),
+        BorderTransparency = 0.5,
+        Success = Color3.fromRGB(80, 255, 150),
+        Warning = Color3.fromRGB(255, 200, 80),
+        Error = Color3.fromRGB(255, 100, 100),
+        GradientStart = Color3.fromRGB(40, 100, 70),
+        GradientEnd = Color3.fromRGB(20, 50, 35)
+    }
+}
+
+-- Utility Functions
+local Utility = {}
+
+function Utility:Create(instanceType, properties, children)
+    local instance = Instance.new(instanceType)
+    for property, value in pairs(properties or {}) do
+        if property ~= "Parent" then
+            instance[property] = value
+        end
+    end
+    for _, child in pairs(children or {}) do
+        child.Parent = instance
+    end
+    if properties and properties.Parent then
+        instance.Parent = properties.Parent
+    end
+    return instance
+end
+
+function Utility:Tween(instance, properties, duration, easingStyle, easingDirection)
+    if not instance then return end
+    local tweenInfo = TweenInfo.new(
+        duration or 0.25,
+        easingStyle or Enum.EasingStyle.Quart,
+        easingDirection or Enum.EasingDirection.Out
+    )
+    local tween = TweenService:Create(instance, tweenInfo, properties)
+    tween:Play()
+    return tween
+end
+
+function Utility:Ripple(button, theme, config)
+    if not config.RippleEnabled then return end
+    
+    local ripple = Utility:Create("Frame", {
+        Name = "Ripple",
+        Parent = button,
+        BackgroundColor3 = theme.AccentGlow,
+        BackgroundTransparency = 0.6,
+        BorderSizePixel = 0,
+        Position = UDim2.new(0, Mouse.X - button.AbsolutePosition.X, 0, Mouse.Y - button.AbsolutePosition.Y),
+        Size = UDim2.new(0, 0, 0, 0),
+        AnchorPoint = Vector2.new(0.5, 0.5),
+        ZIndex = button.ZIndex + 5
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+    })
+    
+    local size = math.max(button.AbsoluteSize.X, button.AbsoluteSize.Y) * 2.5
+    
+    Utility:Tween(ripple, {
+        Size = UDim2.new(0, size, 0, size),
+        BackgroundTransparency = 1
+    }, config.RippleSpeed).Completed:Connect(function()
+        ripple:Destroy()
+    end)
+end
+
+function Utility:MakeDraggable(frame, handle, config)
+    local dragging, dragInput, dragStart, startPos
+    handle = handle or frame
+    
+    handle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    
+    handle.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+    
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - dragStart
+            Utility:Tween(frame, {
+                Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+            }, config.AnimationSpeed * 0.5)
+        end
+    end)
+end
+
+-- Configuration Manager
+local ConfigManager = {}
+
+function ConfigManager:GetSaveFolder(folderName)
+    local success, result = pcall(function()
+        if isfolder and writefile and readfile then
+            if not isfolder(folderName) then
+                makefolder(folderName)
+            end
+            return true
+        end
+        return false
+    end)
+    return success and result
+end
+
+function ConfigManager:Save(folderName, fileName, data)
+    pcall(function()
+        if writefile then
+            writefile(folderName .. "/" .. fileName .. ".json", HttpService:JSONEncode(data))
+        end
+    end)
+end
+
+function ConfigManager:Load(folderName, fileName)
+    local success, result = pcall(function()
+        if readfile and isfile then
+            local path = folderName .. "/" .. fileName .. ".json"
+            if isfile(path) then
+                return HttpService:JSONDecode(readfile(path))
+            end
+        end
+        return nil
+    end)
+    return success and result or nil
+end
+
+-- Main Library
+function AlexchadLibrary:CreateWindow(options)
+    options = options or {}
+    
+    -- Cleanup
+    CleanupAllBlur()
+    if GuiParent:FindFirstChild("RayfieldUI") then
+        GuiParent:FindFirstChild("RayfieldUI"):Destroy()
+    end
+    
+    -- Options
+    local windowName = options.Name or "Rayfield"
+    local windowSubtitle = options.Subtitle or "Interface Suite"
+    local windowVersion = options.Version or "v3.2"
+    local loadingTitle = options.LoadingTitle or "Rayfield Interface"
+    local loadingSubtitle = options.LoadingSubtitle or "Loading..."
+    local themeName = options.Theme or "Default"
+    local configSaving = options.ConfigurationSaving or {}
+    local configEnabled = configSaving.Enabled or false
+    local configFolder = configSaving.FolderName or "RayfieldConfig"
+    local configFile = configSaving.FileName or "config"
+    
+    -- Config
+    local Config = {
+        AnimationSpeed = options.AnimationSpeed or 0.25,
+        RippleEnabled = options.RippleEnabled ~= false,
+        RippleSpeed = options.RippleSpeed or 0.4,
+        CornerRadius = options.CornerRadius or 12,
+        ElementCornerRadius = options.ElementCornerRadius or 10,
+        BlurEnabled = options.BlurEnabled ~= false
+    }
+    
+    -- Window State
+    local Window = {
+        Tabs = {},
+        CurrentTab = nil,
+        Theme = Themes[themeName] or Themes.Default,
+        ThemeName = themeName,
+        Config = Config,
+        Minimized = false,
+        Elements = {},
+        ConfigData = {},
+        Connections = {},
+        ElementRefs = {} -- Store references for theme updates
+    }
+    
+    -- Load saved config
+    if configEnabled then
+        ConfigManager:GetSaveFolder(configFolder)
+        local savedData = ConfigManager:Load(configFolder, configFile)
+        if savedData then
+            Window.ConfigData = savedData
+            if savedData.Theme and Themes[savedData.Theme] then
+                Window.Theme = Themes[savedData.Theme]
+                Window.ThemeName = savedData.Theme
+            end
+        end
+    end
+    
+    local theme = Window.Theme
+    
+    -- ScreenGui
+    local ScreenGui = Utility:Create("ScreenGui", {
+        Name = "RayfieldUI",
+        Parent = GuiParent,
+        ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+        ResetOnSpawn = false,
+        IgnoreGuiInset = true
+    })
+    
+    -- Blur
+    local Blur
+    if Config.BlurEnabled then
+        Blur = Utility:Create("BlurEffect", {
+            Name = "RayfieldBlur",
+            Parent = Lighting,
+            Size = 0
+        })
+    end
+    
+    -- Loading Screen
+    local LoadingFrame = Utility:Create("Frame", {
+        Name = "LoadingFrame",
+        Parent = ScreenGui,
+        BackgroundColor3 = theme.Background,
+        BackgroundTransparency = theme.BackgroundTransparency,
+        Position = UDim2.new(0.5, 0, 0.5, 0),
+        Size = UDim2.new(0, 320, 0, 160),
+        AnchorPoint = Vector2.new(0.5, 0.5)
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius + 4) }),
+        Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency, Thickness = 1.5 }),
+        Utility:Create("UIGradient", {
+            Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, theme.GradientStart), ColorSequenceKeypoint.new(1, theme.GradientEnd) }),
+            Rotation = 135,
+            Transparency = NumberSequence.new({ NumberSequenceKeypoint.new(0, 0.3), NumberSequenceKeypoint.new(0.5, 0.5), NumberSequenceKeypoint.new(1, 0.3) })
+        })
+    })
+    
+    local LoadingTitle = Utility:Create("TextLabel", {
+        Parent = LoadingFrame,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 0, 0, 35),
+        Size = UDim2.new(1, 0, 0, 30),
+        Font = Enum.Font.GothamBold,
+        Text = loadingTitle,
+        TextColor3 = theme.Text,
+        TextSize = 22,
+        TextTransparency = 1
+    })
+    
+    local LoadingSubtitle = Utility:Create("TextLabel", {
+        Parent = LoadingFrame,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 0, 0, 65),
+        Size = UDim2.new(1, 0, 0, 20),
+        Font = Enum.Font.Gotham,
+        Text = loadingSubtitle,
+        TextColor3 = theme.TextDark,
+        TextSize = 14,
+        TextTransparency = 1
+    })
+    
+    local LoadingBarBg = Utility:Create("Frame", {
+        Parent = LoadingFrame,
+        BackgroundColor3 = theme.Element,
+        BackgroundTransparency = theme.ElementTransparency,
+        Position = UDim2.new(0.1, 0, 0, 110),
+        Size = UDim2.new(0.8, 0, 0, 8)
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+    })
+    
+    local LoadingBarFill = Utility:Create("Frame", {
+        Parent = LoadingBarBg,
+        BackgroundColor3 = theme.Accent,
+        Size = UDim2.new(0, 0, 1, 0)
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+    })
+    
+    -- Animate loading
+    if Blur then Utility:Tween(Blur, {Size = 10}, Config.AnimationSpeed) end
+    Utility:Tween(LoadingTitle, {TextTransparency = 0}, Config.AnimationSpeed)
+    task.wait(Config.AnimationSpeed * 0.5)
+    Utility:Tween(LoadingSubtitle, {TextTransparency = 0}, Config.AnimationSpeed)
+    Utility:Tween(LoadingBarFill, {Size = UDim2.new(1, 0, 1, 0)}, 1.5, Enum.EasingStyle.Quart, Enum.EasingDirection.InOut)
+    
+    task.wait(1.8)
+    
+    -- Fade out loading
+    Utility:Tween(LoadingFrame, {BackgroundTransparency = 1}, Config.AnimationSpeed)
+    Utility:Tween(LoadingTitle, {TextTransparency = 1}, Config.AnimationSpeed)
+    Utility:Tween(LoadingSubtitle, {TextTransparency = 1}, Config.AnimationSpeed)
+    Utility:Tween(LoadingBarBg, {BackgroundTransparency = 1}, Config.AnimationSpeed)
+    Utility:Tween(LoadingBarFill, {BackgroundTransparency = 1}, Config.AnimationSpeed)
+    for _, child in pairs(LoadingFrame:GetDescendants()) do
+        if child:IsA("UIStroke") then
+            Utility:Tween(child, {Transparency = 1}, Config.AnimationSpeed)
+        end
+    end
+    task.wait(Config.AnimationSpeed + 0.1)
+    LoadingFrame:Destroy()
+    
+    -- Main Container
+    local MainContainer = Utility:Create("Frame", {
+        Name = "MainContainer",
+        Parent = ScreenGui,
+        BackgroundColor3 = theme.Background,
+        BackgroundTransparency = theme.BackgroundTransparency,
+        Position = UDim2.new(0.5, 0, 0.5, 0),
+        Size = UDim2.new(0, 0, 0, 0),
+        AnchorPoint = Vector2.new(0.5, 0.5),
+        ClipsDescendants = true
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius + 6) }),
+        Utility:Create("UIStroke", { Name = "MainStroke", Color = theme.Border, Transparency = theme.BorderTransparency, Thickness = 1.5 }),
+        Utility:Create("UIGradient", {
+            Name = "MainGradient",
+            Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, theme.GradientStart), ColorSequenceKeypoint.new(1, theme.GradientEnd) }),
+            Rotation = 135,
+            Transparency = NumberSequence.new({ NumberSequenceKeypoint.new(0, 0.3), NumberSequenceKeypoint.new(0.5, 0.5), NumberSequenceKeypoint.new(1, 0.3) })
+        })
+    })
+    
+    -- Glow
+    local Glow = Utility:Create("ImageLabel", {
+        Name = "Glow",
+        Parent = MainContainer,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0.5, 0, 0.5, 0),
+        Size = UDim2.new(1, 50, 1, 50),
+        AnchorPoint = Vector2.new(0.5, 0.5),
+        Image = "rbxassetid://5028857084",
+        ImageColor3 = theme.Accent,
+        ImageTransparency = 0.85,
+        ZIndex = 0,
+        ScaleType = Enum.ScaleType.Slice,
+        SliceCenter = Rect.new(24, 24, 276, 276)
+    })
+    
+    -- Animate open
+    Utility:Tween(MainContainer, {Size = UDim2.new(0, 700, 0, 480)}, Config.AnimationSpeed * 1.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+    task.wait(Config.AnimationSpeed * 0.8)
+    
+    -- Header
+    local Header = Utility:Create("Frame", {
+        Name = "Header",
+        Parent = MainContainer,
+        BackgroundColor3 = theme.Container,
+        BackgroundTransparency = theme.ContainerTransparency + 0.1,
+        Position = UDim2.new(0, 15, 0, 15),
+        Size = UDim2.new(1, -30, 0, 55)
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius) }),
+        Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+    })
+    
+    -- Title
+    local TitleLabel = Utility:Create("TextLabel", {
+        Name = "Title",
+        Parent = Header,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 15, 0, 8),
+        Size = UDim2.new(0.6, 0, 0, 22),
+        Font = Enum.Font.GothamBold,
+        Text = windowName,
+        TextColor3 = theme.Text,
+        TextSize = 18,
+        TextXAlignment = Enum.TextXAlignment.Left
+    })
+    
+    local SubtitleLabel = Utility:Create("TextLabel", {
+        Name = "Subtitle",
+        Parent = Header,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 15, 0, 30),
+        Size = UDim2.new(0.6, 0, 0, 16),
+        Font = Enum.Font.Gotham,
+        Text = windowSubtitle .. " | " .. windowVersion,
+        TextColor3 = theme.TextMuted,
+        TextSize = 12,
+        TextXAlignment = Enum.TextXAlignment.Left
+    })
+    
+    -- Controls (Minimize then Close, left to right)
+    local ControlsContainer = Utility:Create("Frame", {
+        Name = "Controls",
+        Parent = Header,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(1, -95, 0, 0),
+        Size = UDim2.new(0, 80, 1, 0)
+    }, {
+        Utility:Create("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Right,
+            VerticalAlignment = Enum.VerticalAlignment.Center,
+            Padding = UDim.new(0, 8)
+        })
+    })
+    
+    local function CreateControlButton(name, text, hoverColor, callback)
+        local btn = Utility:Create("TextButton", {
+            Name = name,
+            Parent = ControlsContainer,
+            BackgroundColor3 = theme.Element,
+            BackgroundTransparency = theme.ElementTransparency,
+            Size = UDim2.new(0, 34, 0, 34),
+            Font = Enum.Font.GothamBold,
+            Text = text,
+            TextColor3 = theme.TextDark,
+            TextSize = 16,
+            AutoButtonColor = false,
+            LayoutOrder = name == "Minimize" and 1 or 2
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+            Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+        })
+        
+        btn.MouseEnter:Connect(function()
+            Utility:Tween(btn, {BackgroundColor3 = hoverColor, BackgroundTransparency = 0, TextColor3 = theme.Text}, Config.AnimationSpeed * 0.5)
+        end)
+        btn.MouseLeave:Connect(function()
+            Utility:Tween(btn, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency, TextColor3 = theme.TextDark}, Config.AnimationSpeed * 0.5)
+        end)
+        btn.MouseButton1Click:Connect(function()
+            Utility:Ripple(btn, theme, Config)
+            callback()
+        end)
+        
+        return btn
+    end
+    
+    -- Close button (using simple X)
+    CreateControlButton("Close", "X", theme.Error, function()
+        for _, conn in pairs(Window.Connections) do
+            if conn and conn.Connected then conn:Disconnect() end
+        end
+        if Blur then Utility:Tween(Blur, {Size = 0}, Config.AnimationSpeed) end
+        Utility:Tween(MainContainer, {Size = UDim2.new(0, 0, 0, 0)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+        task.wait(Config.AnimationSpeed + 0.1)
+        CleanupAllBlur()
+        ScreenGui:Destroy()
+    end)
+    
+    -- Minimize button
+    CreateControlButton("Minimize", "-", theme.Warning, function()
+        Window.Minimized = not Window.Minimized
+        if Window.Minimized then
+            Utility:Tween(MainContainer, {Size = UDim2.new(0, 700, 0, 85)}, Config.AnimationSpeed)
+            if Blur then Utility:Tween(Blur, {Size = 5}, Config.AnimationSpeed) end
+        else
+            Utility:Tween(MainContainer, {Size = UDim2.new(0, 700, 0, 480)}, Config.AnimationSpeed)
+            if Blur then Utility:Tween(Blur, {Size = 10}, Config.AnimationSpeed) end
+        end
+    end)
+    
+    Utility:MakeDraggable(MainContainer, Header, Config)
+    
+    -- Content Area
+    local ContentArea = Utility:Create("Frame", {
+        Name = "ContentArea",
+        Parent = MainContainer,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 15, 0, 80),
+        Size = UDim2.new(1, -30, 1, -95)
+    })
+    
+    -- Tab Container
+    local TabContainer = Utility:Create("Frame", {
+        Name = "TabContainer",
+        Parent = ContentArea,
+        BackgroundColor3 = theme.Container,
+        BackgroundTransparency = theme.ContainerTransparency,
+        Size = UDim2.new(0, 150, 1, 0)
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius) }),
+        Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+    })
+    
+    local TabList = Utility:Create("ScrollingFrame", {
+        Name = "TabList",
+        Parent = TabContainer,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 10, 0, 10),
+        Size = UDim2.new(1, -20, 1, -20),
+        ScrollBarThickness = 3,
+        ScrollBarImageColor3 = theme.Accent,
+        ScrollBarImageTransparency = 0.5,
+        CanvasSize = UDim2.new(0, 0, 0, 0),
+        AutomaticCanvasSize = Enum.AutomaticSize.Y,
+        ClipsDescendants = true
+    }, {
+        Utility:Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6) })
+    })
+    
+    -- Main Content
+    local MainContent = Utility:Create("Frame", {
+        Name = "MainContent",
+        Parent = ContentArea,
+        BackgroundColor3 = theme.Container,
+        BackgroundTransparency = theme.ContainerTransparency,
+        Position = UDim2.new(0, 160, 0, 0),
+        Size = UDim2.new(1, -160, 1, 0),
+        ClipsDescendants = true
+    }, {
+        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius) }),
+        Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+    })
+    
+    -- Save Config
+    local function SaveConfig()
+        if not configEnabled then return end
+        local data = { Theme = Window.ThemeName, Elements = {} }
+        for id, el in pairs(Window.Elements) do
+            if el.Value ~= nil then data.Elements[id] = el.Value end
+        end
+        Window.ConfigData = data
+        ConfigManager:Save(configFolder, configFile, data)
+    end
+    
+    -- Apply Theme (COMPLETE FIX)
+    local function ApplyTheme(newThemeName, animate)
+        local newTheme = Themes[newThemeName]
+        if not newTheme then return end
+        
+        Window.Theme = newTheme
+        Window.ThemeName = newThemeName
+        theme = newTheme
+        
+        local dur = animate and Config.AnimationSpeed or 0
+        
+        -- Main Container
+        Utility:Tween(MainContainer, {BackgroundColor3 = newTheme.Background, BackgroundTransparency = newTheme.BackgroundTransparency}, dur)
+        local mainStroke = MainContainer:FindFirstChild("MainStroke")
+        if mainStroke then Utility:Tween(mainStroke, {Color = newTheme.Border, Transparency = newTheme.BorderTransparency}, dur) end
+        local mainGrad = MainContainer:FindFirstChild("MainGradient")
+        if mainGrad then
+            mainGrad.Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, newTheme.GradientStart), ColorSequenceKeypoint.new(1, newTheme.GradientEnd) })
+        end
+        Utility:Tween(Glow, {ImageColor3 = newTheme.Accent}, dur)
+        
+        -- Header
+        Utility:Tween(Header, {BackgroundColor3 = newTheme.Container, BackgroundTransparency = newTheme.ContainerTransparency + 0.1}, dur)
+        Utility:Tween(TitleLabel, {TextColor3 = newTheme.Text}, dur)
+        Utility:Tween(SubtitleLabel, {TextColor3 = newTheme.TextMuted}, dur)
+        
+        -- Containers
+        Utility:Tween(TabContainer, {BackgroundColor3 = newTheme.Container, BackgroundTransparency = newTheme.ContainerTransparency}, dur)
+        Utility:Tween(MainContent, {BackgroundColor3 = newTheme.Container, BackgroundTransparency = newTheme.ContainerTransparency}, dur)
+        
+        -- Tab buttons
+        for _, tab in pairs(Window.Tabs) do
+            local isCurrent = tab == Window.CurrentTab
+            Utility:Tween(tab.Button, {
+                BackgroundColor3 = isCurrent and newTheme.Accent or newTheme.Element,
+                BackgroundTransparency = isCurrent and 0 or newTheme.ElementTransparency
+            }, dur)
+            Utility:Tween(tab.Label, {TextColor3 = isCurrent and newTheme.Text or newTheme.TextDark}, dur)
+            Utility:Tween(tab.Icon, {TextColor3 = isCurrent and newTheme.Text or newTheme.TextDark}, dur)
+            Utility:Tween(tab.Indicator, {BackgroundColor3 = newTheme.Accent}, dur)
+            
+            -- Update strokes
+            local btnStroke = tab.Button:FindFirstChildOfClass("UIStroke")
+            if btnStroke then Utility:Tween(btnStroke, {Color = newTheme.Border, Transparency = newTheme.BorderTransparency + 0.3}, dur) end
+        end
+        
+        -- Update all registered elements
+        for _, ref in pairs(Window.ElementRefs) do
+            if ref.Type == "Toggle" then
+                local isOn = ref.Element.Value
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.Switch, {BackgroundColor3 = isOn and newTheme.Accent or newTheme.Element, BackgroundTransparency = isOn and 0 or newTheme.ElementTransparency - 0.1}, dur)
+                Utility:Tween(ref.Circle, {BackgroundColor3 = newTheme.Text}, dur)
+                local switchStroke = ref.Switch:FindFirstChild("SwitchStroke")
+                if switchStroke then Utility:Tween(switchStroke, {Color = isOn and newTheme.Accent or newTheme.Border}, dur) end
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                
+            elseif ref.Type == "Slider" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.ValueLabel, {TextColor3 = newTheme.Accent}, dur)
+                Utility:Tween(ref.BarBg, {BackgroundColor3 = newTheme.Container, BackgroundTransparency = newTheme.ContainerTransparency - 0.1}, dur)
+                Utility:Tween(ref.Fill, {BackgroundColor3 = newTheme.Accent}, dur)
+                Utility:Tween(ref.Knob, {BackgroundColor3 = newTheme.Text}, dur)
+                local knobStroke = ref.Knob:FindFirstChildOfClass("UIStroke")
+                if knobStroke then Utility:Tween(knobStroke, {Color = newTheme.Accent}, dur) end
+                local fillGrad = ref.Fill:FindFirstChildOfClass("UIGradient")
+                if fillGrad then
+                    fillGrad.Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, newTheme.Accent), ColorSequenceKeypoint.new(1, newTheme.AccentGlow) })
+                end
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                
+            elseif ref.Type == "Button" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.Icon, {TextColor3 = newTheme.Accent}, dur)
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                
+            elseif ref.Type == "Dropdown" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.Selected, {TextColor3 = newTheme.TextDark}, dur)
+                Utility:Tween(ref.Arrow, {TextColor3 = newTheme.TextDark}, dur)
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                -- Update options
+                for _, opt in pairs(ref.OptionsContainer:GetChildren()) do
+				    if opt:IsA("TextButton") then
+				        local dropdownValue = ref.Element.Value
+				        local isSelected = false
+				        
+				        -- Check if this option is selected
+				        if type(dropdownValue) == "table" then
+				            -- Multi-select dropdown
+				            isSelected = table.find(dropdownValue, opt.Name) ~= nil
+				        else
+				            -- Single-select dropdown
+				            isSelected = dropdownValue == opt.Name
+				        end
+				        
+				        Utility:Tween(opt, {
+				            BackgroundColor3 = isSelected and newTheme.Accent or newTheme.Container,
+				            BackgroundTransparency = isSelected and 0 or newTheme.ContainerTransparency,
+				            TextColor3 = isSelected and newTheme.Text or newTheme.TextDark
+				        }, dur)
+				    end
+				end
+                
+            elseif ref.Type == "Input" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.BoxContainer, {BackgroundColor3 = newTheme.Container, BackgroundTransparency = newTheme.ContainerTransparency}, dur)
+                Utility:Tween(ref.TextBox, {TextColor3 = newTheme.Text, PlaceholderColor3 = newTheme.TextMuted}, dur)
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                local boxStroke = ref.BoxContainer:FindFirstChild("BoxStroke")
+                if boxStroke then Utility:Tween(boxStroke, {Color = newTheme.Border}, dur) end
+                
+            elseif ref.Type == "Keybind" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.KeyButton, {BackgroundColor3 = newTheme.Container, BackgroundTransparency = newTheme.ContainerTransparency, TextColor3 = newTheme.TextDark}, dur)
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                
+            elseif ref.Type == "ColorPicker" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Label, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.RGBLabel, {TextColor3 = newTheme.TextDark}, dur)
+                local displayStroke = ref.Display:FindFirstChildOfClass("UIStroke")
+                if displayStroke then Utility:Tween(displayStroke, {Color = newTheme.Border}, dur) end
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+                
+            elseif ref.Type == "Label" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency + 0.1}, dur)
+                Utility:Tween(ref.Text, {TextColor3 = newTheme.TextDark}, dur)
+                
+            elseif ref.Type == "Paragraph" then
+                Utility:Tween(ref.Frame, {BackgroundColor3 = newTheme.Element, BackgroundTransparency = newTheme.ElementTransparency}, dur)
+                Utility:Tween(ref.Title, {TextColor3 = newTheme.Text}, dur)
+                Utility:Tween(ref.Content, {TextColor3 = newTheme.TextDark}, dur)
+                local frameStroke = ref.Frame:FindFirstChildOfClass("UIStroke")
+                if frameStroke then Utility:Tween(frameStroke, {Color = newTheme.Border}, dur) end
+            end
+        end
+        
+        -- Update scrollbars
+        TabList.ScrollBarImageColor3 = newTheme.Accent
+        for _, tab in pairs(Window.Tabs) do
+            tab.Content.ScrollBarImageColor3 = newTheme.Accent
+        end
+        
+        SaveConfig()
+    end
+    
+    Window.ApplyTheme = ApplyTheme
+    
+    -- Notification System (IMPROVED)
+    function Window:Notify(notifyOptions)
+        notifyOptions = notifyOptions or {}
+        local title = notifyOptions.Title or "Notification"
+        local content = notifyOptions.Content or ""
+        local duration = notifyOptions.Duration or 5
+        local notifyType = notifyOptions.Type or "Info"
+        local showButtons = notifyOptions.Buttons ~= false
+        
+        local typeColors = {
+            Info = theme.Accent,
+            Success = theme.Success,
+            Warning = theme.Warning,
+            Error = theme.Error
+        }
+        local typeColor = typeColors[notifyType] or theme.Accent
+        
+        local NotifHolder = ScreenGui:FindFirstChild("NotificationHolder")
+        if not NotifHolder then
+            NotifHolder = Utility:Create("Frame", {
+                Name = "NotificationHolder",
+                Parent = ScreenGui,
+                BackgroundTransparency = 1,
+                Position = UDim2.new(1, -20, 1, -20),
+                Size = UDim2.new(0, 340, 1, -40),
+                AnchorPoint = Vector2.new(1, 1)
+            }, {
+                Utility:Create("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    VerticalAlignment = Enum.VerticalAlignment.Bottom,
+                    Padding = UDim.new(0, 12)
+                })
+            })
+        end
+        
+        local NotifFrame = Utility:Create("Frame", {
+            Name = "Notification",
+            Parent = NotifHolder,
+            BackgroundColor3 = theme.Background,
+            BackgroundTransparency = theme.BackgroundTransparency - 0.05,
+            Size = UDim2.new(1, 0, 0, 0),
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Position = UDim2.new(1, 50, 0, 0),
+            ClipsDescendants = true
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius) }),
+            Utility:Create("UIStroke", { Color = typeColor, Transparency = 0.3, Thickness = 1.5 }),
+            Utility:Create("UIGradient", {
+                Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, theme.GradientStart), ColorSequenceKeypoint.new(1, theme.GradientEnd) }),
+                Rotation = 135,
+                Transparency = NumberSequence.new(0.2)
+            })
+        })
+        
+        -- Accent bar on left
+        local AccentBar = Utility:Create("Frame", {
+            Name = "AccentBar",
+            Parent = NotifFrame,
+            BackgroundColor3 = typeColor,
+            Size = UDim2.new(0, 4, 1, 0),
+            Position = UDim2.new(0, 0, 0, 0)
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(0, 4) })
+        })
+        
+        -- Content container
+        local ContentContainer = Utility:Create("Frame", {
+            Name = "ContentContainer",
+            Parent = NotifFrame,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 16, 0, 0),
+            Size = UDim2.new(1, -20, 0, 0),
+            AutomaticSize = Enum.AutomaticSize.Y
+        }, {
+            Utility:Create("UIPadding", { PaddingTop = UDim.new(0, 14), PaddingBottom = UDim.new(0, 14), PaddingRight = UDim.new(0, 10) }),
+            Utility:Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 8) })
+        })
+        
+        -- Header with icon and title
+        local HeaderFrame = Utility:Create("Frame", {
+            Name = "Header",
+            Parent = ContentContainer,
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, 24)
+        })
+        
+        local TypeIcon = Utility:Create("TextLabel", {
+            Name = "Icon",
+            Parent = HeaderFrame,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 0, 0, 0),
+            Size = UDim2.new(0, 24, 0, 24),
+            Font = Enum.Font.GothamBold,
+            Text = notifyType == "Success" and "✓" or notifyType == "Warning" and "!" or notifyType == "Error" and "✗" or "i",
+            TextColor3 = typeColor,
+            TextSize = 16
+        })
+        
+        local NotifTitle = Utility:Create("TextLabel", {
+            Name = "Title",
+            Parent = HeaderFrame,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 30, 0, 0),
+            Size = UDim2.new(1, -70, 1, 0),
+            Font = Enum.Font.GothamBold,
+            Text = title,
+            TextColor3 = theme.Text,
+            TextSize = 15,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextTruncate = Enum.TextTruncate.AtEnd
+        })
+        
+        -- Close button
+        local CloseBtn = Utility:Create("TextButton", {
+            Name = "Close",
+            Parent = HeaderFrame,
+            BackgroundColor3 = theme.Element,
+            BackgroundTransparency = 0.5,
+            Position = UDim2.new(1, -24, 0, 0),
+            Size = UDim2.new(0, 24, 0, 24),
+            Font = Enum.Font.GothamBold,
+            Text = "X",
+            TextColor3 = theme.TextDark,
+            TextSize = 12,
+            AutoButtonColor = false
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(0, 6) })
+        })
+        
+        -- Content text
+        local NotifContent = Utility:Create("TextLabel", {
+            Name = "Content",
+            Parent = ContentContainer,
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, 0),
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Font = Enum.Font.Gotham,
+            Text = content,
+            TextColor3 = theme.TextDark,
+            TextSize = 13,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextWrapped = true
+        })
+        
+        -- Progress bar
+        local ProgressContainer = Utility:Create("Frame", {
+            Name = "ProgressContainer",
+            Parent = ContentContainer,
+            BackgroundColor3 = theme.Element,
+            BackgroundTransparency = 0.5,
+            Size = UDim2.new(1, 0, 0, 4)
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+        })
+        
+        local ProgressFill = Utility:Create("Frame", {
+            Name = "Fill",
+            Parent = ProgressContainer,
+            BackgroundColor3 = typeColor,
+            Size = UDim2.new(1, 0, 1, 0)
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+        })
+        
+        -- Buttons row (optional)
+        if showButtons then
+            local ButtonsRow = Utility:Create("Frame", {
+                Name = "Buttons",
+                Parent = ContentContainer,
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 0, 32)
+            }, {
+                Utility:Create("UIListLayout", {
+                    FillDirection = Enum.FillDirection.Horizontal,
+                    HorizontalAlignment = Enum.HorizontalAlignment.Right,
+                    VerticalAlignment = Enum.VerticalAlignment.Center,
+                    Padding = UDim.new(0, 8)
+                })
+            })
+            
+            local OkButton = Utility:Create("TextButton", {
+                Name = "OK",
+                Parent = ButtonsRow,
+                BackgroundColor3 = typeColor,
+                Size = UDim2.new(0, 70, 0, 28),
+                Font = Enum.Font.GothamBold,
+                Text = "OK",
+                TextColor3 = theme.Text,
+                TextSize = 12,
+                AutoButtonColor = false
+            }, {
+                Utility:Create("UICorner", { CornerRadius = UDim.new(0, 6) })
+            })
+            
+            OkButton.MouseEnter:Connect(function()
+                Utility:Tween(OkButton, {BackgroundColor3 = theme.AccentDark}, Config.AnimationSpeed * 0.5)
+            end)
+            OkButton.MouseLeave:Connect(function()
+                Utility:Tween(OkButton, {BackgroundColor3 = typeColor}, Config.AnimationSpeed * 0.5)
+            end)
+        end
+        
+        -- Animation
+        Utility:Tween(NotifFrame, {Position = UDim2.new(0, 0, 0, 0)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+        Utility:Tween(ProgressFill, {Size = UDim2.new(0, 0, 1, 0)}, duration, Enum.EasingStyle.Linear)
+        
+        local function CloseNotification()
+            Utility:Tween(NotifFrame, {Position = UDim2.new(1, 50, 0, 0)}, Config.AnimationSpeed)
+            task.wait(Config.AnimationSpeed + 0.1)
+            if NotifFrame then NotifFrame:Destroy() end
+        end
+        
+        CloseBtn.MouseButton1Click:Connect(CloseNotification)
+        if showButtons then
+            local okBtn = ContentContainer:FindFirstChild("Buttons") and ContentContainer.Buttons:FindFirstChild("OK")
+            if okBtn then okBtn.MouseButton1Click:Connect(CloseNotification) end
+        end
+        
+        task.delay(duration, function()
+            if NotifFrame and NotifFrame.Parent then
+                CloseNotification()
+            end
+        end)
+    end
+    
+    -- Create Tab
+    function Window:CreateTab(tabOptions)
+        tabOptions = tabOptions or {}
+        local tabName = tabOptions.Name or "Tab"
+        local tabIcon = tabOptions.Icon or "📁"
+        
+        local Tab = { Name = tabName, Sections = {} }
+        
+        local TabButton = Utility:Create("TextButton", {
+            Name = tabName,
+            Parent = TabList,
+            BackgroundColor3 = theme.Element,
+            BackgroundTransparency = theme.ElementTransparency,
+            Size = UDim2.new(1, 0, 0, 40),
+            Text = "",
+            AutoButtonColor = false
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+            Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.3, Thickness = 1 })
+        })
+        
+        local TabIcon = Utility:Create("TextLabel", {
+            Name = "Icon",
+            Parent = TabButton,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 10, 0, 0),
+            Size = UDim2.new(0, 25, 1, 0),
+            Font = Enum.Font.Gotham,
+            Text = tabIcon,
+            TextColor3 = theme.TextDark,
+            TextSize = 16
+        })
+        
+        local TabLabel = Utility:Create("TextLabel", {
+            Name = "Label",
+            Parent = TabButton,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 38, 0, 0),
+            Size = UDim2.new(1, -48, 1, 0),
+            Font = Enum.Font.GothamSemibold,
+            Text = tabName,
+            TextColor3 = theme.TextDark,
+            TextSize = 13,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextTruncate = Enum.TextTruncate.AtEnd
+        })
+        
+        local TabIndicator = Utility:Create("Frame", {
+            Name = "Indicator",
+            Parent = TabButton,
+            BackgroundColor3 = theme.Accent,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(1, -4, 0.2, 0),
+            Size = UDim2.new(0, 3, 0.6, 0)
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+        })
+        
+        local TabContent = Utility:Create("ScrollingFrame", {
+		    Name = tabName .. "Content",
+		    Parent = MainContent,
+		    BackgroundTransparency = 1,
+		    Position = UDim2.new(0, 18, 0, 15),
+		    Size = UDim2.new(1, -36, 1, -30),  -- More horizontal padding
+		    ScrollBarThickness = 4,
+		    ScrollBarImageColor3 = theme.Accent,
+		    ScrollBarImageTransparency = 0.3,
+		    CanvasSize = UDim2.new(0, 0, 0, 0),
+		    AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		    Visible = false,
+		    ClipsDescendants = true
+		}, {
+		    Utility:Create("UIListLayout", { 
+		        SortOrder = Enum.SortOrder.LayoutOrder, 
+		        Padding = UDim.new(0, 10) 
+		    }),
+		    -- ADD this padding to prevent content touching edges
+		    Utility:Create("UIPadding", {
+		        PaddingLeft = UDim.new(0, 2),
+		        PaddingRight = UDim.new(0, 6)  -- Extra for scrollbar
+		    })
+		})
+        
+        Tab.Button = TabButton
+        Tab.Content = TabContent
+        Tab.Icon = TabIcon
+        Tab.Label = TabLabel
+        Tab.Indicator = TabIndicator
+        
+        local function GetTabIndex(t)
+            for i, tab in ipairs(Window.Tabs) do
+                if tab == t then return i end
+            end
+            return 0
+        end
+        
+        -- Tab selection with VERTICAL slide animation
+        local function SelectTab()
+            if Window.CurrentTab == Tab then return end
+            
+            local oldTab = Window.CurrentTab
+            local oldIdx = oldTab and GetTabIndex(oldTab) or 0
+            local newIdx = GetTabIndex(Tab)
+            local goingDown = newIdx > oldIdx
+            
+            -- Deselect old tab
+            if oldTab then
+                Utility:Tween(oldTab.Button, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed)
+                Utility:Tween(oldTab.Label, {TextColor3 = theme.TextDark}, Config.AnimationSpeed)
+                Utility:Tween(oldTab.Icon, {TextColor3 = theme.TextDark}, Config.AnimationSpeed)
+                Utility:Tween(oldTab.Indicator, {BackgroundTransparency = 1}, Config.AnimationSpeed)
+                
+                -- Slide out old content (opposite direction)
+                local slideOutY = goingDown and -60 or 60
+                Utility:Tween(oldTab.Content, {Position = UDim2.new(0, 15, 0, slideOutY)}, Config.AnimationSpeed * 0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.In)
+                
+                task.delay(Config.AnimationSpeed * 0.5, function()
+                    if oldTab.Content then
+                        oldTab.Content.Visible = false
+                        oldTab.Content.Position = UDim2.new(0, 15, 0, 15)
+                    end
+                end)
+            end
+            
+            -- Select new tab
+            Window.CurrentTab = Tab
+            Utility:Tween(TabButton, {BackgroundColor3 = theme.Accent, BackgroundTransparency = 0}, Config.AnimationSpeed)
+            Utility:Tween(TabLabel, {TextColor3 = theme.Text}, Config.AnimationSpeed)
+            Utility:Tween(TabIcon, {TextColor3 = theme.Text}, Config.AnimationSpeed)
+            Utility:Tween(TabIndicator, {BackgroundTransparency = 0}, Config.AnimationSpeed)
+            
+            -- Slide in new content
+            local slideInY = goingDown and 60 or -60
+            TabContent.Position = UDim2.new(0, 15, 0, slideInY)
+            TabContent.Visible = true
+            TabContent.CanvasPosition = Vector2.new(0, 0)
+            
+            Utility:Tween(TabContent, {Position = UDim2.new(0, 15, 0, 15)}, Config.AnimationSpeed * 0.8, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+            Utility:Ripple(TabButton, theme, Config)
+        end
+        
+        TabButton.MouseEnter:Connect(function()
+            if Window.CurrentTab ~= Tab then
+                Utility:Tween(TabButton, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed * 0.5)
+            end
+        end)
+        
+        TabButton.MouseLeave:Connect(function()
+            if Window.CurrentTab ~= Tab then
+                Utility:Tween(TabButton, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed * 0.5)
+            end
+        end)
+        
+        TabButton.MouseButton1Click:Connect(SelectTab)
+        
+        -- Auto-select first tab
+        if #Window.Tabs == 0 then
+            Window.CurrentTab = Tab
+            TabButton.BackgroundColor3 = theme.Accent
+            TabButton.BackgroundTransparency = 0
+            TabLabel.TextColor3 = theme.Text
+            TabIcon.TextColor3 = theme.Text
+            TabIndicator.BackgroundTransparency = 0
+            TabContent.Visible = true
+        end
+        
+        table.insert(Window.Tabs, Tab)
+        
+        -- Create Section
+        function Tab:CreateSection(sectionName)
+            local Section = { Name = sectionName }
+            
+            local SectionFrame = Utility:Create("Frame", {
+                Name = sectionName or "Section",
+                Parent = TabContent,
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 0, 0),
+                AutomaticSize = Enum.AutomaticSize.Y
+            }, {
+                Utility:Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 8) })
+            })
+            
+            if sectionName then
+                local SectionHeader = Utility:Create("Frame", {
+                    Parent = SectionFrame,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 0, 28)
+                })
+                
+                Utility:Create("TextLabel", {
+                    Parent = SectionHeader,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 5, 0, 0),
+                    Size = UDim2.new(1, -10, 1, 0),
+                    Font = Enum.Font.GothamBold,
+                    Text = sectionName:upper(),
+                    TextColor3 = theme.TextMuted,
+                    TextSize = 11,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                Utility:Create("Frame", {
+                    Name = "Line",
+                    Parent = SectionHeader,
+                    BackgroundColor3 = theme.Border,
+                    BackgroundTransparency = theme.BorderTransparency,
+                    Position = UDim2.new(0, 0, 1, -1),
+                    Size = UDim2.new(1, 0, 0, 1)
+                })
+            end
+            
+            table.insert(Tab.Sections, Section)
+            
+            -- Button
+            function Section:CreateButton(opts)
+                opts = opts or {}
+                local name = opts.Name or "Button"
+                local callback = opts.Callback or function() end
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "Button",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 42)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(1, -60, 1, 0),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local Icon = Utility:Create("TextLabel", {
+                    Name = "Icon",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(1, -40, 0, 0),
+                    Size = UDim2.new(0, 30, 1, 0),
+                    Font = Enum.Font.GothamBold,
+                    Text = "→",
+                    TextColor3 = theme.Accent,
+                    TextSize = 16
+                })
+                
+                local ClickArea = Utility:Create("TextButton", {
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    Text = "",
+                    AutoButtonColor = false
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Button", Frame = Frame, Label = Label, Icon = Icon })
+                
+                ClickArea.MouseEnter:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed * 0.5)
+                    Utility:Tween(Icon, {Position = UDim2.new(1, -35, 0, 0)}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                ClickArea.MouseLeave:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed * 0.5)
+                    Utility:Tween(Icon, {Position = UDim2.new(1, -40, 0, 0)}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                ClickArea.MouseButton1Click:Connect(function()
+                    Utility:Ripple(ClickArea, theme, Config)
+                    Utility:Tween(Frame, {Size = UDim2.new(1, -4, 0, 40)}, Config.AnimationSpeed * 0.3)
+                    task.wait(Config.AnimationSpeed * 0.3)
+                    Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, 42)}, Config.AnimationSpeed * 0.3)
+                    callback()
+                end)
+                
+                return { SetText = function(_, t) Label.Text = t end }
+            end
+            
+            -- Toggle
+            function Section:CreateToggle(opts)
+                opts = opts or {}
+                local name = opts.Name or "Toggle"
+                local id = opts.Flag or name
+                local default = opts.CurrentValue or false
+                local callback = opts.Callback or function() end
+                
+                if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
+                    default = Window.ConfigData.Elements[id]
+                end
+                
+                local Toggle = { Value = default }
+                Window.Elements[id] = Toggle
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "Toggle",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 42)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(1, -70, 1, 0),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local Switch = Utility:Create("Frame", {
+                    Name = "Switch",
+                    Parent = Frame,
+                    BackgroundColor3 = default and theme.Accent or theme.Element,
+                    BackgroundTransparency = default and 0 or theme.ElementTransparency - 0.1,
+                    Position = UDim2.new(1, -55, 0.5, 0),
+                    Size = UDim2.new(0, 44, 0, 24),
+                    AnchorPoint = Vector2.new(0, 0.5)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) }),
+                    Utility:Create("UIStroke", { Name = "SwitchStroke", Color = default and theme.Accent or theme.Border, Transparency = default and 0.3 or theme.BorderTransparency, Thickness = 1 })
+                })
+                
+                local Circle = Utility:Create("Frame", {
+                    Name = "Circle",
+                    Parent = Switch,
+                    BackgroundColor3 = theme.Text,
+                    Position = default and UDim2.new(1, -22, 0.5, 0) or UDim2.new(0, 4, 0.5, 0),
+                    Size = UDim2.new(0, 18, 0, 18),
+                    AnchorPoint = Vector2.new(0, 0.5)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+                })
+                
+                local ClickArea = Utility:Create("TextButton", {
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    Text = "",
+                    AutoButtonColor = false
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Toggle", Element = Toggle, Frame = Frame, Label = Label, Switch = Switch, Circle = Circle })
+                
+                local function Update(anim)
+                    local dur = anim and Config.AnimationSpeed or 0
+                    local t = Window.Theme
+                    if Toggle.Value then
+                        Utility:Tween(Switch, {BackgroundColor3 = t.Accent, BackgroundTransparency = 0}, dur)
+                        Utility:Tween(Circle, {Position = UDim2.new(1, -22, 0.5, 0)}, dur, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+                        Utility:Tween(Switch:FindFirstChild("SwitchStroke"), {Color = t.Accent, Transparency = 0.3}, dur)
+                    else
+                        Utility:Tween(Switch, {BackgroundColor3 = t.Element, BackgroundTransparency = t.ElementTransparency - 0.1}, dur)
+                        Utility:Tween(Circle, {Position = UDim2.new(0, 4, 0.5, 0)}, dur, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+                        Utility:Tween(Switch:FindFirstChild("SwitchStroke"), {Color = t.Border, Transparency = t.BorderTransparency}, dur)
+                    end
+                end
+                
+                ClickArea.MouseEnter:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                ClickArea.MouseLeave:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                ClickArea.MouseButton1Click:Connect(function()
+                    Toggle.Value = not Toggle.Value
+                    Update(true)
+                    Utility:Ripple(ClickArea, theme, Config)
+                    SaveConfig()
+                    callback(Toggle.Value)
+                end)
+                
+                function Toggle:Set(v, skip)
+                    Toggle.Value = v
+                    Update(true)
+                    SaveConfig()
+                    if not skip then callback(v) end
+                end
+                
+                if default then callback(default) end
+                
+                return Toggle
+            end
+            
+            -- Slider
+            function Section:CreateSlider(opts)
+                opts = opts or {}
+                local name = opts.Name or "Slider"
+                local id = opts.Flag or name
+                local min = opts.Range and opts.Range[1] or 0
+                                local max = opts.Range and opts.Range[2] or 100
+                local increment = opts.Increment or 1
+                local default = opts.CurrentValue or min
+                local suffix = opts.Suffix or ""
+                local callback = opts.Callback or function() end
+                
+                if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
+                    default = Window.ConfigData.Elements[id]
+                end
+                
+                local Slider = { Value = default }
+                Window.Elements[id] = Slider
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "Slider",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 58)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 8),
+                    Size = UDim2.new(0.6, 0, 0, 18),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local ValueLabel = Utility:Create("TextLabel", {
+                    Name = "Value",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0.6, 0, 0, 8),
+                    Size = UDim2.new(0.4, -15, 0, 18),
+                    Font = Enum.Font.GothamBold,
+                    Text = tostring(default) .. suffix,
+                    TextColor3 = theme.Accent,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Right
+                })
+                
+                local BarBg = Utility:Create("Frame", {
+                    Name = "BarBg",
+                    Parent = Frame,
+                    BackgroundColor3 = theme.Container,
+                    BackgroundTransparency = theme.ContainerTransparency - 0.1,
+                    Position = UDim2.new(0, 15, 0, 36),
+                    Size = UDim2.new(1, -30, 0, 10)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) })
+                })
+                
+                local fillPct = (default - min) / (max - min)
+                
+                local Fill = Utility:Create("Frame", {
+                    Name = "Fill",
+                    Parent = BarBg,
+                    BackgroundColor3 = theme.Accent,
+                    Size = UDim2.new(fillPct, 0, 1, 0)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) }),
+                    Utility:Create("UIGradient", {
+                        Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, theme.Accent), ColorSequenceKeypoint.new(1, theme.AccentGlow) }),
+                        Rotation = 0
+                    })
+                })
+                
+                local Knob = Utility:Create("Frame", {
+                    Name = "Knob",
+                    Parent = BarBg,
+                    BackgroundColor3 = theme.Text,
+                    Position = UDim2.new(fillPct, 0, 0.5, 0),
+                    Size = UDim2.new(0, 18, 0, 18),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    ZIndex = 5
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) }),
+                    Utility:Create("UIStroke", { Color = theme.Accent, Thickness = 2 })
+                })
+                
+                local Input = Utility:Create("TextButton", {
+                    Parent = BarBg,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 20),
+                    Position = UDim2.new(0, 0, 0, -10),
+                    Text = "",
+                    AutoButtonColor = false
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Slider", Element = Slider, Frame = Frame, Label = Label, ValueLabel = ValueLabel, BarBg = BarBg, Fill = Fill, Knob = Knob })
+                
+                local dragging = false
+                
+                local function UpdateSlider(input, anim)
+                    local pos = math.clamp((input.Position.X - BarBg.AbsolutePosition.X) / BarBg.AbsoluteSize.X, 0, 1)
+                    local value = math.floor((min + (max - min) * pos) / increment + 0.5) * increment
+                    value = math.clamp(value, min, max)
+                    
+                    Slider.Value = value
+                    local fillPos = (value - min) / (max - min)
+                    local dur = anim and Config.AnimationSpeed * 0.5 or 0
+                    
+                    ValueLabel.Text = tostring(value) .. suffix
+                    Utility:Tween(Fill, {Size = UDim2.new(fillPos, 0, 1, 0)}, dur)
+                    Utility:Tween(Knob, {Position = UDim2.new(fillPos, 0, 0.5, 0)}, dur)
+                    
+                    SaveConfig()
+                    callback(value)
+                end
+                
+                Input.MouseButton1Down:Connect(function()
+                    dragging = true
+                    Utility:Tween(Knob, {Size = UDim2.new(0, 22, 0, 22)}, Config.AnimationSpeed * 0.3)
+                end)
+                
+                local inputEndedConn = UserInputService.InputEnded:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 and dragging then
+                        dragging = false
+                        Utility:Tween(Knob, {Size = UDim2.new(0, 18, 0, 18)}, Config.AnimationSpeed * 0.3)
+                    end
+                end)
+                table.insert(Window.Connections, inputEndedConn)
+                
+                local inputChangedConn = UserInputService.InputChanged:Connect(function(input)
+                    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                        UpdateSlider(input, false)
+                    end
+                end)
+                table.insert(Window.Connections, inputChangedConn)
+                
+                Input.MouseButton1Click:Connect(function()
+                    UpdateSlider({Position = Vector3.new(Mouse.X, Mouse.Y, 0)}, true)
+                    Utility:Ripple(Input, theme, Config)
+                end)
+                
+                function Slider:Set(v, skip)
+                    v = math.clamp(v, min, max)
+                    Slider.Value = v
+                    local fillPos = (v - min) / (max - min)
+                    ValueLabel.Text = tostring(v) .. suffix
+                    Fill.Size = UDim2.new(fillPos, 0, 1, 0)
+                    Knob.Position = UDim2.new(fillPos, 0, 0.5, 0)
+                    SaveConfig()
+                    if not skip then callback(v) end
+                end
+                
+                callback(default)
+                return Slider
+            end
+            
+            -- Dropdown
+            function Section:CreateDropdown(opts)
+                opts = opts or {}
+                local name = opts.Name or "Dropdown"
+                local id = opts.Flag or name
+                local options = opts.Options or {}
+                local default = opts.CurrentOption or (options[1] or "")
+                local multiSelect = opts.MultiSelect or false
+                local callback = opts.Callback or function() end
+                
+                if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
+                    default = Window.ConfigData.Elements[id]
+                end
+                
+                local Dropdown = {
+                    Value = multiSelect and (type(default) == "table" and default or {default}) or default,
+                    Open = false,
+                    Options = options
+                }
+                Window.Elements[id] = Dropdown
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "Dropdown",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 42),
+                    ClipsDescendants = true
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Header = Utility:Create("TextButton", {
+                    Name = "Header",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 0, 42),
+                    Text = "",
+                    AutoButtonColor = false
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Header,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(0.5, -15, 1, 0),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local function GetDisplayText()
+                    if multiSelect then
+                        if #Dropdown.Value == 0 then return "None"
+                        elseif #Dropdown.Value == 1 then return Dropdown.Value[1]
+                        else return #Dropdown.Value .. " selected" end
+                    else
+                        return Dropdown.Value or "Select..."
+                    end
+                end
+                
+                local Selected = Utility:Create("TextLabel", {
+                    Name = "Selected",
+                    Parent = Header,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0.5, 0, 0, 0),
+                    Size = UDim2.new(0.5, -45, 1, 0),
+                    Font = Enum.Font.Gotham,
+                    Text = GetDisplayText(),
+                    TextColor3 = theme.TextDark,
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Right,
+                    TextTruncate = Enum.TextTruncate.AtEnd
+                })
+                
+                local Arrow = Utility:Create("TextLabel", {
+                    Name = "Arrow",
+                    Parent = Header,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(1, -35, 0, 0),
+                    Size = UDim2.new(0, 25, 1, 0),
+                    Font = Enum.Font.GothamBold,
+                    Text = "v",
+                    TextColor3 = theme.TextDark,
+                    TextSize = 12,
+                    Rotation = 0
+                })
+                
+                local OptionsContainer = Utility:Create("Frame", {
+                    Name = "Options",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 8, 0, 48),
+                    Size = UDim2.new(1, -16, 0, 0),
+                    AutomaticSize = Enum.AutomaticSize.Y
+                }, {
+                    Utility:Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4) })
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Dropdown", Element = Dropdown, Frame = Frame, Label = Label, Selected = Selected, Arrow = Arrow, OptionsContainer = OptionsContainer })
+                
+                local function CreateOption(optName)
+                    local isSelected = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
+                    
+                    local OptBtn = Utility:Create("TextButton", {
+                        Name = optName,
+                        Parent = OptionsContainer,
+                        BackgroundColor3 = isSelected and theme.Accent or theme.Container,
+                        BackgroundTransparency = isSelected and 0 or theme.ContainerTransparency,
+                        Size = UDim2.new(1, 0, 0, 32),
+                        Font = Enum.Font.Gotham,
+                        Text = optName,
+                        TextColor3 = isSelected and theme.Text or theme.TextDark,
+                        TextSize = 13,
+                        AutoButtonColor = false
+                    }, {
+                        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) })
+                    })
+                    
+                    OptBtn.MouseEnter:Connect(function()
+                        local isSel = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
+                        if not isSel then
+                            Utility:Tween(OptBtn, {BackgroundColor3 = theme.AccentDark, BackgroundTransparency = 0.5, TextColor3 = theme.Text}, Config.AnimationSpeed * 0.5)
+                        end
+                    end)
+                    
+                    OptBtn.MouseLeave:Connect(function()
+                        local isSel = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
+                        local t = Window.Theme
+                        Utility:Tween(OptBtn, {
+                            BackgroundColor3 = isSel and t.Accent or t.Container,
+                            BackgroundTransparency = isSel and 0 or t.ContainerTransparency,
+                            TextColor3 = isSel and t.Text or t.TextDark
+                        }, Config.AnimationSpeed * 0.5)
+                    end)
+                    
+                    OptBtn.MouseButton1Click:Connect(function()
+                        Utility:Ripple(OptBtn, theme, Config)
+                        local t = Window.Theme
+                        
+                        if multiSelect then
+                            local idx = table.find(Dropdown.Value, optName)
+                            if idx then
+                                table.remove(Dropdown.Value, idx)
+                                Utility:Tween(OptBtn, {BackgroundColor3 = t.Container, BackgroundTransparency = t.ContainerTransparency, TextColor3 = t.TextDark}, Config.AnimationSpeed)
+                            else
+                                table.insert(Dropdown.Value, optName)
+                                Utility:Tween(OptBtn, {BackgroundColor3 = t.Accent, BackgroundTransparency = 0, TextColor3 = t.Text}, Config.AnimationSpeed)
+                            end
+                            Selected.Text = GetDisplayText()
+                            SaveConfig()
+                            callback(Dropdown.Value)
+                        else
+                            Dropdown.Value = optName
+                            Selected.Text = optName
+                            
+                            for _, opt in pairs(OptionsContainer:GetChildren()) do
+                                if opt:IsA("TextButton") then
+                                    local isThis = opt.Name == optName
+                                    Utility:Tween(opt, {
+                                        BackgroundColor3 = isThis and t.Accent or t.Container,
+                                        BackgroundTransparency = isThis and 0 or t.ContainerTransparency,
+                                        TextColor3 = isThis and t.Text or t.TextDark
+                                    }, Config.AnimationSpeed)
+                                end
+                            end
+                            
+                            SaveConfig()
+                            callback(optName)
+                            
+                            -- Close dropdown
+                            task.wait(Config.AnimationSpeed * 0.3)
+                            Dropdown.Open = false
+                            Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, 42)}, Config.AnimationSpeed)
+                            Utility:Tween(Arrow, {Rotation = 0}, Config.AnimationSpeed)
+                        end
+                    end)
+                    
+                    return OptBtn
+                end
+                
+                for _, opt in pairs(options) do
+                    CreateOption(opt)
+                end
+                
+                Header.MouseEnter:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                Header.MouseLeave:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                Header.MouseButton1Click:Connect(function()
+                    Dropdown.Open = not Dropdown.Open
+                    Utility:Ripple(Header, theme, Config)
+                    
+                    local optCount = #options
+                    local targetH = Dropdown.Open and math.min(42 + 8 + optCount * 36, 250) or 42
+                    
+                    Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, targetH)}, Config.AnimationSpeed)
+                    Utility:Tween(Arrow, {Rotation = Dropdown.Open and 180 or 0}, Config.AnimationSpeed)
+                end)
+                
+                function Dropdown:Set(v, skip)
+                    local t = Window.Theme
+                    if multiSelect then
+                        Dropdown.Value = type(v) == "table" and v or {v}
+                        for _, opt in pairs(OptionsContainer:GetChildren()) do
+                            if opt:IsA("TextButton") then
+                                local isSel = table.find(Dropdown.Value, opt.Name)
+                                opt.BackgroundColor3 = isSel and t.Accent or t.Container
+                                opt.BackgroundTransparency = isSel and 0 or t.ContainerTransparency
+                                opt.TextColor3 = isSel and t.Text or t.TextDark
+                            end
+                        end
+                    else
+                        Dropdown.Value = v
+                        for _, opt in pairs(OptionsContainer:GetChildren()) do
+                            if opt:IsA("TextButton") then
+                                local isThis = opt.Name == v
+                                opt.BackgroundColor3 = isThis and t.Accent or t.Container
+                                opt.BackgroundTransparency = isThis and 0 or t.ContainerTransparency
+                                opt.TextColor3 = isThis and t.Text or t.TextDark
+                            end
+                        end
+                    end
+                    Selected.Text = GetDisplayText()
+                    SaveConfig()
+                    if not skip then callback(Dropdown.Value) end
+                end
+                
+                function Dropdown:Refresh(newOpts, keepVal)
+                    options = newOpts
+                    Dropdown.Options = newOpts
+                    
+                    for _, child in pairs(OptionsContainer:GetChildren()) do
+                        if child:IsA("TextButton") then child:Destroy() end
+                    end
+                    
+                    if not keepVal then
+                        Dropdown.Value = multiSelect and {} or (newOpts[1] or "")
+                    end
+                    
+                    for _, opt in pairs(newOpts) do
+                        CreateOption(opt)
+                    end
+                    
+                    Selected.Text = GetDisplayText()
+                    
+                    if Dropdown.Open then
+                        local optCount = #newOpts
+                        local targetH = math.min(42 + 8 + optCount * 36, 250)
+                        Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, targetH)}, Config.AnimationSpeed)
+                    end
+                end
+                
+                if default then callback(Dropdown.Value) end
+                return Dropdown
+            end
+            
+            -- Input
+            function Section:CreateInput(opts)
+                opts = opts or {}
+                local name = opts.Name or "Input"
+                local id = opts.Flag or name
+                local placeholder = opts.PlaceholderText or "Enter text..."
+                local default = opts.CurrentValue or ""
+                local removeOnLost = opts.RemoveTextAfterFocusLost or false
+                local callback = opts.Callback or function() end
+                
+                if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
+                    default = Window.ConfigData.Elements[id]
+                end
+                
+                local Input = { Value = default }
+                Window.Elements[id] = Input
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "Input",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 42)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(0.35, 0, 1, 0),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextTruncate = Enum.TextTruncate.AtEnd
+                })
+                
+                local BoxContainer = Utility:Create("Frame", {
+                    Name = "BoxContainer",
+                    Parent = Frame,
+                    BackgroundColor3 = theme.Container,
+                    BackgroundTransparency = theme.ContainerTransparency,
+                    Position = UDim2.new(0.35, 5, 0.15, 0),
+                    Size = UDim2.new(0.65, -20, 0.7, 0)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) }),
+                    Utility:Create("UIStroke", { Name = "BoxStroke", Color = theme.Border, Transparency = theme.BorderTransparency, Thickness = 1 })
+                })
+                
+                local TextBox = Utility:Create("TextBox", {
+                    Name = "TextBox",
+                    Parent = BoxContainer,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 10, 0, 0),
+                    Size = UDim2.new(1, -20, 1, 0),
+                    Font = Enum.Font.Gotham,
+                    PlaceholderText = placeholder,
+                    PlaceholderColor3 = theme.TextMuted,
+                    Text = default,
+                    TextColor3 = theme.Text,
+                    TextSize = 13,
+                    ClearTextOnFocus = false,
+                    ClipsDescendants = true
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Input", Element = Input, Frame = Frame, Label = Label, BoxContainer = BoxContainer, TextBox = TextBox })
+                
+                TextBox.Focused:Connect(function()
+                    Utility:Tween(BoxContainer:FindFirstChild("BoxStroke"), {Color = theme.Accent, Transparency = 0}, Config.AnimationSpeed)
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed)
+                end)
+                
+                TextBox.FocusLost:Connect(function(enter)
+                    Utility:Tween(BoxContainer:FindFirstChild("BoxStroke"), {Color = theme.Border, Transparency = theme.BorderTransparency}, Config.AnimationSpeed)
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed)
+                    
+                    Input.Value = TextBox.Text
+                    SaveConfig()
+                    
+                    if enter or not removeOnLost then
+                        callback(TextBox.Text)
+                    end
+                    
+                    if removeOnLost then
+                        TextBox.Text = ""
+                        Input.Value = ""
+                    end
+                end)
+                
+                function Input:Set(t, skip)
+                    TextBox.Text = t
+                    Input.Value = t
+                    SaveConfig()
+                    if not skip then callback(t) end
+                end
+                
+                return Input
+            end
+            
+            -- Keybind
+            function Section:CreateKeybind(opts)
+                opts = opts or {}
+                local name = opts.Name or "Keybind"
+                local id = opts.Flag or name
+                local default = opts.CurrentKeybind or "None"
+                local holdMode = opts.HoldToInteract or false
+                local callback = opts.Callback or function() end
+                
+                if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
+                    default = Window.ConfigData.Elements[id]
+                end
+                
+                local Keybind = {
+                    Value = default ~= "None" and Enum.KeyCode[default] or nil,
+                    Listening = false
+                }
+                Window.Elements[id] = { Value = default }
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "Keybind",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 42)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(0.6, 0, 1, 0),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local KeyButton = Utility:Create("TextButton", {
+                    Name = "KeyButton",
+                    Parent = Frame,
+                    BackgroundColor3 = theme.Container,
+                    BackgroundTransparency = theme.ContainerTransparency,
+                    Position = UDim2.new(1, -100, 0.15, 0),
+                    Size = UDim2.new(0, 85, 0.7, 0),
+                    Font = Enum.Font.GothamBold,
+                    Text = default,
+                    TextColor3 = theme.TextDark,
+                    TextSize = 12,
+                    AutoButtonColor = false
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) }),
+                    Utility:Create("UIStroke", { Name = "ButtonStroke", Color = theme.Border, Transparency = theme.BorderTransparency, Thickness = 1 })
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Keybind", Element = Keybind, Frame = Frame, Label = Label, KeyButton = KeyButton })
+                
+                KeyButton.MouseEnter:Connect(function()
+                    if not Keybind.Listening then
+                        Utility:Tween(KeyButton, {BackgroundTransparency = theme.ContainerTransparency - 0.15}, Config.AnimationSpeed * 0.5)
+                    end
+                end)
+                
+                KeyButton.MouseLeave:Connect(function()
+                    if not Keybind.Listening then
+                        Utility:Tween(KeyButton, {BackgroundTransparency = theme.ContainerTransparency}, Config.AnimationSpeed * 0.5)
+                    end
+                end)
+                
+                KeyButton.MouseButton1Click:Connect(function()
+                    Keybind.Listening = true
+                    KeyButton.Text = "..."
+                    Utility:Tween(KeyButton, {BackgroundColor3 = theme.Accent, BackgroundTransparency = 0}, Config.AnimationSpeed)
+                    Utility:Tween(KeyButton:FindFirstChild("ButtonStroke"), {Color = theme.Accent, Transparency = 0.3}, Config.AnimationSpeed)
+                    Utility:Ripple(KeyButton, theme, Config)
+                end)
+                
+                local inputConn = UserInputService.InputBegan:Connect(function(input, gpe)
+                    if gpe then return end
+                    
+                    if Keybind.Listening then
+                        if input.UserInputType == Enum.UserInputType.Keyboard then
+                            local keyName = input.KeyCode.Name
+                            
+                            if input.KeyCode == Enum.KeyCode.Escape then
+                                Keybind.Value = nil
+                                keyName = "None"
+                            else
+                                Keybind.Value = input.KeyCode
+                            end
+                            
+                            Keybind.Listening = false
+                            KeyButton.Text = keyName
+                            Window.Elements[id].Value = keyName
+                            
+                            Utility:Tween(KeyButton, {BackgroundColor3 = theme.Container, BackgroundTransparency = theme.ContainerTransparency}, Config.AnimationSpeed)
+                            Utility:Tween(KeyButton:FindFirstChild("ButtonStroke"), {Color = theme.Border, Transparency = theme.BorderTransparency}, Config.AnimationSpeed)
+                            
+                            SaveConfig()
+                        end
+                    elseif Keybind.Value and input.KeyCode == Keybind.Value then
+                        if holdMode then
+                            callback(true)
+                        else
+                            callback()
+                        end
+                    end
+                end)
+                table.insert(Window.Connections, inputConn)
+                
+                if holdMode then
+                    local inputEndConn = UserInputService.InputEnded:Connect(function(input, gpe)
+                        if gpe then return end
+                        if Keybind.Value and input.KeyCode == Keybind.Value then
+                            callback(false)
+                        end
+                    end)
+                    table.insert(Window.Connections, inputEndConn)
+                end
+                
+                function Keybind:Set(key, skip)
+                    if type(key) == "string" then
+                        if key == "None" then
+                            Keybind.Value = nil
+                        else
+                            Keybind.Value = Enum.KeyCode[key]
+                        end
+                        KeyButton.Text = key
+                        Window.Elements[id].Value = key
+                    else
+                        Keybind.Value = key
+                        KeyButton.Text = key and key.Name or "None"
+                        Window.Elements[id].Value = key and key.Name or "None"
+                    end
+                    SaveConfig()
+                end
+                
+                return Keybind
+            end
+            
+            -- Color Picker
+            function Section:CreateColorPicker(opts)
+                opts = opts or {}
+                local name = opts.Name or "Color Picker"
+                local id = opts.Flag or name
+                local default = opts.Color or Color3.fromRGB(255, 255, 255)
+                local callback = opts.Callback or function() end
+                
+                if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
+                    local saved = Window.ConfigData.Elements[id]
+                    if type(saved) == "table" then
+                        default = Color3.fromRGB(saved[1], saved[2], saved[3])
+                    end
+                end
+                
+                local ColorPicker = { Value = default, Open = false }
+                Window.Elements[id] = { Value = {math.floor(default.R * 255), math.floor(default.G * 255), math.floor(default.B * 255)} }
+                
+                local h, s, v = default:ToHSV()
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = name .. "ColorPicker",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 42),
+                    ClipsDescendants = true
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
+                })
+                
+                local Label = Utility:Create("TextLabel", {
+                    Name = "Label",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(0.6, 0, 0, 42),
+                    Font = Enum.Font.GothamSemibold,
+                    Text = name,
+                    TextColor3 = theme.Text,
+                    TextSize = 14,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local Display = Utility:Create("TextButton", {
+                    Name = "Display",
+                    Parent = Frame,
+                    BackgroundColor3 = default,
+                    Position = UDim2.new(1, -55, 0, 9),
+                    Size = UDim2.new(0, 40, 0, 24),
+                    Text = "",
+                    AutoButtonColor = false
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency, Thickness = 1 })
+                })
+                
+                local PickerContainer = Utility:Create("Frame", {
+                    Name = "Picker",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 50),
+                    Size = UDim2.new(1, -30, 0, 130)
+                })
+                
+                local SatVal = Utility:Create("ImageLabel", {
+                    Name = "SatVal",
+                    Parent = PickerContainer,
+                    BackgroundColor3 = Color3.fromHSV(h, 1, 1),
+                    Size = UDim2.new(1, -40, 0, 100),
+                    Image = "rbxassetid://4155801252",
+                    ScaleType = Enum.ScaleType.Stretch
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) })
+                })
+                
+                local SatValCursor = Utility:Create("Frame", {
+                    Name = "Cursor",
+                    Parent = SatVal,
+                    BackgroundColor3 = Color3.new(1, 1, 1),
+                    Position = UDim2.new(s, 0, 1 - v, 0),
+                    Size = UDim2.new(0, 12, 0, 12),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    ZIndex = 5
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) }),
+                    Utility:Create("UIStroke", { Color = Color3.new(0, 0, 0), Thickness = 2 })
+                })
+                
+                local HueSlider = Utility:Create("Frame", {
+                    Name = "Hue",
+                    Parent = PickerContainer,
+                    BackgroundColor3 = Color3.new(1, 1, 1),
+                    Position = UDim2.new(1, -30, 0, 0),
+                    Size = UDim2.new(0, 25, 0, 100)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) }),
+                    Utility:Create("UIGradient", {
+                        Color = ColorSequence.new({
+                            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+                            ColorSequenceKeypoint.new(0.167, Color3.fromRGB(255, 255, 0)),
+                            ColorSequenceKeypoint.new(0.333, Color3.fromRGB(0, 255, 0)),
+                            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 255, 255)),
+                            ColorSequenceKeypoint.new(0.667, Color3.fromRGB(0, 0, 255)),
+                            ColorSequenceKeypoint.new(0.833, Color3.fromRGB(255, 0, 255)),
+                            ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
+                        }),
+                        Rotation = 90
+                    })
+                })
+                
+                local HueCursor = Utility:Create("Frame", {
+                    Name = "Cursor",
+                    Parent = HueSlider,
+                    BackgroundColor3 = Color3.new(1, 1, 1),
+                    Position = UDim2.new(0.5, 0, h, 0),
+                    Size = UDim2.new(1, 6, 0, 8),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    ZIndex = 5
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, 4) }),
+                    Utility:Create("UIStroke", { Color = Color3.new(0, 0, 0), Thickness = 2 })
+                })
+                
+                local RGBLabel = Utility:Create("TextLabel", {
+                    Name = "RGB",
+                    Parent = PickerContainer,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 0, 0, 108),
+                    Size = UDim2.new(1, 0, 0, 20),
+                    Font = Enum.Font.Gotham,
+                    Text = string.format("RGB: %d, %d, %d", math.floor(default.R * 255), math.floor(default.G * 255), math.floor(default.B * 255)),
+                    TextColor3 = theme.TextDark,
+                    TextSize = 11,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "ColorPicker", Element = ColorPicker, Frame = Frame, Label = Label, Display = Display, RGBLabel = RGBLabel })
+                
+                local function UpdateColor()
+                    local color = Color3.fromHSV(h, s, v)
+                    ColorPicker.Value = color
+                    Display.BackgroundColor3 = color
+                    SatVal.BackgroundColor3 = Color3.fromHSV(h, 1, 1)
+                    RGBLabel.Text = string.format("RGB: %d, %d, %d", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
+                    
+                    Window.Elements[id].Value = {math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255)}
+                    SaveConfig()
+                    callback(color)
+                end
+                
+                local draggingSV, draggingH = false, false
+                
+                local SatValInput = Utility:Create("TextButton", {
+                    Parent = SatVal,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    Text = "",
+                    AutoButtonColor = false
+                })
+                
+                local function UpdateSatVal(input)
+                    local rx = math.clamp((input.Position.X - SatVal.AbsolutePosition.X) / SatVal.AbsoluteSize.X, 0, 1)
+                    local ry = math.clamp((input.Position.Y - SatVal.AbsolutePosition.Y) / SatVal.AbsoluteSize.Y, 0, 1)
+                    s = rx
+                    v = 1 - ry
+                    Utility:Tween(SatValCursor, {Position = UDim2.new(rx, 0, ry, 0)}, Config.AnimationSpeed * 0.3)
+                    UpdateColor()
+                end
+                
+                SatValInput.InputBegan:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        draggingSV = true
+                        UpdateSatVal(input)
+                    end
+                end)
+                
+                local HueInput = Utility:Create("TextButton", {
+                    Parent = HueSlider,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    Text = "",
+                    AutoButtonColor = false
+                })
+                
+                local function UpdateHue(input)
+                    local ry = math.clamp((input.Position.Y - HueSlider.AbsolutePosition.Y) / HueSlider.AbsoluteSize.Y, 0, 1)
+                    h = ry
+                    Utility:Tween(HueCursor, {Position = UDim2.new(0.5, 0, ry, 0)}, Config.AnimationSpeed * 0.3)
+                    UpdateColor()
+                end
+                
+                HueInput.InputBegan:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        draggingH = true
+                        UpdateHue(input)
+                    end
+                end)
+                
+                local colorInputEndConn = UserInputService.InputEnded:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        draggingSV = false
+                        draggingH = false
+                    end
+                end)
+                table.insert(Window.Connections, colorInputEndConn)
+                
+                local colorInputChangeConn = UserInputService.InputChanged:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseMovement then
+                        if draggingSV then UpdateSatVal(input)
+                        elseif draggingH then UpdateHue(input) end
+                    end
+                end)
+                table.insert(Window.Connections, colorInputChangeConn)
+                
+                Display.MouseButton1Click:Connect(function()
+                    ColorPicker.Open = not ColorPicker.Open
+                    Utility:Ripple(Display, theme, Config)
+                    Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, ColorPicker.Open and 190 or 42)}, Config.AnimationSpeed)
+                end)
+                
+                function ColorPicker:Set(color, skip)
+                    h, s, v = color:ToHSV()
+                    ColorPicker.Value = color
+                    Display.BackgroundColor3 = color
+                    SatVal.BackgroundColor3 = Color3.fromHSV(h, 1, 1)
+                    SatValCursor.Position = UDim2.new(s, 0, 1 - v, 0)
+                    HueCursor.Position = UDim2.new(0.5, 0, h, 0)
+                    RGBLabel.Text = string.format("RGB: %d, %d, %d", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
+                    
+                    Window.Elements[id].Value = {math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255)}
+                    SaveConfig()
+                    if not skip then callback(color) end
+                end
+                
+                callback(default)
+                return ColorPicker
+            end
+            
+            -- Label
+            function Section:CreateLabel(text)
+                local Frame = Utility:Create("Frame", {
+                    Name = "Label",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency + 0.1,
+                    Size = UDim2.new(1, 0, 0, 32)
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) })
+                })
+                
+                local Text = Utility:Create("TextLabel", {
+                    Name = "Text",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 15, 0, 0),
+                    Size = UDim2.new(1, -30, 1, 0),
+                    Font = Enum.Font.Gotham,
+                    Text = text or "Label",
+                    TextColor3 = theme.TextDark,
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Label", Frame = Frame, Text = Text })
+                
+                return {
+                    Set = function(_, t)
+                        Text.Text = t
+                        Text.TextTransparency = 0.5
+                        Utility:Tween(Text, {TextTransparency = 0}, Config.AnimationSpeed)
+                    end
+                }
+            end
+            
+            -- Paragraph
+            function Section:CreateParagraph(opts)
+                opts = opts or {}
+                local title = opts.Title or "Paragraph"
+                local content = opts.Content or "Content"
+                
+                local Frame = Utility:Create("Frame", {
+                    Name = "Paragraph",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Element,
+                    BackgroundTransparency = theme.ElementTransparency,
+                    Size = UDim2.new(1, 0, 0, 0),
+                    AutomaticSize = Enum.AutomaticSize.Y
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                    Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 }),
+                    Utility:Create("UIPadding", { PaddingTop = UDim.new(0, 12), PaddingBottom = UDim.new(0, 12), PaddingLeft = UDim.new(0, 15), PaddingRight = UDim.new(0, 15) })
+                })
+                
+                local Title = Utility:Create("TextLabel", {
+                    Name = "Title",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 0, 20),
+                    Font = Enum.Font.GothamBold,
+                    Text = title,
+                    TextColor3 = theme.Text,
+                    TextSize = 15,
+                    TextXAlignment = Enum.TextXAlignment.Left
+                })
+                
+                local Content = Utility:Create("TextLabel", {
+                    Name = "Content",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 0, 0, 24),
+                    Size = UDim2.new(1, 0, 0, 0),
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Font = Enum.Font.Gotham,
+                    Text = content,
+                    TextColor3 = theme.TextDark,
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextWrapped = true,
+                    RichText = true
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Paragraph", Frame = Frame, Title = Title, Content = Content })
+                
+                return {
+                    Set = function(_, newTitle, newContent)
+                        if newTitle then Title.Text = newTitle end
+                        if newContent then Content.Text = newContent end
+                        Frame.BackgroundTransparency = theme.ElementTransparency + 0.2
+                        Utility:Tween(Frame, {BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed)
+                    end
+                }
+            end
+            
+            -- Divider
+            function Section:CreateDivider()
+                return Utility:Create("Frame", {
+                    Name = "Divider",
+                    Parent = SectionFrame,
+                    BackgroundColor3 = theme.Border,
+                    BackgroundTransparency = theme.BorderTransparency,
+                    Size = UDim2.new(1, 0, 0, 1)
+                })
+            end
+            
+            return Section
+        end
+        
+        return Tab
+    end
+    
+    -- Dialog
+    function Window:Dialog(opts)
+        opts = opts or {}
+        local title = opts.Title or "Dialog"
+        local content = opts.Content or ""
+        local buttons = opts.Buttons or {}
+        
+        local DialogBg = Utility:Create("Frame", {
+            Name = "DialogBackground",
+            Parent = ScreenGui,
+            BackgroundColor3 = Color3.new(0, 0, 0),
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 1, 0),
+            ZIndex = 100
+        })
+        
+        local DialogFrame = Utility:Create("Frame", {
+            Name = "Dialog",
+            Parent = DialogBg,
+            BackgroundColor3 = theme.Background,
+            BackgroundTransparency = theme.BackgroundTransparency,
+            Position = UDim2.new(0.5, 0, 0.5, 0),
+            Size = UDim2.new(0, 0, 0, 0),
+            AnchorPoint = Vector2.new(0.5, 0.5),
+            ZIndex = 101,
+            ClipsDescendants = true
+        }, {
+            Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.CornerRadius + 4) }),
+            Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency, Thickness = 1.5 }),
+            Utility:Create("UIGradient", {
+                Color = ColorSequence.new({ ColorSequenceKeypoint.new(0, theme.GradientStart), ColorSequenceKeypoint.new(1, theme.GradientEnd) }),
+                Rotation = 135,
+                Transparency = NumberSequence.new(0.2)
+            })
+        })
+        
+        local DialogTitle = Utility:Create("TextLabel", {
+            Parent = DialogFrame,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 25, 0, 20),
+            Size = UDim2.new(1, -50, 0, 25),
+            Font = Enum.Font.GothamBold,
+            Text = title,
+            TextColor3 = theme.Text,
+            TextSize = 18,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            ZIndex = 102
+        })
+        
+        local DialogContent = Utility:Create("TextLabel", {
+            Parent = DialogFrame,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 25, 0, 50),
+            Size = UDim2.new(1, -50, 0, 60),
+            Font = Enum.Font.Gotham,
+            Text = content,
+            TextColor3 = theme.TextDark,
+            TextSize = 14,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextYAlignment = Enum.TextYAlignment.Top,
+            TextWrapped = true,
+            ZIndex = 102
+        })
+        
+        local ButtonContainer = Utility:Create("Frame", {
+            Parent = DialogFrame,
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0, 25, 1, -60),
+            Size = UDim2.new(1, -50, 0, 38),
+            ZIndex = 102
+        }, {
+            Utility:Create("UIListLayout", {
+                FillDirection = Enum.FillDirection.Horizontal,
+                HorizontalAlignment = Enum.HorizontalAlignment.Right,
+                VerticalAlignment = Enum.VerticalAlignment.Center,
+                Padding = UDim.new(0, 12)
+            })
+        })
+        
+        Utility:Tween(DialogBg, {BackgroundTransparency = 0.5}, Config.AnimationSpeed)
+        Utility:Tween(DialogFrame, {Size = UDim2.new(0, 380, 0, 180)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+        
+        if Blur then Utility:Tween(Blur, {Size = 15}, Config.AnimationSpeed) end
+        
+        local function CloseDialog()
+            Utility:Tween(DialogBg, {BackgroundTransparency = 1}, Config.AnimationSpeed)
+            Utility:Tween(DialogFrame, {Size = UDim2.new(0, 0, 0, 0)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+            if Blur then Utility:Tween(Blur, {Size = 10}, Config.AnimationSpeed) end
+            task.wait(Config.AnimationSpeed + 0.1)
+            DialogBg:Destroy()
+        end
+        
+        for _, btnInfo in pairs(buttons) do
+            local btnText = btnInfo.Title or "Button"
+            local btnCallback = btnInfo.Callback or function() end
+            local isPrimary = btnInfo.Primary or false
+            
+            local DialogBtn = Utility:Create("TextButton", {
+                Parent = ButtonContainer,
+                BackgroundColor3 = isPrimary and theme.Accent or theme.Element,
+                BackgroundTransparency = isPrimary and 0 or theme.ElementTransparency,
+                Size = UDim2.new(0, 90, 0, 36),
+                Font = Enum.Font.GothamBold,
+                Text = btnText,
+                TextColor3 = isPrimary and theme.Text or theme.TextDark,
+                TextSize = 13,
+                AutoButtonColor = false,
+                ZIndex = 103
+            }, {
+                Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius) }),
+                Utility:Create("UIStroke", { Color = isPrimary and theme.Accent or theme.Border, Transparency = isPrimary and 0.3 or theme.BorderTransparency, Thickness = 1 })
+            })
+            
+            DialogBtn.MouseEnter:Connect(function()
+                Utility:Tween(DialogBtn, {BackgroundTransparency = 0, BackgroundColor3 = isPrimary and theme.AccentDark or theme.Accent, TextColor3 = theme.Text}, Config.AnimationSpeed * 0.5)
+            end)
+            
+            DialogBtn.MouseLeave:Connect(function()
+                Utility:Tween(DialogBtn, {
+                    BackgroundColor3 = isPrimary and theme.Accent or theme.Element,
+                    BackgroundTransparency = isPrimary and 0 or theme.ElementTransparency,
+                    TextColor3 = isPrimary and theme.Text or theme.TextDark
+                }, Config.AnimationSpeed * 0.5)
+            end)
+            
+            DialogBtn.MouseButton1Click:Connect(function()
+                Utility:Ripple(DialogBtn, theme, Config)
+                btnCallback()
+                CloseDialog()
+            end)
+        end
+        
+        DialogBg.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                local mPos = UserInputService:GetMouseLocation()
+                local fPos = DialogFrame.AbsolutePosition
+                local fSize = DialogFrame.AbsoluteSize
+                if mPos.X < fPos.X or mPos.X > fPos.X + fSize.X or mPos.Y < fPos.Y or mPos.Y > fPos.Y + fSize.Y then
+                    CloseDialog()
+                end
+            end
+        end)
+    end
+    
+    -- Destroy
+    function Window:Destroy()
+        for _, conn in pairs(Window.Connections) do
+            if conn and conn.Connected then conn:Disconnect() end
+        end
+        if Blur then Utility:Tween(Blur, {Size = 0}, Config.AnimationSpeed) end
+        Utility:Tween(MainContainer, {Size = UDim2.new(0, 0, 0, 0)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+        task.wait(Config.AnimationSpeed + 0.1)
+        CleanupAllBlur()
+        ScreenGui:Destroy()
+    end
+    
+    -- Toggle
+    function Window:Toggle(visible)
+        if visible == nil then visible = not MainContainer.Visible end
+        
+        if visible then
+            MainContainer.Visible = true
+            MainContainer.Size = UDim2.new(0, 0, 0, 0)
+            Utility:Tween(MainContainer, {Size = UDim2.new(0, 700, 0, 480)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+            if Blur then Utility:Tween(Blur, {Size = 10}, Config.AnimationSpeed) end
+        else
+            Utility:Tween(MainContainer, {Size = UDim2.new(0, 0, 0, 0)}, Config.AnimationSpeed, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+            if Blur then Utility:Tween(Blur, {Size = 0}, Config.AnimationSpeed) end
+            task.wait(Config.AnimationSpeed + 0.1)
+            MainContainer.Visible = false
+        end
+    end
+    
+    -- Theme getters/setters
+    function Window:GetTheme() return Window.ThemeName end
+    function Window:SetTheme(name) ApplyTheme(name, true) end
+    function Window:GetThemes()
+        local list = {}
+        for n, _ in pairs(Themes) do table.insert(list, n) end
+        return list
+    end
+    
+    -- Toggle keybind
+    local toggleKey = options.ToggleKey or Enum.KeyCode.RightShift
+    local toggleConn = UserInputService.InputBegan:Connect(function(input, gpe)
+        if gpe then return end
+        if input.KeyCode == toggleKey then Window:Toggle() end
+    end)
+    table.insert(Window.Connections, toggleConn)
+    
+    return Window
+end
+
+-- Static methods
+function AlexchadLibrary:GetThemes()
+    local list = {}
+    for n, _ in pairs(Themes) do table.insert(list, n) end
+    return list
+end
+
+function AlexchadLibrary:AddTheme(name, data)
+    Themes[name] = data
+end
+
+function AlexchadLibrary:IsMobile()
+    return UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+end
+
+return AlexchadLibrary
