@@ -27,8 +27,6 @@ local Tab1 = Window:CreateTab({
     Icon = ""
 })
 
-local Section1 = Tab1:CreateSection("开关示例")
-
 Section1:CreateToggle({
     Name = "简单开关",
     Flag = "Toggle1", -- 配置标识符，请确保唯一
