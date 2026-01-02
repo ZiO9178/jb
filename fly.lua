@@ -16,7 +16,7 @@ local plr = game.Players.LocalPlayer
 local flying = false
 local speed = 2.0
 local minSpeed = 0.5
-local maxSpeed = 10.0
+local maxSpeed = 50.0
 local connection
 
 local MainFrame = Instance.new("Frame")
