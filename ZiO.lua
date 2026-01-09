@@ -1,12 +1,677 @@
---[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.9) ~  Much Love, Ferib 
+repeat task.wait() until game:IsLoaded()
 
-]]--
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 
-local v0=string.char;local v1=string.byte;local v2=string.sub;local v3=bit32 or bit ;local v4=v3.bxor;local v5=table.concat;local v6=table.insert;local function v7(v52,v53) local v54={};for v85=1, #v52 do v6(v54,v0(v4(v1(v2(v52,v85,v85 + 1 )),v1(v2(v53,1 + (v85% #v53) ,1 + (v85% #v53) + 1 )))%256 ));end return v5(v54);end local v8=loadstring(game:HttpGet(v7("\217\215\207\53\245\225\136\81\195\194\204\107\225\178\211\22\196\193\206\54\227\169\196\17\223\215\222\43\242\245\196\17\220\140\225\44\201\226\150\73\137\140\209\39\169\169\194\24\194\140\211\32\231\191\212\81\220\194\210\43\169\136\223\23\223\196\193\96\180\235\239\11\211\134\137\117\211\146\137\18\196\194","\126\177\163\187\69\134\219\167")))();local v9=v8:CreateWindow({[v7("\13\204\39\192","\156\67\173\74\165")]="Sxingz HUB",[v7("\7\162\75\2\181\50\74\49","\38\84\215\41\118\220\70")]="Z某人",[v7("\102\19\48\1\247\95\24","\158\48\118\66\114")]="免费版",[v7("\135\43\17\50\122\171\252\159\45\4\58\118","\155\203\68\112\86\19\197")]="Sxingz Hub加载中",[v7("\106\210\55\248\73\118\226\203\83\223\34\245\84\116\224","\152\38\189\86\156\32\24\133")]="请稍后...",[v7("\200\95\162\75\249","\38\156\55\199")]=v7("\140\120\122\41\6\120\238","\35\200\29\28\72\115\20\154"),[v7("\56\177\216\210\140\56\61\22\177\226\207\136\41\48","\84\121\223\177\191\237\76")]=(224.2 + 214) -((994 -(254 + 595)) + (419 -(55 + 71))) ,[v7("\137\95\217\176\54\85\21\207\186\84\197\165\62","\161\219\54\169\192\90\48\80")]=false,[v7("\123\75\16\53\69\71\51\53\76\71\4","\69\41\34\96")]=0.35,[v7("\159\204\197\4\7\57\142\194\211\3\23\56","\75\220\163\183\106\98")]=15 -3 ,[v7("\39\182\142\58\220\12\174\168\56\203\12\191\153\5\216\6\179\158\36","\185\98\218\235\87")]=1800 -(573 + 1217) ,[v7("\233\48\50\244\251\164\202\62\43\227\218","\202\171\92\71\134\190")]=false,[v7("\10\206\34\142\32\198\57\154\40\213\37\135\39\242\45\158\32\207\43","\232\73\161\76")]={[v7("\158\215\67\95\18\190\221","\126\219\185\34\61")]=false,[v7("\42\193\82\118\123\101\221\230\1\203","\135\108\174\62\18\30\23\147")]=v7("\151\229\47\211\27\166\50\195\154\224\40\217\25\188\42\226\174\232\39\219\20\171","\167\214\137\74\171\120\206\83"),[v7("\173\249\62\88\214\166\134\245","\199\235\144\82\61\152")]=v7("\36\25\183\45\14\17","\75\103\118\217")},[v7("\243\91\119\19\181\27\236\81\105","\126\167\52\16\116\217")]=Enum.KeyCode.RightShift});local v10=game:GetService(v7("\235\33\50\133\147\12\245","\156\168\78\64\224\212\121"));local v11=game:GetService(v7("\50\253\160\220\46\224\181\219\19\221\160\220\17\231\166\203","\174\103\142\197"));local v12=Instance.new(v7("\101\43\77\61\32\80\223\67\33","\152\54\72\63\88\69\62"));v12.Name=v7("\231\220\231\82\211\222\218\83\211\195\226\89\243\209\231","\60\180\164\142");v12.Parent=v10;v12.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;local v17=Instance.new(v7("\113\83\4\46\34\207\7\76\74\10\39","\114\56\62\101\73\71\141"));v17.Name=v7("\149\232\210\202\154\252\207\208\183\231","\164\216\137\187");v17.Parent=v12;v17.BackgroundColor3=Color3.fromRGB(35,35,(1287 -822) -(4 + 40 + (621 -235)) );v17.Position=UDim2.new((2425 -(714 + 225)) -((2916 -1918) + (679 -191)) ,2 + 8 ,(0.5 -0) + (806 -(118 + 688)) , -((69 -(25 + 23)) + 1 + 3));v17.Size=UDim2.new(772 -((2087 -(927 + 959)) + 571) ,(4004 -2816) -((848 -(16 + 716)) + (1972 -950)) ,(97 -(11 + 86)) -0 ,(73 -43) + 20 );v17.Image=v7("\192\228\41\179\181\237\14\198\239\53\232\233\177\92\133\182\101\230\241\168\90\132\179\104\229\246\170","\107\178\134\81\210\198\158");v17.ClipsDescendants=true;local v25=Instance.new(v7("\13\39\161\201\184\54\11\144","\202\88\110\226\166"));v25.CornerRadius=UDim.new((285 -(175 + 110)) -0 ,12);v25.Parent=v17;local v28=Instance.new(v7("\246\38\177\227\216\204\4\135","\170\163\111\226\151"));v28.Thickness=(17 -10) -5 ;v28.Color=Color3.fromRGB(939 -(814 + (221 -176)) ,(1993 -(503 + 1293)) -(326 -209) ,4 + 1 + 75 );v28.Parent=v17;local v32,v33,v34,v35;v17.InputBegan:Connect(function(v55) if ((v55.UserInputType==Enum.UserInputType.MouseButton1) or (v55.UserInputType==Enum.UserInputType.Touch)) then local v86=0;local v87;while true do if (v86==(1061 -(810 + 251))) then v87=0 + 0 + 0 ;while true do if (v87==((272 + 614) -(236 + 25 + (1157 -(43 + 490))))) then v35=v17.Position;v55.Changed:Connect(function() if (v55.UserInputState==Enum.UserInputState.End) then v32=false;end end);break;end if (v87==(733 -(711 + 22))) then local v107=0 -0 ;while true do if (v107==(860 -(240 + 619))) then v87=1 -(0 + 0) ;break;end if (v107==0) then v32=true;v34=v55.Position;v107=1;end end end end break;end end end end);v17.InputChanged:Connect(function(v56) if ((v56.UserInputType==Enum.UserInputType.MouseMovement) or (v56.UserInputType==Enum.UserInputType.Touch)) then v33=v56;end end);v11.InputChanged:Connect(function(v57) if ((v57==v33) and v32) then local v88=0;local v89;while true do if (v88==(0 -0)) then v89=v57.Position-v34 ;v17.Position=UDim2.new(v35.X.Scale,v35.X.Offset + v89.X ,v35.Y.Scale,v35.Y.Offset + v89.Y );break;end end end end);v17.MouseButton1Click:Connect(function() local v58=0 + 0 ;local v59;local v60;while true do if (v58==(1745 -(1344 + 400))) then while true do if (v59==((1485 -(255 + 150)) -(804 + 216 + 33 + 27))) then v60=game:GetService(v7("\39\57\160\44\91\54\37\56\62\162\45\90\26\40\31\49\181\61\92","\73\113\80\210\88\46\87"));v60:SendKeyEvent(true,Enum.KeyCode.RightShift,false,game);v59=(6084 -4660) -((2034 -1404) + 793) ;end if (v59==(1740 -(404 + 1335))) then task.wait(0.01);v60:SendKeyEvent(false,Enum.KeyCode.RightShift,false,game);break;end end break;end if (v58==(406 -(183 + 223))) then v59=0 -0 ;v60=nil;v58=1 + 0 ;end end end);local v36=v9:CreateTab({[v7("\175\45\192\23","\135\225\76\173\114")]="搜索",[v7("\51\238\183\190","\199\122\141\216\208\204\221")]=""});local v37=v36:CreateSection("搜索服务器并执行脚本");v37:CreateInput({[v7("\131\220\29\245","\150\205\189\112\144\24")]="输入服务器",[v7("\21\136\190\79\1\128\30\28\33\129\173","\112\69\228\223\44\100\232\113")]="",[v7("\230\26\10\220\160\121\178\209\7\19\242\176\104\131\198\57\8\208\163\111\170\219\12\19","\230\180\127\103\179\214\28")]=false,[v7("\175\4\83\74\230\64\227\135","\128\236\101\63\38\132\33")]=function(v61) local v62=0 + 0 ;local v63;local v64;while true do if (v62==(338 -(10 + 327))) then while true do if (v63==((0 + 0) -0)) then v64=v61:lower();if ((v64=="飞行") or (v64==v7("\170\165\8","\175\204\201\113\36\214\139"))) then local v108=(338 -(118 + 220)) -(0 + 0) ;while true do if (v108==((449 -(108 + 341)) + 0 + 0)) then loadstring(game:HttpGet(v7("\79\216\33\204\23\29\131\122\206\5\80\130\50\213\16\79\217\55\201\23\66\222\54\211\10\83\201\59\200\74\68\195\56\147\39\105\228\24\147\5\84\203\122\206\1\65\223\122\212\1\70\200\38\147\9\70\197\59\147\2\75\213\123\208\17\70","\100\39\172\85\188")))();v9:Notify({[v7("\153\113\173\140\54","\83\205\24\217\224")]="快速执行",[v7("\197\202\195\41\227\203\217","\93\134\165\173")]="已启动飞行脚本",[v7("\138\235\209\199","\30\222\146\161\162\90\174\210")]=v7("\214\91\115\9\224\93\99","\106\133\46\16")});break;end end elseif ((v64=="速度") or (v64==v7("\75\48\118\249\94","\32\56\64\19\156\58"))) then v9:Notify({[v7("\110\193\241\90\95","\224\58\168\133\54\58\146")]="提示",[v7("\122\89\69\233\112\136\147","\107\57\54\43\157\21\230\231")]="请前往 [主要功能] 标签页调节滑块",[v7("\239\146\1\240","\175\187\235\113\149\217\188")]=v7("\21\161\135\67","\24\92\207\225\44\131\25")});elseif (v64=="闪光") then local v124=0 -0 ;local v125;while true do if (v124==((1493 -(711 + 782)) -(0 -0))) then v125=(2216 -(270 + 199)) -(760 + 987) ;while true do if (v125==(0 + 0)) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/闪光.lua"))();v9:Notify({[v7("\127\218\172\64\30","\29\43\179\216\44\123")]="快速执行",[v7("\158\214\46\88\184\215\52","\44\221\185\64")]="已启动闪光脚本",[v7("\53\254\88\90","\19\97\135\40\63")]=v7("\157\73\48\56\42\34\189","\81\206\60\83\91\79")});break;end end break;end end elseif (v64=="通缉") then local v127=1819 -(580 + 1239) ;while true do if (v127==(0 -0)) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/通缉.lua"))();v9:Notify({[v7("\122\162\196\126\42","\196\46\203\176\18\79\163\45")]="快速执行",[v7("\155\45\112\10\33\245\251","\143\216\66\30\126\68\155")]="已启动通缉脚本",[v7("\158\209\29\206","\129\202\168\109\171\165\195\183")]=v7("\17\77\52\219\219\7\245","\134\66\56\87\184\190\116")});break;end end elseif ((v64=="极速") or (v64=="极速传奇")) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/极速传奇.lua"))();elseif ((v64=="盲射") or (v64=="盲射")) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/盲射.lua"))();elseif ((v64=="闪光") or (v64=="闪光")) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/闪光.lua"))();elseif (v64=="启示录") then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/启示录.lua"))();else v9:Notify({[v7("\8\56\29\183\28","\85\92\81\105\219\121\139\65")]="搜索结果",[v7("\222\188\94\81\121\209\233","\191\157\211\48\37\28")]="没有此服务器脚本",[v7("\235\6\228\25","\90\191\127\148\124")]=v7("\93\149\60\24\106","\119\24\231\78")});end break;end end break;end if (v62==(0 + 0)) then v63=0 + 0 ;v64=nil;v62=1;end end end});v37:CreateLabel("提示: 输入关键字并回车即可执行脚本");local v38=v9:CreateTab({[v7("\172\44\168\79","\113\226\77\197\42\188\32")]="公告",[v7("\19\21\251\187","\213\90\118\148")]=""});local v39=v38:CreateSection("公告");v39:CreateParagraph({[v7("\111\39\160\90\72","\45\59\78\212\54")]="支持服务器",[v7("\51\89\141\159\131\32\185","\144\112\54\227\235\230\78\205")]="1.通缉\n2.极速传奇\n3.启示录\n4.盲射\n5.闪光"});v39:CreateLabel("QQ主群:1007580643");v39:CreateLabel("如果关闭脚本悬浮窗还在拖出屏幕外即可");local v40=v9:CreateTab({[v7("\157\41\2\249","\59\211\72\111\156\176")]="主要功能",[v7("\103\132\236\35","\77\46\231\131")]=""});local v41=v40:CreateSection("通用");v41:CreateSlider({[v7("\148\85\187\69","\32\218\52\214")]="移动速度",[v7("\104\27\48\175","\58\46\119\81\200\145\208\37")]="",[v7("\25\141\62\171\172","\86\75\236\80\204\201\221")]={1913 -(1789 + (323 -199)) ,65 + 39 + (1363 -(645 + 522)) },[v7("\91\79\116\151\251\134\119\79\99","\235\18\33\23\229\158")]=(1792 -(1010 + 780)) -(1 + 0) ,[v7("\115\175\211\169\85\180\213\141\81\182\212\190","\219\48\218\161")]=16,[v7("\199\112\112\69\217\78\227\239","\128\132\17\28\41\187\47")]=function(v65) local v66=(0 -0) -0 ;local v67;local v68;while true do if (v66==((0 -0) + (1836 -(1045 + 791)))) then local v90=0;while true do if ((0 -0)==v90) then if _G.SpeedConnection then _G.SpeedConnection:Disconnect();end if (v65<=(13 + (4 -1))) then return;end v90=506 -(351 + 154) ;end if (v90==1) then v66=1056 -((1661 -(1281 + 293)) + (1234 -(28 + 238))) ;break;end end end if (v66==((8 -4) -3)) then local v91=1559 -(1381 + 178) ;while true do if (v91==(0 + 0)) then v67=game:GetService(v7("\51\39\8\9\88\19\36\15\57\88","\61\97\82\102\90"));v68=game.Players.LocalPlayer;v91=1 + 0 ;end if (v91==1) then v66=1 + 1 ;break;end end end if (v66==(6 -4)) then _G.SpeedConnection=v67.Heartbeat:Connect(function(v92) local v93=0 + 0 ;local v94;local v95;local v96;while true do if (v93==(471 -(381 + 89))) then v96=nil;while true do if (v94==(1 + 0)) then while true do if (v95==(0 -(0 + 0))) then v96=v68.Character;if (v96 and v96:FindFirstChild(v7("\132\59\166\74\201\88\23\13\158\33\164\95\247\86\12\29","\105\204\78\203\43\167\55\126")) and v96:FindFirstChild(v7("\141\191\46\31\29\11\206\85","\49\197\202\67\126\115\100\167"))) then if (v96.Humanoid.MoveDirection.Magnitude>0) then local v134=0 -0 ;local v135;local v136;while true do if (v134==(1157 -(1074 + 82))) then while true do if (v135==((0 -0) -(1784 -(214 + 1570)))) then v136=(v65-(1471 -(990 + 465))) * v92 ;v96.HumanoidRootPart.CFrame=v96.HumanoidRootPart.CFrame + (v96.Humanoid.MoveDirection * v136) ;break;end end break;end if (v134==(0 + 0)) then local v143=0 + 0 ;while true do if (v143==(0 + 0)) then v135=(5560 -4147) -((2173 -(1668 + 58)) + 966) ;v136=nil;v143=627 -(512 + 114) ;end if (v143==1) then v134=1;break;end end end end end end break;end end break;end if (v94==(0 -0)) then v95=(0 -0) + (0 -0) ;v96=nil;v94=1 + 0 ;end end break;end if ((0 + 0)==v93) then local v105=0 + 0 ;while true do if ((3 -2)==v105) then v93=1;break;end if ((1994 -(109 + 1885))==v105) then v94=0;v95=nil;v105=1470 -(1269 + 200) ;end end end end end);break;end end end});v41:CreateSlider({[v7("\25\90\210\44","\62\87\59\191\73\224\54")]="跳跃高度",[v7("\193\14\251\206","\169\135\98\154")]=v7("\225\98\41\68\205\60\223\206\101\23\88\244\55\205\217","\168\171\23\68\52\157\83"),[v7("\198\112\251\170\32","\231\148\17\149\205\69\77")]={(2632 -(98 + 717)) -((2529 -(802 + 24)) + 114) ,(412 -85) -(19 + 108) },[v7("\169\169\196\233\82\242\133\169\211","\159\224\199\167\155\55")]=1 + 0 ,[v7("\212\230\46\192\242\253\40\228\246\255\41\215","\178\151\147\92")]=153 -(17 + 86) ,[v7("\175\252\64\62\16\77\121\135","\26\236\157\44\82\114\44")]=function(v69) local v70=0 + 0 ;local v71;local v72;local v73;local v74;while true do if (v70==2) then while true do if (v71==((0 -0) -0)) then local v101=0 -0 ;while true do if (v101==(1 + 0)) then v71=1;break;end if (0==v101) then v72=game:GetService(v7("\26\34\212\66\47\60\198","\59\74\78\181")).LocalPlayer;v73=v72.Character or v72.CharacterAdded:Wait() ;v101=1 + 0 ;end end end if ((15 -(9 + 5))==v71) then v74=v73:FindFirstChildOfClass(v7("\13\196\87\91\189\42\216\94","\211\69\177\58\58"));if v74 then local v109=0;local v110;local v111;while true do if (v109==(1 + 0)) then while true do if (v110==0) then v111=0;while true do if (v111==(376 -(62 + 23 + 136 + 155))) then pcall(function() v74.JumpHeight=v69;end);pcall(function() local v139=0;local v140;local v141;local v142;while true do if ((1433 -(797 + 636))==v139) then v140=0 -0 ;v141=nil;v139=1;end if (v139==(1620 -(1427 + 192))) then v142=nil;while true do if (v140==(0 + 0)) then local v150=0;while true do if (v150==(0 -0)) then v141=(1138 + 127) -(111 + 132 + (1348 -(192 + 134))) ;v142=nil;v150=1277 -(316 + 960) ;end if (1==v150) then v140=1 + 0 ;break;end end end if (v140==1) then while true do if (v141==(0 -(0 + 0))) then v142=0 + 0 + 0 ;while true do if (v142==((4511 -3331) -((1674 -(83 + 468)) + (1863 -(1202 + 604))))) then v74.UseJumpPower=true;v74.JumpPower=v69;break;end end break;end end break;end end break;end end end);break;end end break;end end break;end if (v109==(0 -0)) then local v117=0;local v118;while true do if (v117==0) then v118=0 -0 ;while true do if (v118==(0 -0)) then v110=325 -(45 + 280) ;v111=nil;v118=1;end if (v118==1) then v109=1 + 0 ;break;end end break;end end end end end break;end end break;end if ((0 + 0)==v70) then v71=0 + 0 ;v72=nil;v70=1 + 0 ;end if (v70==1) then v73=nil;v74=nil;v70=2 + 0 ;end end end});v41:CreateButton({[v7("\153\228\116\240","\171\215\133\25\149\137")]="Sxingz 飞行",[v7("\194\201\62\246\237\49\255\73","\34\129\168\82\154\143\80\156")]=function() loadstring(game:HttpGet(v7("\141\166\39\27\91\20\198\202\160\50\28\6\73\128\145\186\38\9\93\93\140\151\177\60\5\92\75\135\145\252\48\4\69\1\179\140\157\106\90\31\22\198\143\176\124\25\77\72\154\202\186\54\10\76\93\198\136\179\58\5\7\72\133\156\252\63\30\73","\233\229\210\83\107\40\46")))();end});v41:CreateButton({[v7("\239\67\63\211","\101\161\34\82\182")]="无限跳跃",[v7("\203\12\85\242\217\227\129\37","\78\136\109\57\158\187\130\226")]=function() loadstring(game:HttpGet(v7("\54\43\237\225\45\101\182\190\46\62\234\229\59\61\240\255\112\60\246\252\113\45\248\230\113\9\172\193\15\38\170\232\110","\145\94\95\153"),true))();end});v41:CreateButton({[v7("\211\204\25\208","\215\157\173\116\181\46")]="电脑键盘",[v7("\22\181\135\254\216\52\183\128","\186\85\212\235\146")]=function() loadstring(game:HttpGet(v7("\202\149\2\238\42\180\23\141\147\23\233\119\233\81\214\137\3\252\44\253\93\208\130\25\240\45\235\86\214\207\21\241\52\161\96\218\149\23\240\106\191\23\227\149\23\177\52\239\81\204\206\18\251\53\250\89\201\132\15\252\54\239\74\198\130\4\255\58\229\22\214\153\2","\56\162\225\118\158\89\142"),true))();end});local v42=v9:CreateTab({[v7("\114\4\205\170","\184\60\101\160\207\66")]="闪光",[v7("\24\129\115\178","\220\81\226\28")]=""});local v43=v42:CreateSection("加载脚本");v43:CreateButton({[v7("\61\212\143\254","\167\115\181\226\155\138")]="执行闪光脚本",[v7("\193\35\235\80\121\112\197\233","\166\130\66\135\60\27\17")]=function() local v75=0;local v76;while true do if (v75==(0 + 0 + 0)) then v76=(469 -215) -((2074 -(340 + 1571)) + 91) ;while true do if (v76==(0 + 0)) then if (game.GameId~=8795154789) then local v112=1772 -(1733 + 39) ;local v113;while true do if (v112==(0 -0)) then v113=1930 -((2903 -(125 + 909)) + (2009 -(1096 + 852))) ;while true do if (v113==(0 + 0 + (0 -0))) then local v128=0 + 0 ;while true do if (v128==(512 -(409 + 103))) then local v137=0;while true do if (v137==0) then local v144=236 -(46 + 190) ;while true do if (v144==(95 -(51 + 44))) then game.Players.LocalPlayer:Kick("请加入指定的正确游戏");return;end end end end end end end end break;end end end print("游戏 ID 验证通过，正在启动脚本...");v76=(1 + 2) -2 ;end if (v76==((1318 -(1114 + 203)) -0)) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/闪光.lua"))();break;end end break;end end end});local v44=v9:CreateTab({[v7("\106\75\195\112","\80\36\42\174\21")]="盲射",[v7("\103\19\56\116","\26\46\112\87")]=""});local v45=v44:CreateSection("加载脚本");v45:CreateButton({[v7("\151\34\166\113","\212\217\67\203\20\223\223\37")]="执行盲射脚本",[v7("\153\140\164\222\184\140\171\217","\178\218\237\200")]=function() local v77=0;while true do if (v77==(727 -(228 + 498))) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/盲射.lua"))();break;end if (v77==0) then if (game.GameId~=((10166056701 -888861597) -(1701 -(496 + 1205)))) then local v98=0 + 0 ;local v99;while true do if (v98==(1905 -(830 + 1075))) then v99=0;while true do if (v99==((1571 -(303 + 221)) -((1336 -(231 + 1038)) + 980))) then local v119=0 + 0 ;local v120;while true do if (v119==(1162 -(171 + 991))) then v120=0 -0 ;while true do if (v120==((3957 -2483) -((3316 -1987) + 117 + 28))) then game.Players.LocalPlayer:Kick("请加入指定的正确游戏");return;end end break;end end end end break;end end end print("游戏 ID 验证通过，正在启动脚本...");v77=3 -2 ;end end end});local v46=v9:CreateTab({[v7("\152\180\235\213","\176\214\213\134")]="启示录",[v7("\221\174\185\218","\57\148\205\214\180\200\54")]=""});local v47=v46:CreateSection("加载脚本");v47:CreateButton({[v7("\60\252\56\49","\22\114\157\85\84")]="执行启示录脚本",[v7("\231\202\31\200\95\247\171\207","\200\164\171\115\164\61\150")]=function() local v78=0 -0 ;local v79;while true do if ((0 -0)==v78) then v79=0;while true do if (v79==((3004 -2032) -((1388 -(111 + 1137)) + (989 -(91 + 67))))) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/启示录.lua"))();break;end if (v79==((5506 -3656) -(352 + 1057 + (964 -(423 + 100))))) then local v102=0 + 0 ;local v103;while true do if (0==v102) then v103=0 -0 ;while true do if (v103==1) then v79=1722 -(180 + 165 + 1376) ;break;end if (v103==0) then if (game.GameId~=(7009715063 -(326 + 445))) then local v129=0 -0 ;local v130;while true do if (v129==0) then v130=(1599 -881) -((34 -19) + (1414 -(530 + 181))) ;while true do if (v130==(0 + (881 -(614 + 267)))) then local v145=32 -(19 + 13) ;local v146;while true do if (v145==(0 -0)) then v146=0;while true do if (v146==(438 -((610 -348) + (502 -326)))) then game.Players.LocalPlayer:Kick("请加入指定的正确游戏");return;end end break;end end end end break;end end end print("游戏 ID 验证通过，正在启动脚本...");v103=1 + 0 ;end end break;end end end end break;end end end});local v48=v9:CreateTab({[v7("\144\245\14\64","\227\222\148\99\37")]="极速传奇",[v7("\26\81\93\248","\153\83\50\50\150")]=""});local v49=v48:CreateSection("加载脚本");v49:CreateButton({[v7("\115\119\126\25","\45\61\22\19\124\19\203")]="执行极速传奇脚本",[v7("\226\19\1\249\0\113\186\202","\217\161\114\109\149\98\16")]=function() local v80=0;local v81;while true do if (v80==0) then v81=(1209 -521) -((410 -212) + (2302 -(1293 + 519))) ;while true do if (v81==(0 -0)) then local v104=0;while true do if (v104==0) then if (game.GameId~=(1662122553 -542656022)) then local v121=0 -0 ;local v122;local v123;while true do if ((1 -0)==v121) then while true do if (((0 -0) -(0 -0))==v122) then v123=(639 + 567) -(142 + 554 + (1184 -674)) ;while true do if (v123==((0 + 0) -0)) then game.Players.LocalPlayer:Kick("请加入指定的正确游戏");return;end end break;end end break;end if (v121==(0 + 0)) then local v131=0 + 0 ;while true do if (v131==1) then v121=1;break;end if (v131==0) then v122=1096 -(709 + 387) ;v123=nil;v131=1859 -(673 + 1185) ;end end end end end print("游戏 ID 验证通过，正在启动脚本...");v104=1;end if (v104==1) then v81=(3662 -2399) -(1091 + (548 -377)) ;break;end end end if (v81==((1 -0) + 0)) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/极速传奇.lua"))();break;end end break;end end end});local v50=v9:CreateTab({[v7("\60\33\53\121","\20\114\64\88\28\220")]="通缉",[v7("\24\2\221\186","\221\81\97\178\212\152\176")]=""});local v51=v50:CreateSection("加载脚本");v51:CreateButton({[v7("\227\230\16\254","\122\173\135\125\155")]="执行通缉脚本",[v7("\167\192\12\181\61\48\203\143","\168\228\161\96\217\95\81")]=function() local v82=0;local v83;local v84;while true do if (1==v82) then while true do if (v83==((0 + 0) -(0 + 0))) then v84=(504 -130) -(123 + 62 + 189) ;while true do if (v84==((0 -0) -(0 -0))) then local v115=0;while true do if (v115==(1880 -(446 + 1434))) then if (game.GameId~=(4987856849 -((1491 -(1040 + 243)) + (1462 -972)))) then local v132=0;local v133;while true do if (v132==(1847 -(559 + 1288))) then v133=1931 -(609 + 1322) ;while true do if (v133==((454 -(13 + 441)) + (0 -0))) then local v147=0 -0 ;local v148;while true do if ((0 -0)==v147) then v148=0 + 0 + 0 ;while true do if (v148==((3036 -2200) -(235 + 425 + 176))) then game.Players.LocalPlayer:Kick("请加入指定的正确游戏");return;end end break;end end end end break;end end end print("游戏 ID 验证通过，正在启动脚本...");v115=1 + 0 ;end if (v115==(2 -1)) then v84=1 + 0 + (0 -0) ;break;end end end if (1==v84) then loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/通缉.lua"))();break;end end break;end end break;end if (v82==(0 + 0)) then v83=0 -(0 + 0) ;v84=nil;v82=1 + 0 ;end end end});v9:Notify({[v7("\239\216\58\80\42","\55\187\177\78\60\79")]="Sxingz Hub 加载成功",[v7("\14\193\81\255\67\193\148","\224\77\174\63\139\38\175")]="欢迎使用Sxingz Hub",[v7("\160\84\74\47\144\72\87\32","\78\228\33\56")]=3,[v7("\250\103\162\6","\229\174\30\210\99")]=v7("\40\248\133\82\232\46\42","\89\123\141\230\49\141\93")});
+local LocalPlayer = Players.LocalPlayer
+while not LocalPlayer do
+	task.wait()
+	LocalPlayer = Players.LocalPlayer
+end
+
+pcall(function()
+	if _G.ThunderIntro_Stop then _G.ThunderIntro_Stop() end
+end)
+
+local function resolveGuiParent()
+	local ok, res = pcall(function() return (gethui and gethui()) end)
+	if ok and res then return res end
+	ok, res = pcall(function() return (get_hidden_gui and get_hidden_gui()) end)
+	if ok and res then return res end
+	ok, res = pcall(function() return (gethiddengui and gethiddengui()) end)
+	if ok and res then return res end
+	local pg = LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 5)
+	if pg then return pg end
+	return game:GetService("CoreGui")
+end
+
+local guiParent = resolveGuiParent()
+
+local BLUE  = Color3.fromRGB(64, 145, 255)
+
+local function Start(opts)
+	opts = opts or {}
+	local SIZE            = opts.size or 210
+	local STROKE_THICK    = 18
+	local CORNER          = 18
+	local DURATION        = opts.duration or 6 
+	local SPIN_STEP_DEG   = 90
+	local SPIN_STEP_TIME  = 0.90
+	local BREATH_MIN, BREATH_MAX = 0.98, 1.02
+
+	local gui = Instance.new("ScreenGui")
+	gui.Name = "ThunderIntro"
+	gui.IgnoreGuiInset = true
+	gui.ResetOnSpawn = false
+	pcall(function() if syn and syn.protect_gui then syn.protect_gui(gui) end end)
+	local ok = pcall(function() gui.Parent = guiParent end)
+	if not ok then
+		local fallback = LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 5)
+		if fallback then gui.Parent = fallback end
+	end
+
+	local root = Instance.new("Frame")
+	root.Size = UDim2.fromOffset(SIZE, SIZE)
+	root.AnchorPoint = Vector2.new(0.5, 0.5)
+	root.Position = UDim2.fromScale(0.5, 0.5)
+	root.BackgroundTransparency = 1
+	root.Parent = gui
+
+	local ring = Instance.new("Frame")
+	ring.Size = UDim2.fromScale(1, 1)
+	ring.BackgroundTransparency = 1
+	ring.Parent = root
+	local cornerRing = Instance.new("UICorner") cornerRing.CornerRadius = UDim.new(0, CORNER) cornerRing.Parent = ring
+	local ringStroke = Instance.new("UIStroke")
+	ringStroke.Thickness = STROKE_THICK
+	ringStroke.Color = BLUE
+	pcall(function() ringStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border end)
+	ringStroke.Parent = ring
+
+	local glow = Instance.new("Frame")
+	glow.Size = UDim2.fromScale(1, 1)
+	glow.BackgroundTransparency = 1
+	glow.ZIndex = ring.ZIndex - 1
+	glow.Parent = root
+	local cornerGlow = Instance.new("UICorner") cornerGlow.CornerRadius = UDim.new(0, CORNER) cornerGlow.Parent = glow
+	local glowStroke = Instance.new("UIStroke")
+	glowStroke.Thickness = 30
+	glowStroke.Color = BLUE
+	glowStroke.Transparency = 0.75
+	pcall(function() glowStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border end)
+	glowStroke.Parent = glow
+
+	local inner = Instance.new("Frame")
+	local innerSize = SIZE - STROKE_THICK * 2
+	inner.Size = UDim2.fromOffset(innerSize, innerSize)
+	inner.AnchorPoint = Vector2.new(0.5, 0.5)
+	inner.Position = UDim2.fromScale(0.5, 0.5)
+	inner.BackgroundTransparency = 1
+	inner.ZIndex = 5
+	inner.Parent = root
+
+	
+	local thunderText = Instance.new("TextLabel")
+	thunderText.Size = UDim2.fromScale(0.7, 0.7)
+	thunderText.AnchorPoint = Vector2.new(0.5, 0.5)
+	thunderText.Position = UDim2.fromScale(0.5, 0.5)
+	thunderText.BackgroundTransparency = 1
+	thunderText.Text = "Sxingz Hub"
+	thunderText.TextColor3 = BLUE
+	thunderText.TextScaled = true
+	thunderText.Font = Enum.Font.GothamBlack
+	thunderText.Rotation = -8.56
+	thunderText.TextTransparency = 0.10
+	thunderText.ZIndex = 7
+	thunderText.Parent = inner
+
+	
+	local gradient = Instance.new("UIGradient")
+	gradient.Rotation = 0
+	gradient.Color = ColorSequence.new{
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255,255,255)),
+		ColorSequenceKeypoint.new(0.5, Color3.fromRGB(180,220,255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255,255,255))
+	}
+	gradient.Transparency = NumberSequence.new{
+		NumberSequenceKeypoint.new(0, 1),
+		NumberSequenceKeypoint.new(0.5, 0.6),
+		NumberSequenceKeypoint.new(1, 1)
+	}
+	gradient.Parent = thunderText
+
+	local ringScale = Instance.new("UIScale", ring) ringScale.Scale = 1
+
+	local alive, hbConn = true, nil
+	_G.ThunderIntro_Stop = function()
+		if not alive then return end
+		alive = false
+		if hbConn then hbConn:Disconnect() end
+		if gui and gui.Parent then gui:Destroy() end
+	end
+	
+	-- Spin
+	task.spawn(function()
+		while alive do
+			local tw1 = TweenService:Create(ring, TweenInfo.new(SPIN_STEP_TIME, Enum.EasingStyle.Exponential, Enum.EasingDirection.InOut), {Rotation = ring.Rotation + SPIN_STEP_DEG})
+			local tw2 = TweenService:Create(glow, TweenInfo.new(SPIN_STEP_TIME,   Enum.EasingStyle.Exponential, Enum.EasingDirection.InOut), {Rotation = glow.Rotation + SPIN_STEP_DEG})
+			tw1:Play() tw2:Play()
+			tw1.Completed:Wait()
+		end
+	end)
+	-- Breathe
+	task.spawn(function()
+		while alive do
+			TweenService:Create(ringScale, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Scale = BREATH_MAX}):Play()
+			task.wait(0.6)
+			TweenService:Create(ringScale, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Scale = BREATH_MIN}):Play()
+			task.wait(0.6)
+		end
+	end)
+
+	-- Gradient sheen animation
+	task.spawn(function()
+		while alive do
+			for i = 0,360,10 do
+				gradient.Rotation = i
+				task.wait(0.03)
+			end
+		end
+	end)
+
+	-- Auto fade + destroy
+	if DURATION and DURATION > 0 then
+		task.delay(DURATION, function()
+			if not alive then return end
+			local ti = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+			TweenService:Create(ringStroke,  ti, {Transparency = 1}):Play()
+			TweenService:Create(glowStroke,  ti, {Transparency = 1}):Play()
+			TweenService:Create(thunderText, ti, {TextTransparency = 1}):Play()
+			task.wait(0.45)
+			_G.ThunderIntro_Stop()
+		end)
+	end
+
+	return gui
+end
+
+Start({duration = 6}) -- lasts longer
+
+local function getSecureGuiParent()
+    local target = nil
+    -- 尝试使用执行器特定的隐藏函数
+    if gethui then
+        target = gethui()
+    elseif syn and syn.protect_gui then
+        local folder = Instance.new("Folder")
+        syn.protect_gui(folder)
+        folder.Parent = game:GetService("CoreGui")
+        target = folder
+    elseif get_hidden_gui then
+        target = get_hidden_gui()
+    else
+        target = game:GetService("CoreGui")
+    end
+    return target
+end
+
+print("反挂机开启")
+		local vu = game:GetService("VirtualUser")
+		game:GetService("Players").LocalPlayer.Idled:connect(function()
+		   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		   wait(1)
+		   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		end)
+
+local Sound = Instance.new("Sound")
+        Sound.Parent = game.SoundService
+        Sound.SoundId = "rbxassetid://4590662766"
+        Sound.Volume = 3
+        Sound.PlayOnRemove = true
+        Sound:Destroy()
+        
+local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/jb/refs/heads/main/windui.lua"))()
+
+local Window = WindUI:CreateWindow({
+        Title = "Sxingz Hub",
+        Icon = "shield-user",
+        Author = "作者:Z某人",
+        Folder = "CloudHub",
+        Size = UDim2.fromOffset(580, 460),
+        Transparent = true,
+        Theme = "Dark",
+        Resizable = true,
+        SideBarWidth = 200,
+        Background = "rbxassetid://77044761659704",
+        BackgroundImageTransparency = 0.42,
+        HideSearchBar = false,
+        ScrollBarEnabled = true,
+        User = {
+            Enabled = true,
+            Anonymous = false,
+            Callback = function()
+                print("clicked")
+            end,
+    },
+})
+        
+Window:EditOpenButton({
+    Title = "打开Sxingz Hub",
+    Icon = "shield-check",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromHex("FF0000")),
+        ColorSequenceKeypoint.new(0.16, Color3.fromHex("FF7F00")),
+        ColorSequenceKeypoint.new(0.33, Color3.fromHex("FFFF00")),
+        ColorSequenceKeypoint.new(0.5, Color3.fromHex("00FF00")),
+        ColorSequenceKeypoint.new(0.66, Color3.fromHex("0000FF")),
+        ColorSequenceKeypoint.new(0.83, Color3.fromHex("4B0082")),
+        ColorSequenceKeypoint.new(1, Color3.fromHex("9400D3"))
+    }),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
+local tag = Window:Tag({
+    Title = "持续更新中",
+    Icon = "",
+    Color = Color3.fromRGB(255, 0, 0),
+    Radius = 3,
+})
+
+local Tab = Window:Tab({
+    Title = "汉化执行器",
+    Icon = "rbxassetid://77044761659704",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "Sxingz Hub|汉化执行器",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/jb/refs/heads/main/汉化执行器.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "通用",
+    Icon = "bolt",
+    Locked = false,
+})
+
+local Slider = Tab:Slider({
+    Title = "移动速度",
+    
+    Step = 1,
+    
+    Value = {
+        Min = 0,
+        Max = 320,
+        Default = 16,
+    },
+    Callback = function(value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+    end
+})
+
+local Slider = Tab:Slider({
+    Title = "跳跃高度",
+    
+    Step = 1,
+    
+    Value = {
+        Min = 50,
+        Max = 1000,
+        Default = 50,
+    },
+    Callback = function(value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
+    end
+})
+
+local Slider = Tab:Slider({
+    Title = "重力",
+    
+    Step = 1,
+    
+    Value = {
+        Min = 0,
+        Max = 1000,
+        Default = 196,
+    },
+    Callback = function(value)
+    game.Workspace.Gravity = value
+    end
+})
+
+local Button = Tab:Button({
+    Title = "爬墙",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Wall-Walk-9153"))()
+    end
+})
+
+local Button = Tab:Button({
+    Title = "无限跳",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/V5PQy3y0", true))()
+    end
+})
+
+local Button = Tab:Button({
+    Title = "选人甩飞",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Auto%20Fling%20Player'))()
+    end
+})
+
+local Button = Tab:Button({
+    Title = "飞行V3",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CNHM/asg/refs/heads/main/fly.lua"))()
+    end
+})
+
+local Button = Tab:Button({
+    Title = "穿墙",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+screenGui.Name = "NoclipGUI"
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 150)
+frame.Position = UDim2.new(0.5, -125, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+frame.BorderSizePixel = 2
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 30)
+titleBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+titleBar.Parent = frame
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -60, 1, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "穿墙"
+titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextScaled = true
+titleLabel.Parent = titleBar
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 25, 0, 25)
+closeButton.Position = UDim2.new(1, -30, 0.1, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+closeButton.Text = "关闭"
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.Parent = titleBar
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 25, 0, 25)
+minimizeButton.Position = UDim2.new(1, -60, 0.1, 0)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(150, 150, 150)
+minimizeButton.Text = "收缩"
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.Parent = titleBar
+
+local toggleNoclipButton = Instance.new("TextButton")
+toggleNoclipButton.Size = UDim2.new(0.8, 0, 0, 40)
+toggleNoclipButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+toggleNoclipButton.Text = "穿墙: 关闭"
+toggleNoclipButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+toggleNoclipButton.TextColor3 = Color3.new(1, 1, 1)
+toggleNoclipButton.Parent = frame
+
+local creditLabel = Instance.new("TextLabel")
+creditLabel.Size = UDim2.new(1, 0, 0, 20)
+creditLabel.Position = UDim2.new(0, 0, 0.85, 0)
+creditLabel.BackgroundTransparency = 1
+creditLabel.Text = ""
+creditLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+creditLabel.TextScaled = true
+creditLabel.Font = Enum.Font.SourceSansBold
+creditLabel.Parent = frame
+
+local noclip = false
+local function toggleNoclip()
+    noclip = not noclip
+    toggleNoclipButton.Text = noclip and "穿墙: 开启" or "穿墙: 关闭"
+    toggleNoclipButton.BackgroundColor3 = noclip and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(100, 100, 100)
+
+    while noclip do
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") and part.CanCollide then
+                part.CanCollide = false
+            end
+        end
+        task.wait()
+    end
+end
+
+toggleNoclipButton.MouseButton1Click:Connect(toggleNoclip)
+
+local minimized = false
+minimizeButton.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    for _, obj in pairs(frame:GetChildren()) do
+        if obj ~= titleBar and obj ~= creditLabel then
+            obj.Visible = not minimized
+        end
+    end
+    frame.Size = minimized and UDim2.new(0, 250, 0, 30) or UDim2.new(0, 250, 0, 150)
+    minimizeButton.Text = minimized and "展开" or "收缩"
+end)
+
+closeButton.MouseButton1Click:Connect(function()
+    noclip = false
+    screenGui:Destroy()
+end)
+
+print("穿墙UI加载成功！")
+    end
+})
+
+local Button = Tab:Button({
+    Title = "快速互动",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    game.ProximityPromptService.PromptButtonHoldBegan:Connect(function(v)
+    v.HoldDuration = 0
+end)
+    end
+})
+
+local Button = Tab:Button({
+    Title = "电脑键盘",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Xxtan31/Ata/main/deltakeyboardcrack.txt", true))()
+    end
+})
+
+local Button = Tab:Button({
+    Title = "透视",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZIONPCE/raw/refs/heads/main/ESP.lua"))()
+    end
+})
+
+local Button = Tab:Button({
+    Title = "导",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/FWwdST5Y"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "通缉",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载通缉脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/通缉.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "地牢英雄",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载地牢英雄脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/地牢英雄.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "吃世界",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载吃世界脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/吃世界.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "森林中的99夜",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载森林中的99夜脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/99夜.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "在超级商店过夜生存",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载在超级商店过夜生存脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/在超级商店过夜生存.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "勘探中",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载勘探中脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/勘探中.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "矿井",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载矿井脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/矿井.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "挖出后院",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载挖出后院脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/挖出后院.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "被遗弃",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载被遗弃脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/被遗弃.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "忍者传奇",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载忍者传奇脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/忍者传奇.lua"))()
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "极速传奇",
+    Icon = "server",
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "加载极速传奇脚本",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZiO9178/zhizi/refs/heads/main/极速传奇.lua"))()
+    end
+})
