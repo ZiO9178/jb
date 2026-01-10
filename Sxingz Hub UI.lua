@@ -500,6 +500,28 @@ function AlexchadLibrary:CreateWindow(options)
         })
     })
     
+    -- 彩虹呼吸边框逻辑
+local MainStroke = MainContainer:FindFirstChild("MainStroke")
+if MainStroke then
+    local counter = 0
+    local connection = RunService.RenderStepped:Connect(function(delta)
+        counter = counter + delta
+        
+        -- 彩虹颜色切换 (速度可通过 0.1 调节)
+        local hue = (tick() * 0.1) % 1
+        local rainbowColor = Color3.fromHSV(hue, 0.7, 1)
+        
+        -- 呼吸透明度效果 (频率可通过 2 调节)
+        local breathingTransparency = (math.sin(tick() * 2) + 1) / 4 -- 在 0 到 0.5 之间波动
+        
+        MainStroke.Color = rainbowColor
+        MainStroke.Transparency = breathingTransparency
+    end)
+    
+    -- 当 UI 销毁时断开连接防止内存泄漏
+    table.insert(Window.Connections, connection)
+end
+    
     -- Glow
     local Glow = Utility:Create("ImageLabel", {
         Name = "Glow",
@@ -559,57 +581,6 @@ function AlexchadLibrary:CreateWindow(options)
         TextSize = 12,
         TextXAlignment = Enum.TextXAlignment.Left
     })
-    
-    -- 1. 在 CreateWindow 函数内部，找到创建 Header 的部分
-local Header = Utility:Create("Frame", {
-    Name = "Header",
-    Parent = MainContainer,
-    BackgroundColor3 = theme.Main,
-    BackgroundTransparency = 0.10, -- 稍微透明一点更有高级感
-    Size = UDim2.new(1, 0, 0, 45),
-    ZIndex = 2
-})
-
--- 2. 紧接着在下面添加头像显示代码
-local PlayerIcon = Utility:Create("ImageLabel", {
-    Name = "PlayerIcon",
-    Parent = Header,
-    BackgroundTransparency = 1,
-    -- 这里的 Position 将它放在右上角，靠近关闭按钮左侧
-    Position = UDim2.new(1, -75, 0.5, -15), 
-    Size = UDim2.new(0, 30, 0, 30),
-    -- 获取当前玩家头像
-    Image = Players:GetUserThumbnailAsync(
-        game.Players.LocalPlayer.UserId, 
-        Enum.ThumbnailType.HeadShot, 
-        Enum.ThumbnailSize.Size100x100
-    ),
-    ZIndex = 3
-}, {
-    -- 让头像变成圆形
-    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) }),
-    -- 给头像加一个细微的发光边框（使用主题色）
-    Utility:Create("UIStroke", {
-        Color = theme.Accent,
-        Thickness = 1.5,
-        Transparency = 0.2
-    })
-})
-
--- 3. (可选) 如果你想在头像旁边显示名字，可以在下面接着加
-local PlayerName = Utility:Create("TextLabel", {
-    Name = "PlayerName",
-    Parent = Header,
-    BackgroundTransparency = 1,
-    Position = UDim2.new(1, -180, 0.5, -15),
-    Size = UDim2.new(0, 100, 0, 30),
-    Text = game.Players.LocalPlayer.DisplayName,
-    TextColor3 = theme.Text,
-    Font = Enum.Font.GothamMedium,
-    TextSize = 12,
-    TextXAlignment = Enum.TextXAlignment.Right,
-    ZIndex = 3
-})
     
     -- Controls (Minimize then Close, left to right)
     local ControlsContainer = Utility:Create("Frame", {
