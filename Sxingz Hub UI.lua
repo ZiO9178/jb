@@ -565,7 +565,7 @@ local Header = Utility:Create("Frame", {
     Name = "Header",
     Parent = MainContainer,
     BackgroundColor3 = theme.Main,
-    BackgroundTransparency = 0, -- 稍微透明一点更有高级感
+    BackgroundTransparency = 0.10, -- 稍微透明一点更有高级感
     Size = UDim2.new(1, 0, 0, 45),
     ZIndex = 2
 })
