@@ -507,18 +507,15 @@ if MainStroke then
     local connection = RunService.RenderStepped:Connect(function(delta)
         counter = counter + delta
         
-        -- 彩虹颜色切换 (速度可通过 0.1 调节)
         local hue = (tick() * 0.1) % 1
         local rainbowColor = Color3.fromHSV(hue, 0.7, 1)
         
-        -- 呼吸透明度效果 (频率可通过 2 调节)
-        local breathingTransparency = (math.sin(tick() * 2) + 1) / 4 -- 在 0 到 0.5 之间波动
+        local breathingTransparency = (math.sin(tick() * 2) + 1) / 4
         
         MainStroke.Color = rainbowColor
         MainStroke.Transparency = breathingTransparency
     end)
     
-    -- 当 UI 销毁时断开连接防止内存泄漏
     table.insert(Window.Connections, connection)
 end
     
@@ -531,6 +528,7 @@ end
         Size = UDim2.new(1, 50, 1, 50),
         AnchorPoint = Vector2.new(0.5, 0.5),
         Image = "rbxassetid://77044761659704",
+        ImageScaleType = Enum.ScaleType.Stretch,
         ImageColor3 = Color3.new(1,1,1),
         ImageTransparency = 0,
         ZIndex = 1,
