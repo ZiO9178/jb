@@ -560,6 +560,57 @@ function AlexchadLibrary:CreateWindow(options)
         TextXAlignment = Enum.TextXAlignment.Left
     })
     
+    -- 1. 在 CreateWindow 函数内部，找到创建 Header 的部分
+local Header = Utility:Create("Frame", {
+    Name = "Header",
+    Parent = MainContainer,
+    BackgroundColor3 = theme.Main,
+    BackgroundTransparency = 0.2, -- 稍微透明一点更有高级感
+    Size = UDim2.new(1, 0, 0, 45),
+    ZIndex = 2
+})
+
+-- 2. 紧接着在下面添加头像显示代码
+local PlayerIcon = Utility:Create("ImageLabel", {
+    Name = "PlayerIcon",
+    Parent = Header,
+    BackgroundTransparency = 1,
+    -- 这里的 Position 将它放在右上角，靠近关闭按钮左侧
+    Position = UDim2.new(1, -75, 0.5, -15), 
+    Size = UDim2.new(0, 30, 0, 30),
+    -- 获取当前玩家头像
+    Image = Players:GetUserThumbnailAsync(
+        game.Players.LocalPlayer.UserId, 
+        Enum.ThumbnailType.HeadShot, 
+        Enum.ThumbnailSize.Size100x100
+    ),
+    ZIndex = 3
+}, {
+    -- 让头像变成圆形
+    Utility:Create("UICorner", { CornerRadius = UDim.new(1, 0) }),
+    -- 给头像加一个细微的发光边框（使用主题色）
+    Utility:Create("UIStroke", {
+        Color = theme.Accent,
+        Thickness = 1.5,
+        Transparency = 0.2
+    })
+})
+
+-- 3. (可选) 如果你想在头像旁边显示名字，可以在下面接着加
+local PlayerName = Utility:Create("TextLabel", {
+    Name = "PlayerName",
+    Parent = Header,
+    BackgroundTransparency = 1,
+    Position = UDim2.new(1, -180, 0.5, -15),
+    Size = UDim2.new(0, 100, 0, 30),
+    Text = game.Players.LocalPlayer.DisplayName,
+    TextColor3 = theme.Text,
+    Font = Enum.Font.GothamMedium,
+    TextSize = 12,
+    TextXAlignment = Enum.TextXAlignment.Right,
+    ZIndex = 3
+})
+    
     -- Controls (Minimize then Close, left to right)
     local ControlsContainer = Utility:Create("Frame", {
         Name = "Controls",
