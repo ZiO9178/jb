@@ -510,7 +510,7 @@ function AlexchadLibrary:CreateWindow(options)
         AnchorPoint = Vector2.new(0.5, 0.5),
         Image = "rbxassetid://77044761659704",
         ImageColor3 = theme.Accent,
-        ImageTransparency = 0.85,
+        ImageTransparency = 0,
         ZIndex = 0,
         ScaleType = Enum.ScaleType.Slice,
         SliceCenter = Rect.new(24, 24, 276, 276)
