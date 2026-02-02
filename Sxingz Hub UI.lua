@@ -1,19 +1,7 @@
---[[
-    Alexchad Ui Library COMPLETE REMAKE. The old one was just a waste of space so  i deleted it.
-	This is just generally better and in production and the OFFICAL ONE PLEASE ATLEAST CREDIT ME IF YOU PLAN TO edit it for yourself or else il have to add an license
-	You can see the creation of things are similar to rayfield which is intended because its easy and most developers use it, espacially small ones.
-	Also it take significantly longer because i decided to make it pretty readable and lots of error handling and stuff.
-	KNOWN BUGS AS OFF 26th november 2025 : 1.when changing themes previous selected theme button stays highlighted but atleast in the current theme always so should be a quick fix
-	2.Things getting cut off a little from the sides
-	Suggestions by some people : "better tab switching animation" yeah idk really, "lucide icon soppurt for tabs" yeah im gonna idk when, "Gradient to the glassy background configurable in themes" yeah thats kinda needed?
-	"More configurable settings for blurring" yeah ive been kinda annyoed having blur when gui is minimized so yeah pretty soon "KEYBIND FIX" dude idk keybinds been to annoying tho
-	"Make Notifications better with animations when dissapearing and better design" offensive just offensive
-]]
 
 
 local AlexchadLibrary = {}
 
--- Services
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -22,11 +10,9 @@ local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 local Lighting = game:GetService("Lighting")
 
--- Variables
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 
--- Get proper GUI parent
 local function GetGuiParent()
     local success, result = pcall(function()
         if gethui then
@@ -41,7 +27,6 @@ end
 
 local GuiParent = GetGuiParent()
 
--- Clean up ALL existing blur effects
 local function CleanupAllBlur()
     for _, effect in pairs(Lighting:GetChildren()) do
         if effect:IsA("BlurEffect") and effect.Name:find("Rayfield") then
@@ -50,7 +35,6 @@ local function CleanupAllBlur()
     end
 end
 
--- Theme Configuration
 local Themes = {
     Default = {
         Background = Color3.fromRGB(20, 20, 30),
@@ -186,7 +170,6 @@ local Themes = {
     }
 }
 
--- Utility Functions
 local Utility = {}
 
 function Utility:Create(instanceType, properties, children)
