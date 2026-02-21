@@ -1,5 +1,3 @@
-
-
 local AlexchadLibrary = {}
 
 local TweenService = game:GetService("TweenService")
@@ -1651,7 +1649,7 @@ end
                 return Slider
             end
             
-            -- Dropdown
+-- Dropdown (升级版：带搜索 + 滚动条)
             function Section:CreateDropdown(opts)
                 opts = opts or {}
                 local name = opts.Name or "Dropdown"
@@ -1672,6 +1670,7 @@ end
                 }
                 Window.Elements[id] = Dropdown
                 
+                -- 主框架
                 local Frame = Utility:Create("Frame", {
                     Name = name .. "Dropdown",
                     Parent = SectionFrame,
@@ -1715,6 +1714,261 @@ end
                         return Dropdown.Value or "Select..."
                     end
                 end
+                
+                local Selected = Utility:Create("TextLabel", {
+                    Name = "Selected",
+                    Parent = Header,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0.5, 0, 0, 0),
+                    Size = UDim2.new(0.5, -45, 1, 0),
+                    Font = Enum.Font.Gotham,
+                    Text = GetDisplayText(),
+                    TextColor3 = theme.TextDark,
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Right,
+                    TextTruncate = Enum.TextTruncate.AtEnd
+                })
+                
+                local Arrow = Utility:Create("TextLabel", {
+                    Name = "Arrow",
+                    Parent = Header,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(1, -35, 0, 0),
+                    Size = UDim2.new(0, 25, 1, 0),
+                    Font = Enum.Font.GothamBold,
+                    Text = "v",
+                    TextColor3 = theme.TextDark,
+                    TextSize = 12,
+                    Rotation = 0
+                })
+                
+                -- [新增] 搜索栏
+                local SearchBar = Utility:Create("TextBox", {
+                    Name = "SearchBar",
+                    Parent = Frame,
+                    BackgroundColor3 = theme.Container,
+                    BackgroundTransparency = theme.ContainerTransparency,
+                    Position = UDim2.new(0, 10, 0, 45),
+                    Size = UDim2.new(1, -20, 0, 25),
+                    Font = Enum.Font.Gotham,
+                    PlaceholderText = "Search...",
+                    PlaceholderColor3 = theme.TextMuted,
+                    Text = "",
+                    TextColor3 = theme.Text,
+                    TextSize = 13,
+                    Visible = false -- 默认隐藏
+                }, {
+                    Utility:Create("UICorner", { CornerRadius = UDim.new(0, 4) })
+                })
+
+                -- [修改] 选项容器改为 ScrollingFrame
+                local OptionsContainer = Utility:Create("ScrollingFrame", {
+                    Name = "Options",
+                    Parent = Frame,
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0, 8, 0, 78), -- 位于搜索栏下方
+                    Size = UDim2.new(1, -16, 0, 0),
+                    CanvasSize = UDim2.new(0, 0, 0, 0),
+                    AutomaticCanvasSize = Enum.AutomaticSize.Y,
+                    ScrollBarThickness = 2,
+                    ScrollBarImageColor3 = theme.Accent,
+                    Visible = false
+                }, {
+                    Utility:Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4) })
+                })
+                
+                table.insert(Window.ElementRefs, { Type = "Dropdown", Element = Dropdown, Frame = Frame, Label = Label, Selected = Selected, Arrow = Arrow, OptionsContainer = OptionsContainer })
+                
+                -- [新增] 搜索功能逻辑
+                SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
+                    local text = SearchBar.Text:lower()
+                    local contentHeight = 0
+                    for _, child in pairs(OptionsContainer:GetChildren()) do
+                        if child:IsA("TextButton") then
+                            if child.Name:lower():find(text) then
+                                child.Visible = true
+                                contentHeight = contentHeight + 36
+                            else
+                                child.Visible = false
+                            end
+                        end
+                    end
+                end)
+
+                local function CreateOption(optName)
+                    local isSelected = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
+                    
+                    local OptBtn = Utility:Create("TextButton", {
+                        Name = optName,
+                        Parent = OptionsContainer,
+                        BackgroundColor3 = isSelected and theme.Accent or theme.Container,
+                        BackgroundTransparency = isSelected and 0 or theme.ContainerTransparency,
+                        Size = UDim2.new(1, 0, 0, 32),
+                        Font = Enum.Font.Gotham,
+                        Text = optName,
+                        TextColor3 = isSelected and theme.Text or theme.TextDark,
+                        TextSize = 13,
+                        AutoButtonColor = false
+                    }, {
+                        Utility:Create("UICorner", { CornerRadius = UDim.new(0, Config.ElementCornerRadius - 2) })
+                    })
+                    
+                    OptBtn.MouseEnter:Connect(function()
+                        local isSel = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
+                        if not isSel then
+                            Utility:Tween(OptBtn, {BackgroundColor3 = theme.AccentDark, BackgroundTransparency = 0.5, TextColor3 = theme.Text}, Config.AnimationSpeed * 0.5)
+                        end
+                    end)
+                    
+                    OptBtn.MouseLeave:Connect(function()
+                        local isSel = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
+                        local t = Window.Theme
+                        Utility:Tween(OptBtn, {
+                            BackgroundColor3 = isSel and t.Accent or t.Container,
+                            BackgroundTransparency = isSel and 0 or t.ContainerTransparency,
+                            TextColor3 = isSel and t.Text or t.TextDark
+                        }, Config.AnimationSpeed * 0.5)
+                    end)
+                    
+                    OptBtn.MouseButton1Click:Connect(function()
+                        Utility:Ripple(OptBtn, theme, Config)
+                        local t = Window.Theme
+                        
+                        if multiSelect then
+                            local idx = table.find(Dropdown.Value, optName)
+                            if idx then
+                                table.remove(Dropdown.Value, idx)
+                                Utility:Tween(OptBtn, {BackgroundColor3 = t.Container, BackgroundTransparency = t.ContainerTransparency, TextColor3 = t.TextDark}, Config.AnimationSpeed)
+                            else
+                                table.insert(Dropdown.Value, optName)
+                                Utility:Tween(OptBtn, {BackgroundColor3 = t.Accent, BackgroundTransparency = 0, TextColor3 = t.Text}, Config.AnimationSpeed)
+                            end
+                            Selected.Text = GetDisplayText()
+                            SaveConfig()
+                            callback(Dropdown.Value)
+                        else
+                            Dropdown.Value = optName
+                            Selected.Text = optName
+                            
+                            for _, opt in pairs(OptionsContainer:GetChildren()) do
+                                if opt:IsA("TextButton") then
+                                    local isThis = opt.Name == optName
+                                    Utility:Tween(opt, {
+                                        BackgroundColor3 = isThis and t.Accent or t.Container,
+                                        BackgroundTransparency = isThis and 0 or t.ContainerTransparency,
+                                        TextColor3 = isThis and t.Text or t.TextDark
+                                    }, Config.AnimationSpeed)
+                                end
+                            end
+                            
+                            SaveConfig()
+                            callback(optName)
+                            
+                            -- 关闭下拉
+                            task.wait(Config.AnimationSpeed * 0.3)
+                            Dropdown.Open = false
+                            Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, 42)}, Config.AnimationSpeed)
+                            Utility:Tween(Arrow, {Rotation = 0}, Config.AnimationSpeed)
+                            SearchBar.Visible = false
+                            OptionsContainer.Visible = false
+                        end
+                    end)
+                    
+                    return OptBtn
+                end
+                
+                for _, opt in pairs(options) do
+                    CreateOption(opt)
+                end
+                
+                Header.MouseEnter:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                Header.MouseLeave:Connect(function()
+                    Utility:Tween(Frame, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed * 0.5)
+                end)
+                
+                Header.MouseButton1Click:Connect(function()
+                    Dropdown.Open = not Dropdown.Open
+                    Utility:Ripple(Header, theme, Config)
+                    
+                    local optCount = #options
+                    -- 最大高度限制在 220 像素，超过则滚动
+                    local maxHeight = 220 
+                    local targetH = Dropdown.Open and maxHeight or 42
+                    
+                    SearchBar.Visible = Dropdown.Open
+                    OptionsContainer.Visible = Dropdown.Open
+                    
+                    if Dropdown.Open then
+                         -- 打开时重置搜索
+                        SearchBar.Text = ""
+                        for _, child in pairs(OptionsContainer:GetChildren()) do
+                            if child:IsA("TextButton") then child.Visible = true end
+                        end
+                        OptionsContainer.Size = UDim2.new(1, -16, 0, maxHeight - 85) -- 调整内部容器大小
+                    end
+
+                    Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, targetH)}, Config.AnimationSpeed)
+                    Utility:Tween(Arrow, {Rotation = Dropdown.Open and 180 or 0}, Config.AnimationSpeed)
+                end)
+                
+                function Dropdown:Set(v, skip)
+                    local t = Window.Theme
+                    if multiSelect then
+                        Dropdown.Value = type(v) == "table" and v or {v}
+                        for _, opt in pairs(OptionsContainer:GetChildren()) do
+                            if opt:IsA("TextButton") then
+                                local isSel = table.find(Dropdown.Value, opt.Name)
+                                opt.BackgroundColor3 = isSel and t.Accent or t.Container
+                                opt.BackgroundTransparency = isSel and 0 or t.ContainerTransparency
+                                opt.TextColor3 = isSel and t.Text or t.TextDark
+                            end
+                        end
+                    else
+                        Dropdown.Value = v
+                        for _, opt in pairs(OptionsContainer:GetChildren()) do
+                            if opt:IsA("TextButton") then
+                                local isThis = opt.Name == v
+                                opt.BackgroundColor3 = isThis and t.Accent or t.Container
+                                opt.BackgroundTransparency = isThis and 0 or t.ContainerTransparency
+                                opt.TextColor3 = isThis and t.Text or t.TextDark
+                            end
+                        end
+                    end
+                    Selected.Text = GetDisplayText()
+                    SaveConfig()
+                    if not skip then callback(Dropdown.Value) end
+                end
+                
+                function Dropdown:Refresh(newOpts, keepVal)
+                    options = newOpts
+                    Dropdown.Options = newOpts
+                    
+                    for _, child in pairs(OptionsContainer:GetChildren()) do
+                        if child:IsA("TextButton") then child:Destroy() end
+                    end
+                    
+                    if not keepVal then
+                        Dropdown.Value = multiSelect and {} or (newOpts[1] or "")
+                    end
+                    
+                    for _, opt in pairs(newOpts) do
+                        CreateOption(opt)
+                    end
+                    
+                    Selected.Text = GetDisplayText()
+                    
+                    if Dropdown.Open then
+                        -- 刷新时如果是打开状态，保持大小
+                        -- 这里不需要做额外操作，因为大小已经固定
+                    end
+                end
+                
+                if default then callback(Dropdown.Value) end
+                return Dropdown
+            end
                 
                 local Selected = Utility:Create("TextLabel", {
                     Name = "Selected",
