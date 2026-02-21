@@ -1,866 +1,1136 @@
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
-local CoreGui = game:GetService("CoreGui")
-local Players = game:GetService("Players")
-local Mouse = Players.LocalPlayer:GetMouse()
+--=============================================================================
+-- Delta X Injector - iOS 26 Liquid Glass UI Library
+-- 版本: 2.0 (极致液态玻璃版)
+-- 特性: 全圆角化, 毛玻璃背景, 丝滑缓动动画, 清晰字体排版, 高级事件托管
+--=============================================================================
 
---// 库核心表
-local Library = {
-    Connections = {},
-    Flags = {},
-    Settings = {
-        Theme = {
-            Main = Color3.fromRGB(25, 25, 35),
-            Secondary = Color3.fromRGB(35, 35, 45),
-            Stroke = Color3.fromRGB(60, 60, 80),
-            Accent = Color3.fromRGB(0, 122, 255), -- IOS Blue
-            Text = Color3.fromRGB(240, 240, 240),
-            TextDark = Color3.fromRGB(150, 150, 150),
-            Success = Color3.fromRGB(52, 199, 89),
-            Fail = Color3.fromRGB(255, 59, 48)
-        },
-        Font = Enum.Font.GothamBold,
-        TextSizeBig = 18,
-        TextSizeNormal = 15,
-        TextSizeSmall = 13
-    }
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local TextService = game:GetService("TextService")
+local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+--=============================================================================
+-- 核心配置与工具函数
+--=============================================================================
+
+local LiquidGlassUI = {}
+LiquidGlassUI.Elements = {}
+LiquidGlassUI.Theme = {
+    MainBackground = Color3.fromRGB(20, 20, 25),
+    MainTransparency = 0.4,
+    StrokeColor = Color3.fromRGB(255, 255, 255),
+    StrokeTransparency = 0.85,
+    AccentColor = Color3.fromRGB(10, 132, 255), -- iOS Blue
+    TextColor = Color3.fromRGB(255, 255, 255),
+    SubTextColor = Color3.fromRGB(180, 180, 180),
+    ElementBackground = Color3.fromRGB(35, 35, 40),
+    ElementTransparency = 0.5,
+    HoverBackground = Color3.fromRGB(45, 45, 55),
+    FontMain = Enum.Font.GothamMedium,
+    FontBold = Enum.Font.GothamBold,
+    CornerRadius = UDim.new(0, 14),
+    AnimTime = 0.35,
+    AnimStyle = Enum.EasingStyle.Quint,
+    AnimDirection = Enum.EasingDirection.Out
 }
 
---// 辅助函数：保护UI不被游戏重置
-local function ProtectGui(gui)
-    if gethui then
-        gui.Parent = gethui()
-    elseif syn and syn.protect_gui then
-        syn.protect_gui(gui)
-        gui.Parent = CoreGui
-    else
-        gui.Parent = CoreGui
-    end
-end
-
---// 辅助函数：创建UI对象
-local function Create(class, properties)
-    local instance = Instance.new(class)
-    for k, v in pairs(properties) do
-        instance[k] = v
-    end
-    return instance
-end
-
---// 辅助函数：缓动动画
-local function Tween(instance, info, properties)
-    local tween = TweenService:Create(instance, info, properties)
+local function CreateTween(instance, properties, duration)
+    duration = duration or LiquidGlassUI.Theme.AnimTime
+    local tweenInfo = TweenInfo.new(duration, LiquidGlassUI.Theme.AnimStyle, LiquidGlassUI.Theme.AnimDirection)
+    local tween = TweenService:Create(instance, tweenInfo, properties)
     tween:Play()
     return tween
 end
 
---// 辅助函数：拖拽逻辑
-local function MakeDraggable(topbarobject, object)
-    local Dragging = nil
-    local DragInput = nil
-    local DragStart = nil
-    local StartPosition = nil
+local function MakeDraggable(topbar, frame)
+    local dragging = false
+    local dragInput, mousePos, framePos
 
-    topbarobject.InputBegan:Connect(function(input)
+    topbar.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            Dragging = true
-            DragStart = input.Position
-            StartPosition = object.Position
+            dragging = true
+            mousePos = input.Position
+            framePos = frame.Position
 
             input.Changed:Connect(function()
                 if input.UserInputState == Enum.UserInputState.End then
-                    Dragging = false
+                    dragging = false
                 end
             end)
         end
     end)
 
-    topbarobject.InputChanged:Connect(function(input)
+    topbar.InputChanged:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            DragInput = input
+            dragInput = input
         end
     end)
 
     UserInputService.InputChanged:Connect(function(input)
-        if input == DragInput and Dragging then
-            local Delta = input.Position - DragStart
-            Tween(object, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                Position = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
-            })
+        if input == dragInput and dragging then
+            local delta = input.Position - mousePos
+            local newPos = UDim2.new(
+                framePos.X.Scale,
+                framePos.X.Offset + delta.X,
+                framePos.Y.Scale,
+                framePos.Y.Offset + delta.Y
+            )
+            CreateTween(frame, {Position = newPos}, 0.1)
         end
     end)
 end
 
---// 辅助函数：水波纹效果 (Ripple)
-local function CreateRipple(parent)
-    spawn(function()
-        local Ripple = Create("ImageLabel", {
-            Name = "Ripple",
-            Parent = parent,
-            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
-            Image = "rbxassetid://2708891598",
-            ImageColor3 = Color3.fromRGB(255, 255, 255),
-            ImageTransparency = 0.8,
-            ScaleType = Enum.ScaleType.Fit,
-            Position = UDim2.new(0, Mouse.X - parent.AbsolutePosition.X, 0, Mouse.Y - parent.AbsolutePosition.Y),
-            Size = UDim2.new(0, 0, 0, 0),
-            ZIndex = parent.ZIndex + 1
-        })
-        
-        local targetSize = math.max(parent.AbsoluteSize.X, parent.AbsoluteSize.Y) * 1.5
-        
-        Tween(Ripple, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-            Size = UDim2.new(0, targetSize, 0, targetSize),
-            Position = UDim2.new(0.5, -targetSize/2, 0.5, -targetSize/2),
-            ImageTransparency = 1
-        })
-        
-        wait(0.5)
-        Ripple:Destroy()
+local function CreateRipple(parent, x, y)
+    local ripple = Instance.new("Frame")
+    ripple.Name = "Ripple"
+    ripple.Parent = parent
+    ripple.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ripple.BackgroundTransparency = 0.6
+    ripple.ZIndex = parent.ZIndex + 1
+    ripple.AnchorPoint = Vector2.new(0.5, 0.5)
+    ripple.Position = UDim2.new(0, x, 0, y)
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(1, 0)
+    corner.Parent = ripple
+    
+    ripple.Size = UDim2.new(0, 0, 0, 0)
+    
+    local tween = TweenService:Create(ripple, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, parent.AbsoluteSize.X * 2, 0, parent.AbsoluteSize.X * 2),
+        BackgroundTransparency = 1
+    })
+    tween:Play()
+    tween.Completed:Connect(function()
+        ripple:Destroy()
     end)
 end
 
---// 窗口创建函数
-function Library:Window(Config)
-    -- 解构配置
-    local Title = Config.Title or "LiquidGlass UI"
-    local SubTitle = Config.SubTitle or "Developed by User"
-    local Icon = Config.Icon or "rbxassetid://10709769508" -- 默认图标
-    local FooterText = Config.Footer or "Ready"
+--=============================================================================
+-- UI库核心：创建窗口 (Window)
+--=============================================================================
+
+function LiquidGlassUI:CreateWindow(options)
+    options = options or {}
+    local Title = options.Title or "Delta X 注入器"
+    local Subtitle = options.Subtitle or "未命名副标题"
+    local BottomText = options.BottomText or "就绪"
+    local WindowIcon = options.Icon or "rbxassetid://110034606276800"
+    local BackgroundImage = options.BackgroundImage or ""
     
-    -- 1. 创建屏幕UI
-    local ScreenGui = Create("ScreenGui", {
-        Name = "LiquidGlassLib_" .. math.random(1000, 9999),
-        IgnoreGuiInset = true,
-        ResetOnSpawn = false,
-        ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    })
-    ProtectGui(ScreenGui)
-
-    -- 2. 主框架 (Main Frame)
-    local MainFrame = Create("Frame", {
-        Name = "MainFrame",
-        Parent = ScreenGui,
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        BackgroundColor3 = Library.Settings.Theme.Main,
-        BackgroundTransparency = 0.1, -- 玻璃质感
-        Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 700, 0, 450),
-        BorderSizePixel = 0,
-        ClipsDescendants = true
-    })
-
-    -- 圆角与描边
-    Create("UICorner", { Parent = MainFrame, CornerRadius = UDim.new(0, 16) })
-    Create("UIStroke", { Parent = MainFrame, Color = Library.Settings.Theme.Stroke, Thickness = 1.5, Transparency = 0.5 })
-
-    -- 背景图片 (可选)
-    if Config.BackgroundImage then
-        local BgImage = Create("ImageLabel", {
-            Parent = MainFrame,
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 1, 0),
-            Image = Config.BackgroundImage,
-            ImageTransparency = 0.8,
-            ScaleType = Enum.ScaleType.Slice,
-            ZIndex = 0
-        })
-        Create("UICorner", { Parent = BgImage, CornerRadius = UDim.new(0, 16) })
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "DeltaXLiquidGlassUI"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+    
+    -- 兼容不同的执行器环境
+    if gethui then
+        ScreenGui.Parent = gethui()
+    elseif syn and syn.protect_gui then
+        syn.protect_gui(ScreenGui)
+        ScreenGui.Parent = CoreGui
+    else
+        ScreenGui.Parent = CoreGui
     end
 
-    -- 3. 侧边栏 (Sidebar)
-    local Sidebar = Create("Frame", {
-        Name = "Sidebar",
-        Parent = MainFrame,
-        BackgroundColor3 = Library.Settings.Theme.Secondary,
-        BackgroundTransparency = 0.5,
-        Size = UDim2.new(0, 200, 1, 0),
-        BorderSizePixel = 0
-    })
-    Create("UICorner", { Parent = Sidebar, CornerRadius = UDim.new(0, 16) })
+    -- 主框架
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "MainFrame"
+    MainFrame.Parent = ScreenGui
+    MainFrame.BackgroundColor3 = LiquidGlassUI.Theme.MainBackground
+    MainFrame.BackgroundTransparency = LiquidGlassUI.Theme.MainTransparency
+    MainFrame.Position = UDim2.new(0.5, -350, 0.5, -250)
+    MainFrame.Size = UDim2.new(0, 700, 0, 500)
+    MainFrame.ClipsDescendants = false
+
+    local MainCorner = Instance.new("UICorner")
+    MainCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+    MainCorner.Parent = MainFrame
+
+    local MainStroke = Instance.new("UIStroke")
+    MainStroke.Color = LiquidGlassUI.Theme.StrokeColor
+    MainStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+    MainStroke.Thickness = 1.5
+    MainStroke.Parent = MainFrame
+
+    -- 毛玻璃背景图层 / 模糊模拟
+    if BackgroundImage ~= "" then
+        local BgImage = Instance.new("ImageLabel")
+        BgImage.Name = "BackgroundImage"
+        BgImage.Parent = MainFrame
+        BgImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        BgImage.BackgroundTransparency = 1
+        BgImage.Size = UDim2.new(1, 0, 1, 0)
+        BgImage.ZIndex = 0
+        BgImage.Image = BackgroundImage
+        BgImage.ImageTransparency = 0.5
+        BgImage.ScaleType = Enum.ScaleType.Crop
+        local BgCorner = Instance.new("UICorner")
+        BgCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+        BgCorner.Parent = BgImage
+    end
+
+    -- 投影效果
+    local Shadow = Instance.new("ImageLabel")
+    Shadow.Name = "DropShadow"
+    Shadow.Parent = MainFrame
+    Shadow.BackgroundTransparency = 1
+    Shadow.Position = UDim2.new(0, -30, 0, -30)
+    Shadow.Size = UDim2.new(1, 60, 1, 60)
+    Shadow.ZIndex = -1
+    Shadow.Image = "rbxassetid://5554865466"
+    Shadow.ImageColor3 = Color3.fromRGB(0, 0, 0)
+    Shadow.ImageTransparency = 0.3
+    Shadow.ScaleType = Enum.ScaleType.Slice
+    Shadow.SliceCenter = Rect.new(95, 95, 205, 205)
+
+    -- 顶栏 (Topbar)
+    local Topbar = Instance.new("Frame")
+    Topbar.Name = "Topbar"
+    Topbar.Parent = MainFrame
+    Topbar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Topbar.BackgroundTransparency = 1
+    Topbar.Size = UDim2.new(1, 0, 0, 50)
     
-    -- 侧边栏装饰：分割线
-    local SidebarLine = Create("Frame", {
-        Parent = Sidebar,
-        BackgroundColor3 = Library.Settings.Theme.Stroke,
-        BorderSizePixel = 0,
-        Position = UDim2.new(1, -1, 0, 0),
-        Size = UDim2.new(0, 1, 1, 0)
-    })
+    MakeDraggable(Topbar, MainFrame)
 
-    -- Logo区域
-    local LogoContainer = Create("Frame", {
-        Parent = Sidebar,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, 80),
-        Name = "LogoContainer"
-    })
+    local IconLabel = Instance.new("ImageLabel")
+    IconLabel.Name = "Icon"
+    IconLabel.Parent = Topbar
+    IconLabel.BackgroundTransparency = 1
+    IconLabel.Position = UDim2.new(0, 15, 0, 12)
+    IconLabel.Size = UDim2.new(0, 26, 0, 26)
+    IconLabel.Image = WindowIcon
 
-    local LogoIcon = Create("ImageLabel", {
-        Parent = LogoContainer,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 15, 0, 15),
-        Size = UDim2.new(0, 50, 0, 50),
-        Image = Icon,
-        ImageColor3 = Library.Settings.Theme.Accent
-    })
-    Create("UICorner", { Parent = LogoIcon, CornerRadius = UDim.new(0, 12) })
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Name = "Title"
+    TitleLabel.Parent = Topbar
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Position = UDim2.new(0, 50, 0, 8)
+    TitleLabel.Size = UDim2.new(0, 300, 0, 20)
+    TitleLabel.Font = LiquidGlassUI.Theme.FontBold
+    TitleLabel.Text = Title
+    TitleLabel.TextColor3 = LiquidGlassUI.Theme.TextColor
+    TitleLabel.TextSize = 20
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    local TitleLabel = Create("TextLabel", {
-        Parent = LogoContainer,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 75, 0, 20),
-        Size = UDim2.new(0, 115, 0, 20),
-        Font = Library.Settings.Font,
-        Text = Title,
-        TextColor3 = Library.Settings.Theme.Text,
-        TextSize = Library.Settings.TextSizeBig,
-        TextXAlignment = Enum.TextXAlignment.Left
-    })
+    local SubtitleLabel = Instance.new("TextLabel")
+    SubtitleLabel.Name = "Subtitle"
+    SubtitleLabel.Parent = Topbar
+    SubtitleLabel.BackgroundTransparency = 1
+    SubtitleLabel.Position = UDim2.new(0, 50, 0, 28)
+    SubtitleLabel.Size = UDim2.new(0, 300, 0, 14)
+    SubtitleLabel.Font = LiquidGlassUI.Theme.FontMain
+    SubtitleLabel.Text = Subtitle
+    SubtitleLabel.TextColor3 = LiquidGlassUI.Theme.AccentColor
+    SubtitleLabel.TextSize = 13
+    SubtitleLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    local SubTitleLabel = Create("TextLabel", {
-        Parent = LogoContainer,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 75, 0, 45),
-        Size = UDim2.new(0, 115, 0, 15),
-        Font = Enum.Font.GothamMedium,
-        Text = SubTitle,
-        TextColor3 = Library.Settings.Theme.TextDark,
-        TextSize = Library.Settings.TextSizeSmall,
-        TextXAlignment = Enum.TextXAlignment.Left
-    })
+    -- 顶栏分割线
+    local TopDivider = Instance.new("Frame")
+    TopDivider.Name = "TopDivider"
+    TopDivider.Parent = MainFrame
+    TopDivider.BackgroundColor3 = LiquidGlassUI.Theme.StrokeColor
+    TopDivider.BackgroundTransparency = 0.9
+    TopDivider.Position = UDim2.new(0, 0, 0, 50)
+    TopDivider.Size = UDim2.new(1, 0, 0, 1)
 
-    -- 标签页按钮容器
-    local TabContainer = Create("ScrollingFrame", {
-        Parent = Sidebar,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 10, 0, 90),
-        Size = UDim2.new(1, -20, 1, -130),
-        CanvasSize = UDim2.new(0, 0, 0, 0),
-        ScrollBarThickness = 0,
-        AutomaticCanvasSize = Enum.AutomaticSize.Y
-    })
-    
-    Create("UIListLayout", {
-        Parent = TabContainer,
-        Padding = UDim.new(0, 8),
-        SortOrder = Enum.SortOrder.LayoutOrder
-    })
+    -- 控制按钮容器 (关闭、最小化)
+    local Controls = Instance.new("Frame")
+    Controls.Name = "Controls"
+    Controls.Parent = Topbar
+    Controls.BackgroundTransparency = 1
+    Controls.Position = UDim2.new(1, -90, 0, 0)
+    Controls.Size = UDim2.new(0, 90, 1, 0)
 
-    -- 底部信息栏 (在侧边栏最下)
-    local FooterFrame = Create("Frame", {
-        Parent = Sidebar,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 0, 1, -40),
-        Size = UDim2.new(1, 0, 0, 40)
-    })
-    
-    local FooterLabel = Create("TextLabel", {
-        Parent = FooterFrame,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Position = UDim2.new(0, 20, 0, 0),
-        Font = Enum.Font.Gotham,
-        Text = FooterText,
-        TextColor3 = Library.Settings.Theme.TextDark,
-        TextSize = 12,
-        TextXAlignment = Enum.TextXAlignment.Left
-    })
+    local CloseBtn = Instance.new("TextButton")
+    CloseBtn.Name = "CloseBtn"
+    CloseBtn.Parent = Controls
+    CloseBtn.BackgroundTransparency = 1
+    CloseBtn.Position = UDim2.new(0, 50, 0, 15)
+    CloseBtn.Size = UDim2.new(0, 20, 0, 20)
+    CloseBtn.Font = Enum.Font.GothamBold
+    CloseBtn.Text = "✕"
+    CloseBtn.TextColor3 = Color3.fromRGB(255, 60, 60)
+    CloseBtn.TextSize = 18
 
-    -- 4. 内容区域 (Content Area)
-    local ContentArea = Create("Frame", {
-        Name = "ContentArea",
-        Parent = MainFrame,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 210, 0, 50), -- 留出顶部做标题栏操作区
-        Size = UDim2.new(1, -220, 1, -60)
-    })
+    local MinBtn = Instance.new("TextButton")
+    MinBtn.Name = "MinBtn"
+    MinBtn.Parent = Controls
+    MinBtn.BackgroundTransparency = 1
+    MinBtn.Position = UDim2.new(0, 15, 0, 15)
+    MinBtn.Size = UDim2.new(0, 20, 0, 20)
+    MinBtn.Font = Enum.Font.GothamBold
+    MinBtn.Text = "—"
+    MinBtn.TextColor3 = Color3.fromRGB(255, 200, 0)
+    MinBtn.TextSize = 18
 
-    -- 5. 顶部操作栏 (Top Bar - 最小化/关闭)
-    local TopBar = Create("Frame", {
-        Name = "TopBar",
-        Parent = MainFrame,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 200, 0, 0),
-        Size = UDim2.new(1, -200, 0, 40)
-    })
-    MakeDraggable(TopBar, MainFrame) -- 允许通过顶部拖拽
-    MakeDraggable(LogoContainer, MainFrame) -- 允许通过Logo拖拽
+    local isMinimized = false
+    MinBtn.MouseButton1Click:Connect(function()
+        isMinimized = not isMinimized
+        if isMinimized then
+            CreateTween(MainFrame, {Size = UDim2.new(0, 700, 0, 50)})
+            for _, child in pairs(MainFrame:GetChildren()) do
+                if child.Name ~= "Topbar" and child.Name ~= "UICorner" and child.Name ~= "UIStroke" and child.Name ~= "DropShadow" and child.Name ~= "BackgroundImage" then
+                    CreateTween(child, {BackgroundTransparency = 1})
+                    if child:IsA("TextLabel") then CreateTween(child, {TextTransparency = 1}) end
+                    child.Visible = false
+                end
+            end
+        else
+            CreateTween(MainFrame, {Size = UDim2.new(0, 700, 0, 500)})
+            for _, child in pairs(MainFrame:GetChildren()) do
+                if child.Name ~= "Topbar" and child.Name ~= "UICorner" and child.Name ~= "UIStroke" and child.Name ~= "DropShadow" and child.Name ~= "BackgroundImage" then
+                    child.Visible = true
+                    CreateTween(child, {BackgroundTransparency = 0})
+                    if child:IsA("TextLabel") then CreateTween(child, {TextTransparency = 0}) end
+                end
+            end
+        end
+    end)
 
-    local CloseBtn = Create("TextButton", {
-        Parent = TopBar,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(1, -40, 0, 10),
-        Size = UDim2.new(0, 30, 0, 30),
-        Text = "×",
-        Font = Enum.Font.GothamMedium,
-        TextColor3 = Library.Settings.Theme.TextDark,
-        TextSize = 24
-    })
-
-    local MinBtn = Create("TextButton", {
-        Parent = TopBar,
-        BackgroundTransparency = 1,
-        Position = UDim2.new(1, -75, 0, 10),
-        Size = UDim2.new(0, 30, 0, 30),
-        Text = "-",
-        Font = Enum.Font.GothamMedium,
-        TextColor3 = Library.Settings.Theme.TextDark,
-        TextSize = 24
-    })
-
-    -- 关闭逻辑
-    CloseBtn.MouseEnter:Connect(function() Tween(CloseBtn, TweenInfo.new(0.2), {TextColor3 = Library.Settings.Theme.Fail}) end)
-    CloseBtn.MouseLeave:Connect(function() Tween(CloseBtn, TweenInfo.new(0.2), {TextColor3 = Library.Settings.Theme.TextDark}) end)
     CloseBtn.MouseButton1Click:Connect(function()
-        Tween(MainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 0)})
-        wait(0.3)
+        local closeTween = CreateTween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), BackgroundTransparency = 1})
+        for _, child in pairs(MainFrame:GetDescendants()) do
+            if child:IsA("TextLabel") or child:IsA("TextButton") or child:IsA("TextBox") then
+                CreateTween(child, {TextTransparency = 1})
+            elseif child:IsA("ImageLabel") then
+                CreateTween(child, {ImageTransparency = 1})
+            elseif child:IsA("UIStroke") then
+                CreateTween(child, {Transparency = 1})
+            elseif child:IsA("Frame") or child:IsA("ScrollingFrame") then
+                CreateTween(child, {BackgroundTransparency = 1})
+            end
+        end
+        closeTween.Completed:Wait()
         ScreenGui:Destroy()
     end)
 
-    -- 最小化逻辑
-    local Minimized = false
-    MinBtn.MouseEnter:Connect(function() Tween(MinBtn, TweenInfo.new(0.2), {TextColor3 = Library.Settings.Theme.Accent}) end)
-    MinBtn.MouseLeave:Connect(function() Tween(MinBtn, TweenInfo.new(0.2), {TextColor3 = Library.Settings.Theme.TextDark}) end)
-    MinBtn.MouseButton1Click:Connect(function()
-        Minimized = not Minimized
-        if Minimized then
-            Tween(MainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 700, 0, 40), BackgroundTransparency = 0.5})
-            Sidebar.Visible = false
-            ContentArea.Visible = false
-        else
-            Tween(MainFrame, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 700, 0, 450), BackgroundTransparency = 0.1})
-            Sidebar.Visible = true
-            ContentArea.Visible = true
-        end
-    end)
-    
-    -- 窗口对象
-    local Window = {}
-    local FirstTab = true
+    -- 底栏 (Bottom Info Bar)
+    local BottomBar = Instance.new("Frame")
+    BottomBar.Name = "BottomBar"
+    BottomBar.Parent = MainFrame
+    BottomBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    BottomBar.BackgroundTransparency = 1
+    BottomBar.Position = UDim2.new(0, 0, 1, -30)
+    BottomBar.Size = UDim2.new(1, 0, 0, 30)
 
-    --// 标签页 (Tab) 创建函数
-    function Window:Tab(Config)
-        local TabName = Config.Title or "Tab"
-        local TabIcon = Config.Icon or ""
+    local BottomDivider = Instance.new("Frame")
+    BottomDivider.Name = "BottomDivider"
+    BottomDivider.Parent = BottomBar
+    BottomDivider.BackgroundColor3 = LiquidGlassUI.Theme.StrokeColor
+    BottomDivider.BackgroundTransparency = 0.9
+    BottomDivider.Position = UDim2.new(0, 0, 0, 0)
+    BottomDivider.Size = UDim2.new(1, 0, 0, 1)
 
-        -- 侧边栏按钮
-        local TabButton = Create("TextButton", {
-            Parent = TabContainer,
-            BackgroundColor3 = Library.Settings.Theme.Secondary,
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 35),
-            Text = "",
-            AutoButtonColor = false
-        })
-        Create("UICorner", { Parent = TabButton, CornerRadius = UDim.new(0, 8) })
+    local BottomInfo = Instance.new("TextLabel")
+    BottomInfo.Name = "BottomInfo"
+    BottomInfo.Parent = BottomBar
+    BottomInfo.BackgroundTransparency = 1
+    BottomInfo.Position = UDim2.new(0, 15, 0, 0)
+    BottomInfo.Size = UDim2.new(1, -30, 1, 0)
+    BottomInfo.Font = LiquidGlassUI.Theme.FontMain
+    BottomInfo.Text = BottomText
+    BottomInfo.TextColor3 = LiquidGlassUI.Theme.SubTextColor
+    BottomInfo.TextSize = 13
+    BottomInfo.TextXAlignment = Enum.TextXAlignment.Left
 
-        local TabBtnTitle = Create("TextLabel", {
-            Parent = TabButton,
-            BackgroundTransparency = 1,
-            Position = UDim2.new(0, 15, 0, 0),
-            Size = UDim2.new(1, -15, 1, 0),
-            Text = TabName,
-            Font = Library.Settings.Font,
-            TextColor3 = Library.Settings.Theme.TextDark,
-            TextSize = Library.Settings.TextSizeNormal,
-            TextXAlignment = Enum.TextXAlignment.Left
-        })
-        
-        -- 内容容器
-        local TabContent = Create("ScrollingFrame", {
-            Parent = ContentArea,
-            Name = TabName .. "_Content",
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 1, 0),
-            CanvasSize = UDim2.new(0, 0, 0, 0),
-            ScrollBarThickness = 2,
-            ScrollBarImageColor3 = Library.Settings.Theme.Accent,
-            Visible = false
-        })
-        
-        Create("UIListLayout", {
-            Parent = TabContent,
-            Padding = UDim.new(0, 10),
-            SortOrder = Enum.SortOrder.LayoutOrder
-        })
-        Create("UIPadding", {
-            Parent = TabContent,
-            PaddingTop = UDim.new(0, 5),
-            PaddingLeft = UDim.new(0, 5),
-            PaddingRight = UDim.new(0, 5),
-            PaddingBottom = UDim.new(0, 10)
-        })
+    -- 侧边栏 (导航选项卡)
+    local Sidebar = Instance.new("Frame")
+    Sidebar.Name = "Sidebar"
+    Sidebar.Parent = MainFrame
+    Sidebar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Sidebar.BackgroundTransparency = 0.8
+    Sidebar.Position = UDim2.new(0, 0, 0, 51)
+    Sidebar.Size = UDim2.new(0, 180, 1, -81)
 
-        -- 切换逻辑
-        local function Activate()
-            -- 重置所有Tab
-            for _, v in pairs(TabContainer:GetChildren()) do
-                if v:IsA("TextButton") then
-                    Tween(v, TweenInfo.new(0.3), {BackgroundTransparency = 1})
-                    Tween(v.TextLabel, TweenInfo.new(0.3), {TextColor3 = Library.Settings.Theme.TextDark})
-                end
+    local SidebarCorner = Instance.new("UICorner")
+    SidebarCorner.CornerRadius = UDim.new(0, 0) -- 直角或可以自定义
+    SidebarCorner.Parent = Sidebar
+
+    local SidebarLayout = Instance.new("UIListLayout")
+    SidebarLayout.Parent = Sidebar
+    SidebarLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    SidebarLayout.Padding = UDim.new(0, 5)
+    SidebarLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+    local SidebarPadding = Instance.new("UIPadding")
+    SidebarPadding.Parent = Sidebar
+    SidebarPadding.PaddingTop = UDim.new(0, 15)
+
+    local SidebarDivider = Instance.new("Frame")
+    SidebarDivider.Name = "SidebarDivider"
+    SidebarDivider.Parent = Sidebar
+    SidebarDivider.BackgroundColor3 = LiquidGlassUI.Theme.StrokeColor
+    SidebarDivider.BackgroundTransparency = 0.9
+    SidebarDivider.Position = UDim2.new(1, -1, 0, 0)
+    SidebarDivider.Size = UDim2.new(0, 1, 1, 0)
+
+    -- 内容容器 (Content Area)
+    local ContentContainer = Instance.new("Frame")
+    ContentContainer.Name = "ContentContainer"
+    ContentContainer.Parent = MainFrame
+    ContentContainer.BackgroundTransparency = 1
+    ContentContainer.Position = UDim2.new(0, 180, 0, 51)
+    ContentContainer.Size = UDim2.new(1, -180, 1, -81)
+
+    local WindowObj = {
+        MainFrame = MainFrame,
+        ContentContainer = ContentContainer,
+        Sidebar = Sidebar,
+        Tabs = {},
+        CurrentTab = nil
+    }
+
+    --=============================================================================
+    -- UI组件库：创建选项卡 (Tab)
+    --=============================================================================
+
+    function WindowObj:CreateTab(tabOptions)
+        tabOptions = tabOptions or {}
+        local TabTitle = tabOptions.Title or "新标签页"
+        local TabIcon = tabOptions.Icon or "rbxassetid://10888331510"
+
+        -- 导航按钮
+        local TabButton = Instance.new("TextButton")
+        TabButton.Name = "Tab_" .. TabTitle
+        TabButton.Parent = Sidebar
+        TabButton.BackgroundColor3 = LiquidGlassUI.Theme.AccentColor
+        TabButton.BackgroundTransparency = 1
+        TabButton.Size = UDim2.new(1, -20, 0, 40)
+        TabButton.Font = LiquidGlassUI.Theme.FontBold
+        TabButton.Text = ""
+        TabButton.AutoButtonColor = false
+
+        local TabBtnCorner = Instance.new("UICorner")
+        TabBtnCorner.CornerRadius = UDim.new(0, 10)
+        TabBtnCorner.Parent = TabButton
+
+        local TabBtnIcon = Instance.new("ImageLabel")
+        TabBtnIcon.Name = "Icon"
+        TabBtnIcon.Parent = TabButton
+        TabBtnIcon.BackgroundTransparency = 1
+        TabBtnIcon.Position = UDim2.new(0, 15, 0.5, -10)
+        TabBtnIcon.Size = UDim2.new(0, 20, 0, 20)
+        TabBtnIcon.Image = TabIcon
+        TabBtnIcon.ImageColor3 = LiquidGlassUI.Theme.SubTextColor
+
+        local TabBtnText = Instance.new("TextLabel")
+        TabBtnText.Name = "Title"
+        TabBtnText.Parent = TabButton
+        TabBtnText.BackgroundTransparency = 1
+        TabBtnText.Position = UDim2.new(0, 45, 0, 0)
+        TabBtnText.Size = UDim2.new(1, -50, 1, 0)
+        TabBtnText.Font = LiquidGlassUI.Theme.FontBold
+        TabBtnText.Text = TabTitle
+        TabBtnText.TextColor3 = LiquidGlassUI.Theme.SubTextColor
+        TabBtnText.TextSize = 15
+        TabBtnText.TextXAlignment = Enum.TextXAlignment.Left
+
+        -- 内容页面 (ScrollingFrame)
+        local TabPage = Instance.new("ScrollingFrame")
+        TabPage.Name = "Page_" .. TabTitle
+        TabPage.Parent = ContentContainer
+        TabPage.BackgroundTransparency = 1
+        TabPage.Size = UDim2.new(1, 0, 1, 0)
+        TabPage.ScrollBarThickness = 4
+        TabPage.ScrollBarImageColor3 = LiquidGlassUI.Theme.AccentColor
+        TabPage.Visible = false
+        TabPage.BorderSizePixel = 0
+        TabPage.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+        local PageLayout = Instance.new("UIListLayout")
+        PageLayout.Parent = TabPage
+        PageLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        PageLayout.Padding = UDim.new(0, 10)
+        PageLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+        local PagePadding = Instance.new("UIPadding")
+        PagePadding.Parent = TabPage
+        PagePadding.PaddingTop = UDim.new(0, 15)
+        PagePadding.PaddingBottom = UDim.new(0, 15)
+
+        PageLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+            TabPage.CanvasSize = UDim2.new(0, 0, 0, PageLayout.AbsoluteContentSize.Y + 30)
+        end)
+
+        -- 标签切换逻辑
+        local function ActivateTab()
+            if WindowObj.CurrentTab then
+                WindowObj.CurrentTab.Page.Visible = false
+                CreateTween(WindowObj.CurrentTab.Button, {BackgroundTransparency = 1})
+                CreateTween(WindowObj.CurrentTab.Icon, {ImageColor3 = LiquidGlassUI.Theme.SubTextColor})
+                CreateTween(WindowObj.CurrentTab.Text, {TextColor3 = LiquidGlassUI.Theme.SubTextColor})
             end
-            for _, v in pairs(ContentArea:GetChildren()) do
-                if v:IsA("ScrollingFrame") then v.Visible = false end
-            end
-
-            -- 激活当前
-            TabContent.Visible = true
-            Tween(TabButton, TweenInfo.new(0.3), {BackgroundTransparency = 0.8, BackgroundColor3 = Library.Settings.Theme.Accent})
-            Tween(TabBtnTitle, TweenInfo.new(0.3), {TextColor3 = Library.Settings.Theme.Text})
-        end
-
-        TabButton.MouseButton1Click:Connect(Activate)
-
-        if FirstTab then
-            FirstTab = false
-            Activate()
-        end
-
-        -- Tab对象，包含组件
-        local TabObj = {}
-
-        --// 1. Label/Section 组件
-        function TabObj:Section(Config)
-            local SectionTitle = Config.Title or "Section"
-            local SectionFrame = Create("Frame", {
-                Parent = TabContent,
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 30)
-            })
             
-            Create("TextLabel", {
-                Parent = SectionFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 5, 0, 0),
-                Size = UDim2.new(1, -10, 1, 0),
-                Text = SectionTitle,
-                Font = Library.Settings.Font,
-                TextColor3 = Library.Settings.Theme.Accent,
-                TextSize = Library.Settings.TextSizeSmall,
-                TextXAlignment = Enum.TextXAlignment.Left
-            })
+            TabPage.Visible = true
+            CreateTween(TabButton, {BackgroundTransparency = 0.8})
+            CreateTween(TabBtnIcon, {ImageColor3 = LiquidGlassUI.Theme.AccentColor})
+            CreateTween(TabBtnText, {TextColor3 = LiquidGlassUI.Theme.TextColor})
+            
+            -- 加入切换动画
+            TabPage.Position = UDim2.new(0, 20, 0, 0)
+            TabPage.CanvasPosition = Vector2.new(0, 0)
+            CreateTween(TabPage, {Position = UDim2.new(0, 0, 0, 0)}, 0.4)
+            
+            WindowObj.CurrentTab = {Page = TabPage, Button = TabButton, Icon = TabBtnIcon, Text = TabBtnText}
         end
 
-        --// 2. Button 组件
-        function TabObj:Button(Config)
-            local Title = Config.Title or "Button"
-            local Desc = Config.Desc or ""
-            local Callback = Config.Callback or function() end
-            local Locked = Config.Locked or false
+        TabButton.MouseButton1Click:Connect(ActivateTab)
+        
+        -- 默认选中第一个
+        if #WindowObj.Tabs == 0 then
+            ActivateTab()
+        end
+        
+        table.insert(WindowObj.Tabs, TabPage)
 
-            local ButtonFrame = Create("TextButton", {
-                Parent = TabContent,
-                BackgroundColor3 = Library.Settings.Theme.Secondary,
-                BackgroundTransparency = 0.5,
-                Size = UDim2.new(1, 0, 0, 45),
-                Text = "",
-                AutoButtonColor = false
-            })
-            Create("UICorner", { Parent = ButtonFrame, CornerRadius = UDim.new(0, 10) })
-            Create("UIStroke", { Parent = ButtonFrame, Color = Library.Settings.Theme.Stroke, Thickness = 1, Transparency = 0.6 })
+        local TabObj = {
+            Page = TabPage
+        }
 
-            local BtnTitle = Create("TextLabel", {
-                Parent = ButtonFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 15, 0, 0),
-                Size = UDim2.new(1, -40, 1, 0),
-                Text = Title,
-                Font = Library.Settings.Font,
-                TextColor3 = Library.Settings.Theme.Text,
-                TextSize = Library.Settings.TextSizeNormal,
-                TextXAlignment = Enum.TextXAlignment.Left
-            })
+        --=============================================================================
+        -- UI组件：按钮 (Button)
+        --=============================================================================
+        function TabObj:CreateButton(btnOptions)
+            btnOptions = btnOptions or {}
+            local BtnTitle = btnOptions.Title or "按钮组件"
+            local BtnDesc = btnOptions.Desc or ""
+            local BtnIcon = btnOptions.Icon or "rbxassetid://10888331510"
+            local BtnLocked = btnOptions.Locked or false
+            local Callback = btnOptions.Callback or function() end
 
-            local Icon = Create("ImageLabel", {
-                Parent = ButtonFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(1, -30, 0.5, -10),
-                Size = UDim2.new(0, 20, 0, 20),
-                Image = "rbxassetid://10709791437", -- 鼠标点击图标
-                ImageColor3 = Library.Settings.Theme.TextDark
-            })
+            local ButtonFrame = Instance.new("TextButton")
+            ButtonFrame.Name = "Button_" .. BtnTitle
+            ButtonFrame.Parent = TabPage
+            ButtonFrame.BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground
+            ButtonFrame.BackgroundTransparency = LiquidGlassUI.Theme.ElementTransparency
+            ButtonFrame.Size = UDim2.new(1, -30, 0, 50)
+            ButtonFrame.AutoButtonColor = false
+            ButtonFrame.Text = ""
+            ButtonFrame.ClipsDescendants = true
 
-            if Desc ~= "" then
-                BtnTitle.Position = UDim2.new(0, 15, 0, 5)
-                BtnTitle.Size = UDim2.new(1, -40, 0, 20)
-                Create("TextLabel", {
-                    Parent = ButtonFrame,
-                    BackgroundTransparency = 1,
-                    Position = UDim2.new(0, 15, 0, 25),
-                    Size = UDim2.new(1, -40, 0, 15),
-                    Text = Desc,
-                    Font = Enum.Font.GothamMedium,
-                    TextColor3 = Library.Settings.Theme.TextDark,
-                    TextSize = 12,
-                    TextXAlignment = Enum.TextXAlignment.Left
-                })
+            local BtnCorner = Instance.new("UICorner")
+            BtnCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            BtnCorner.Parent = ButtonFrame
+
+            local BtnStroke = Instance.new("UIStroke")
+            BtnStroke.Color = LiquidGlassUI.Theme.StrokeColor
+            BtnStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+            BtnStroke.Thickness = 1
+            BtnStroke.Parent = ButtonFrame
+
+            local TitleLbl = Instance.new("TextLabel")
+            TitleLbl.Parent = ButtonFrame
+            TitleLbl.BackgroundTransparency = 1
+            TitleLbl.Position = UDim2.new(0, 15, 0, BtnDesc == "" and 0 or 8)
+            TitleLbl.Size = UDim2.new(1, -50, BtnDesc == "" and 1 or 0, BtnDesc == "" and 0 or 18)
+            TitleLbl.Font = LiquidGlassUI.Theme.FontBold
+            TitleLbl.Text = BtnTitle
+            TitleLbl.TextColor3 = LiquidGlassUI.Theme.TextColor
+            TitleLbl.TextSize = 16
+            TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+
+            if BtnDesc ~= "" then
+                local DescLbl = Instance.new("TextLabel")
+                DescLbl.Parent = ButtonFrame
+                DescLbl.BackgroundTransparency = 1
+                DescLbl.Position = UDim2.new(0, 15, 0, 26)
+                DescLbl.Size = UDim2.new(1, -50, 0, 16)
+                DescLbl.Font = LiquidGlassUI.Theme.FontMain
+                DescLbl.Text = BtnDesc
+                DescLbl.TextColor3 = LiquidGlassUI.Theme.SubTextColor
+                DescLbl.TextSize = 13
+                DescLbl.TextXAlignment = Enum.TextXAlignment.Left
             end
 
-            -- 交互
+            local ActionIcon = Instance.new("ImageLabel")
+            ActionIcon.Parent = ButtonFrame
+            ActionIcon.BackgroundTransparency = 1
+            ActionIcon.Position = UDim2.new(1, -35, 0.5, -10)
+            ActionIcon.Size = UDim2.new(0, 20, 0, 20)
+            ActionIcon.Image = BtnLocked and "rbxassetid://10888331510" or "rbxassetid://10888331510" -- Lock/Click icon
+            ActionIcon.ImageColor3 = LiquidGlassUI.Theme.SubTextColor
+
+            -- 交互动画
             ButtonFrame.MouseEnter:Connect(function()
-                if Locked then return end
-                Tween(ButtonFrame, TweenInfo.new(0.3), {BackgroundColor3 = Color3.fromRGB(45, 45, 55)})
-                Tween(Icon, TweenInfo.new(0.3), {ImageColor3 = Library.Settings.Theme.Accent})
+                if not BtnLocked then
+                    CreateTween(ButtonFrame, {BackgroundColor3 = LiquidGlassUI.Theme.HoverBackground})
+                    CreateTween(ActionIcon, {Position = UDim2.new(1, -30, 0.5, -10), ImageColor3 = LiquidGlassUI.Theme.AccentColor})
+                end
             end)
 
             ButtonFrame.MouseLeave:Connect(function()
-                if Locked then return end
-                Tween(ButtonFrame, TweenInfo.new(0.3), {BackgroundColor3 = Library.Settings.Theme.Secondary})
-                Tween(Icon, TweenInfo.new(0.3), {ImageColor3 = Library.Settings.Theme.TextDark})
+                if not BtnLocked then
+                    CreateTween(ButtonFrame, {BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground})
+                    CreateTween(ActionIcon, {Position = UDim2.new(1, -35, 0.5, -10), ImageColor3 = LiquidGlassUI.Theme.SubTextColor})
+                end
+            end)
+
+            ButtonFrame.MouseButton1Down:Connect(function()
+                if not BtnLocked then
+                    CreateTween(ButtonFrame, {Size = UDim2.new(1, -36, 0, 46)})
+                end
+            end)
+
+            ButtonFrame.MouseButton1Up:Connect(function()
+                if not BtnLocked then
+                    CreateTween(ButtonFrame, {Size = UDim2.new(1, -30, 0, 50)})
+                end
             end)
 
             ButtonFrame.MouseButton1Click:Connect(function()
-                if Locked then return end
-                CreateRipple(ButtonFrame)
-                Tween(ButtonFrame, TweenInfo.new(0.1), {Size = UDim2.new(1, -4, 0, 41)})
-                wait(0.1)
-                Tween(ButtonFrame, TweenInfo.new(0.1), {Size = UDim2.new(1, 0, 0, 45)})
-                Callback()
+                if not BtnLocked then
+                    CreateRipple(ButtonFrame, Mouse.X - ButtonFrame.AbsolutePosition.X, Mouse.Y - ButtonFrame.AbsolutePosition.Y)
+                    pcall(Callback)
+                end
             end)
         end
 
-        --// 3. Toggle 组件
-        function TabObj:Toggle(Config)
-            local Title = Config.Title or "Toggle"
-            local Default = Config.Default or false
-            local Callback = Config.Callback or function() end
-            
+        --=============================================================================
+        -- UI组件：开关 (Toggle)
+        --=============================================================================
+        function TabObj:CreateToggle(tglOptions)
+            tglOptions = tglOptions or {}
+            local TglTitle = tglOptions.Title or "开关组件"
+            local TglDesc = tglOptions.Desc or ""
+            local Default = tglOptions.Default or false
+            local Callback = tglOptions.Callback or function() end
+
             local State = Default
 
-            local ToggleFrame = Create("TextButton", {
-                Parent = TabContent,
-                BackgroundColor3 = Library.Settings.Theme.Secondary,
-                BackgroundTransparency = 0.5,
-                Size = UDim2.new(1, 0, 0, 40),
-                Text = "",
-                AutoButtonColor = false
-            })
-            Create("UICorner", { Parent = ToggleFrame, CornerRadius = UDim.new(0, 10) })
-            Create("UIStroke", { Parent = ToggleFrame, Color = Library.Settings.Theme.Stroke, Thickness = 1, Transparency = 0.6 })
+            local ToggleFrame = Instance.new("TextButton")
+            ToggleFrame.Name = "Toggle_" .. TglTitle
+            ToggleFrame.Parent = TabPage
+            ToggleFrame.BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground
+            ToggleFrame.BackgroundTransparency = LiquidGlassUI.Theme.ElementTransparency
+            ToggleFrame.Size = UDim2.new(1, -30, 0, 50)
+            ToggleFrame.AutoButtonColor = false
+            ToggleFrame.Text = ""
 
-            Create("TextLabel", {
-                Parent = ToggleFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 15, 0, 0),
-                Size = UDim2.new(1, -70, 1, 0),
-                Text = Title,
-                Font = Library.Settings.Font,
-                TextColor3 = Library.Settings.Theme.Text,
-                TextSize = Library.Settings.TextSizeNormal,
-                TextXAlignment = Enum.TextXAlignment.Left
-            })
+            local TglCorner = Instance.new("UICorner")
+            TglCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            TglCorner.Parent = ToggleFrame
 
-            -- 开关背景槽
-            local SwitchBg = Create("Frame", {
-                Parent = ToggleFrame,
-                BackgroundColor3 = State and Library.Settings.Theme.Accent or Color3.fromRGB(60, 60, 70),
-                Position = UDim2.new(1, -50, 0.5, -10),
-                Size = UDim2.new(0, 40, 0, 20)
-            })
-            Create("UICorner", { Parent = SwitchBg, CornerRadius = UDim.new(1, 0) })
+            local TglStroke = Instance.new("UIStroke")
+            TglStroke.Color = LiquidGlassUI.Theme.StrokeColor
+            TglStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+            TglStroke.Thickness = 1
+            TglStroke.Parent = ToggleFrame
 
-            -- 开关圆点
-            local SwitchDot = Create("Frame", {
-                Parent = SwitchBg,
-                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                Position = State and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8),
-                Size = UDim2.new(0, 16, 0, 16)
-            })
-            Create("UICorner", { Parent = SwitchDot, CornerRadius = UDim.new(1, 0) })
+            local TitleLbl = Instance.new("TextLabel")
+            TitleLbl.Parent = ToggleFrame
+            TitleLbl.BackgroundTransparency = 1
+            TitleLbl.Position = UDim2.new(0, 15, 0, TglDesc == "" and 0 or 8)
+            TitleLbl.Size = UDim2.new(1, -90, TglDesc == "" and 1 or 0, TglDesc == "" and 0 or 18)
+            TitleLbl.Font = LiquidGlassUI.Theme.FontBold
+            TitleLbl.Text = TglTitle
+            TitleLbl.TextColor3 = LiquidGlassUI.Theme.TextColor
+            TitleLbl.TextSize = 16
+            TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+
+            if TglDesc ~= "" then
+                local DescLbl = Instance.new("TextLabel")
+                DescLbl.Parent = ToggleFrame
+                DescLbl.BackgroundTransparency = 1
+                DescLbl.Position = UDim2.new(0, 15, 0, 26)
+                DescLbl.Size = UDim2.new(1, -90, 0, 16)
+                DescLbl.Font = LiquidGlassUI.Theme.FontMain
+                DescLbl.Text = TglDesc
+                DescLbl.TextColor3 = LiquidGlassUI.Theme.SubTextColor
+                DescLbl.TextSize = 13
+                DescLbl.TextXAlignment = Enum.TextXAlignment.Left
+            end
+
+            -- 开关视觉部分 (iOS Switch 风格)
+            local SwitchBg = Instance.new("Frame")
+            SwitchBg.Parent = ToggleFrame
+            SwitchBg.BackgroundColor3 = State and LiquidGlassUI.Theme.AccentColor or Color3.fromRGB(60, 60, 65)
+            SwitchBg.Position = UDim2.new(1, -60, 0.5, -12)
+            SwitchBg.Size = UDim2.new(0, 46, 0, 24)
+
+            local SwitchCorner = Instance.new("UICorner")
+            SwitchCorner.CornerRadius = UDim.new(1, 0)
+            SwitchCorner.Parent = SwitchBg
+
+            local SwitchCircle = Instance.new("Frame")
+            SwitchCircle.Parent = SwitchBg
+            SwitchCircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SwitchCircle.Position = State and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
+            SwitchCircle.Size = UDim2.new(0, 20, 0, 20)
+
+            local CircleCorner = Instance.new("UICorner")
+            CircleCorner.CornerRadius = UDim.new(1, 0)
+            CircleCorner.Parent = SwitchCircle
+
+            local CircleShadow = Instance.new("UIStroke")
+            CircleShadow.Color = Color3.fromRGB(0,0,0)
+            CircleShadow.Transparency = 0.8
+            CircleShadow.Thickness = 1
+            CircleShadow.Parent = SwitchCircle
 
             local function UpdateToggle()
-                local TargetPos = State and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)
-                local TargetColor = State and Library.Settings.Theme.Accent or Color3.fromRGB(60, 60, 70)
-                
-                Tween(SwitchDot, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Position = TargetPos})
-                Tween(SwitchBg, TweenInfo.new(0.3), {BackgroundColor3 = TargetColor})
-                Callback(State)
+                if State then
+                    CreateTween(SwitchBg, {BackgroundColor3 = LiquidGlassUI.Theme.AccentColor})
+                    CreateTween(SwitchCircle, {Position = UDim2.new(1, -22, 0.5, -10)})
+                else
+                    CreateTween(SwitchBg, {BackgroundColor3 = Color3.fromRGB(60, 60, 65)})
+                    CreateTween(SwitchCircle, {Position = UDim2.new(0, 2, 0.5, -10)})
+                end
             end
 
             ToggleFrame.MouseButton1Click:Connect(function()
                 State = not State
                 UpdateToggle()
+                pcall(Callback, State)
             end)
             
-            -- 初始化调用一次
-            if Default then Callback(State) end
+            pcall(Callback, State)
         end
 
-        --// 4. Slider 组件
-        function TabObj:Slider(Config)
-            local Title = Config.Title or "Slider"
-            local Min = Config.Min or 0
-            local Max = Config.Max or 100
-            local Default = Config.Default or Min
-            local Callback = Config.Callback or function() end
-            
+        --=============================================================================
+        -- UI组件：滑块 (Slider)
+        --=============================================================================
+        function TabObj:CreateSlider(sldOptions)
+            sldOptions = sldOptions or {}
+            local SldTitle = sldOptions.Title or "滑块组件"
+            local SldDesc = sldOptions.Desc or ""
+            local Min = sldOptions.Min or 0
+            local Max = sldOptions.Max or 100
+            local Default = sldOptions.Default or Min
+            local Callback = sldOptions.Callback or function() end
+
             local Value = math.clamp(Default, Min, Max)
 
-            local SliderFrame = Create("Frame", {
-                Parent = TabContent,
-                BackgroundColor3 = Library.Settings.Theme.Secondary,
-                BackgroundTransparency = 0.5,
-                Size = UDim2.new(1, 0, 0, 60)
-            })
-            Create("UICorner", { Parent = SliderFrame, CornerRadius = UDim.new(0, 10) })
-            Create("UIStroke", { Parent = SliderFrame, Color = Library.Settings.Theme.Stroke, Thickness = 1, Transparency = 0.6 })
+            local SliderFrame = Instance.new("Frame")
+            SliderFrame.Name = "Slider_" .. SldTitle
+            SliderFrame.Parent = TabPage
+            SliderFrame.BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground
+            SliderFrame.BackgroundTransparency = LiquidGlassUI.Theme.ElementTransparency
+            SliderFrame.Size = UDim2.new(1, -30, 0, 65)
 
-            Create("TextLabel", {
-                Parent = SliderFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 15, 0, 10),
-                Size = UDim2.new(1, -30, 0, 20),
-                Text = Title,
-                Font = Library.Settings.Font,
-                TextColor3 = Library.Settings.Theme.Text,
-                TextSize = Library.Settings.TextSizeNormal,
-                TextXAlignment = Enum.TextXAlignment.Left
-            })
+            local SldCorner = Instance.new("UICorner")
+            SldCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            SldCorner.Parent = SliderFrame
 
-            local ValueLabel = Create("TextLabel", {
-                Parent = SliderFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(1, -65, 0, 10),
-                Size = UDim2.new(0, 50, 0, 20),
-                Text = tostring(Value),
-                Font = Enum.Font.GothamMedium,
-                TextColor3 = Library.Settings.Theme.TextDark,
-                TextSize = Library.Settings.TextSizeNormal,
-                TextXAlignment = Enum.TextXAlignment.Right
-            })
+            local SldStroke = Instance.new("UIStroke")
+            SldStroke.Color = LiquidGlassUI.Theme.StrokeColor
+            SldStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+            SldStroke.Thickness = 1
+            SldStroke.Parent = SliderFrame
 
-            local SliderBg = Create("Frame", {
-                Parent = SliderFrame,
-                BackgroundColor3 = Color3.fromRGB(60, 60, 70),
-                Position = UDim2.new(0, 15, 0, 40),
-                Size = UDim2.new(1, -30, 0, 6)
-            })
-            Create("UICorner", { Parent = SliderBg, CornerRadius = UDim.new(1, 0) })
+            local TitleLbl = Instance.new("TextLabel")
+            TitleLbl.Parent = SliderFrame
+            TitleLbl.BackgroundTransparency = 1
+            TitleLbl.Position = UDim2.new(0, 15, 0, 8)
+            TitleLbl.Size = UDim2.new(1, -80, 0, 18)
+            TitleLbl.Font = LiquidGlassUI.Theme.FontBold
+            TitleLbl.Text = SldTitle
+            TitleLbl.TextColor3 = LiquidGlassUI.Theme.TextColor
+            TitleLbl.TextSize = 16
+            TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
 
-            local SliderFill = Create("Frame", {
-                Parent = SliderBg,
-                BackgroundColor3 = Library.Settings.Theme.Accent,
-                Size = UDim2.new((Value - Min) / (Max - Min), 0, 1, 0)
-            })
-            Create("UICorner", { Parent = SliderFill, CornerRadius = UDim.new(1, 0) })
-
-            local SliderBtn = Create("TextButton", {
-                Parent = SliderBg,
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 1, 0),
-                Text = ""
-            })
-
-            local IsDragging = false
-
-            local function UpdateSlider(Input)
-                local SizeX = math.clamp((Input.Position.X - SliderBg.AbsolutePosition.X) / SliderBg.AbsoluteSize.X, 0, 1)
-                local NewValue = math.floor(Min + ((Max - Min) * SizeX))
-                
-                Tween(SliderFill, TweenInfo.new(0.1), {Size = UDim2.new(SizeX, 0, 1, 0)})
-                ValueLabel.Text = tostring(NewValue)
-                Callback(NewValue)
+            if SldDesc ~= "" then
+                local DescLbl = Instance.new("TextLabel")
+                DescLbl.Parent = SliderFrame
+                DescLbl.BackgroundTransparency = 1
+                DescLbl.Position = UDim2.new(0, 15, 0, 26)
+                DescLbl.Size = UDim2.new(1, -80, 0, 16)
+                DescLbl.Font = LiquidGlassUI.Theme.FontMain
+                DescLbl.Text = SldDesc
+                DescLbl.TextColor3 = LiquidGlassUI.Theme.SubTextColor
+                DescLbl.TextSize = 13
+                DescLbl.TextXAlignment = Enum.TextXAlignment.Left
             end
 
-            SliderBtn.InputBegan:Connect(function(Input)
-                if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-                    IsDragging = true
-                    UpdateSlider(Input)
+            local ValueBox = Instance.new("TextBox")
+            ValueBox.Parent = SliderFrame
+            ValueBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            ValueBox.BackgroundTransparency = 0.8
+            ValueBox.Position = UDim2.new(1, -65, 0, 10)
+            ValueBox.Size = UDim2.new(0, 50, 0, 24)
+            ValueBox.Font = LiquidGlassUI.Theme.FontBold
+            ValueBox.Text = tostring(Value)
+            ValueBox.TextColor3 = LiquidGlassUI.Theme.AccentColor
+            ValueBox.TextSize = 14
+
+            local ValCorner = Instance.new("UICorner")
+            ValCorner.CornerRadius = UDim.new(0, 6)
+            ValCorner.Parent = ValueBox
+
+            local SliderArea = Instance.new("TextButton")
+            SliderArea.Parent = SliderFrame
+            SliderArea.BackgroundTransparency = 1
+            SliderArea.Position = UDim2.new(0, 15, 1, -20)
+            SliderArea.Size = UDim2.new(1, -30, 0, 10)
+            SliderArea.Text = ""
+
+            local SliderBg = Instance.new("Frame")
+            SliderBg.Parent = SliderArea
+            SliderBg.BackgroundColor3 = Color3.fromRGB(60, 60, 65)
+            SliderBg.Size = UDim2.new(1, 0, 1, 0)
+            local BgCorner = Instance.new("UICorner")
+            BgCorner.CornerRadius = UDim.new(1, 0)
+            BgCorner.Parent = SliderBg
+
+            local SliderFill = Instance.new("Frame")
+            SliderFill.Parent = SliderBg
+            SliderFill.BackgroundColor3 = LiquidGlassUI.Theme.AccentColor
+            local percent = (Value - Min) / (Max - Min)
+            SliderFill.Size = UDim2.new(math.clamp(percent, 0, 1), 0, 1, 0)
+            local FillCorner = Instance.new("UICorner")
+            FillCorner.CornerRadius = UDim.new(1, 0)
+            FillCorner.Parent = SliderFill
+
+            local SliderKnob = Instance.new("Frame")
+            SliderKnob.Parent = SliderFill
+            SliderKnob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SliderKnob.Position = UDim2.new(1, -8, 0.5, -8)
+            SliderKnob.Size = UDim2.new(0, 16, 0, 16)
+            local KnobCorner = Instance.new("UICorner")
+            KnobCorner.CornerRadius = UDim.new(1, 0)
+            KnobCorner.Parent = SliderKnob
+
+            local dragging = false
+
+            local function UpdateSlider(input)
+                local pos = math.clamp((input.Position.X - SliderBg.AbsolutePosition.X) / SliderBg.AbsoluteSize.X, 0, 1)
+                Value = math.floor(Min + ((Max - Min) * pos))
+                ValueBox.Text = tostring(Value)
+                CreateTween(SliderFill, {Size = UDim2.new(pos, 0, 1, 0)}, 0.1)
+                pcall(Callback, Value)
+            end
+
+            SliderArea.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    dragging = true
+                    UpdateSlider(input)
+                    CreateTween(SliderKnob, {Size = UDim2.new(0, 20, 0, 20), Position = UDim2.new(1, -10, 0.5, -10)}, 0.2)
                 end
             end)
 
-            UserInputService.InputChanged:Connect(function(Input)
-                if IsDragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
-                    UpdateSlider(Input)
+            UserInputService.InputEnded:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    if dragging then
+                        dragging = false
+                        CreateTween(SliderKnob, {Size = UDim2.new(0, 16, 0, 16), Position = UDim2.new(1, -8, 0.5, -8)}, 0.2)
+                    end
                 end
             end)
 
-            UserInputService.InputEnded:Connect(function(Input)
-                if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-                    IsDragging = false
+            UserInputService.InputChanged:Connect(function(input)
+                if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+                    UpdateSlider(input)
                 end
             end)
-        end
 
-        --// 5. Textbox 组件
-        function TabObj:Textbox(Config)
-            local Title = Config.Title or "Textbox"
-            local Placeholder = Config.Placeholder or "Enter text..."
-            local Callback = Config.Callback or function() end
-
-            local TextboxFrame = Create("Frame", {
-                Parent = TabContent,
-                BackgroundColor3 = Library.Settings.Theme.Secondary,
-                BackgroundTransparency = 0.5,
-                Size = UDim2.new(1, 0, 0, 70)
-            })
-            Create("UICorner", { Parent = TextboxFrame, CornerRadius = UDim.new(0, 10) })
-            Create("UIStroke", { Parent = TextboxFrame, Color = Library.Settings.Theme.Stroke, Thickness = 1, Transparency = 0.6 })
-
-            Create("TextLabel", {
-                Parent = TextboxFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 15, 0, 10),
-                Size = UDim2.new(1, -30, 0, 20),
-                Text = Title,
-                Font = Library.Settings.Font,
-                TextColor3 = Library.Settings.Theme.Text,
-                TextSize = Library.Settings.TextSizeNormal,
-                TextXAlignment = Enum.TextXAlignment.Left
-            })
-
-            local InputBg = Create("Frame", {
-                Parent = TextboxFrame,
-                BackgroundColor3 = Color3.fromRGB(20, 20, 25),
-                Position = UDim2.new(0, 15, 0, 35),
-                Size = UDim2.new(1, -30, 0, 30)
-            })
-            Create("UICorner", { Parent = InputBg, CornerRadius = UDim.new(0, 6) })
+            ValueBox.FocusLost:Connect(function()
+                local num = tonumber(ValueBox.Text)
+                if num then
+                    Value = math.clamp(num, Min, Max)
+                    local pos = (Value - Min) / (Max - Min)
+                    ValueBox.Text = tostring(Value)
+                    CreateTween(SliderFill, {Size = UDim2.new(pos, 0, 1, 0)}, 0.3)
+                    pcall(Callback, Value)
+                else
+                    ValueBox.Text = tostring(Value)
+                end
+            end)
             
-            local InputBox = Create("TextBox", {
-                Parent = InputBg,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 10, 0, 0),
-                Size = UDim2.new(1, -20, 1, 0),
-                Font = Enum.Font.GothamMedium,
-                Text = "",
-                PlaceholderText = Placeholder,
-                TextColor3 = Library.Settings.Theme.Text,
-                PlaceholderColor3 = Color3.fromRGB(100, 100, 100),
-                TextSize = 14,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                ClearTextOnFocus = false
-            })
-
-            InputBox.FocusLost:Connect(function(Enter)
-                Callback(InputBox.Text)
-            end)
+            pcall(Callback, Value)
         end
 
-        --// 6. Dropdown 组件
-        function TabObj:Dropdown(Config)
-            local Title = Config.Title or "Dropdown"
-            local Options = Config.Options or {}
-            local Default = Config.Default or Options[1]
-            local Callback = Config.Callback or function() end
+        --=============================================================================
+        -- UI组件：下拉菜单 (Dropdown)
+        --=============================================================================
+        function TabObj:CreateDropdown(dpOptions)
+            dpOptions = dpOptions or {}
+            local DpTitle = dpOptions.Title or "下拉菜单"
+            local Options = dpOptions.Options or {}
+            local Callback = dpOptions.Callback or function() end
             
             local IsOpen = false
-            local CurrentOption = Default
+            local DropdownFrame = Instance.new("Frame")
+            DropdownFrame.Name = "Dropdown_" .. DpTitle
+            DropdownFrame.Parent = TabPage
+            DropdownFrame.BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground
+            DropdownFrame.BackgroundTransparency = LiquidGlassUI.Theme.ElementTransparency
+            DropdownFrame.Size = UDim2.new(1, -30, 0, 50)
+            DropdownFrame.ClipsDescendants = true
 
-            local DropdownFrame = Create("Frame", {
-                Parent = TabContent,
-                BackgroundColor3 = Library.Settings.Theme.Secondary,
-                BackgroundTransparency = 0.5,
-                Size = UDim2.new(1, 0, 0, 45), -- Default Height
-                ClipsDescendants = true
-            })
-            Create("UICorner", { Parent = DropdownFrame, CornerRadius = UDim.new(0, 10) })
-            local Stroke = Create("UIStroke", { Parent = DropdownFrame, Color = Library.Settings.Theme.Stroke, Thickness = 1, Transparency = 0.6 })
+            local DpCorner = Instance.new("UICorner")
+            DpCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            DpCorner.Parent = DropdownFrame
 
-            local ClickArea = Create("TextButton", {
-                Parent = DropdownFrame,
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 45),
-                Text = ""
-            })
+            local DpStroke = Instance.new("UIStroke")
+            DpStroke.Color = LiquidGlassUI.Theme.StrokeColor
+            DpStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+            DpStroke.Thickness = 1
+            DpStroke.Parent = DropdownFrame
 
-            Create("TextLabel", {
-                Parent = ClickArea,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 15, 0, 0),
-                Size = UDim2.new(1, -50, 1, 0),
-                Text = Title,
-                Font = Library.Settings.Font,
-                TextColor3 = Library.Settings.Theme.Text,
-                TextSize = Library.Settings.TextSizeNormal,
-                TextXAlignment = Enum.TextXAlignment.Left
-            })
+            local TopButton = Instance.new("TextButton")
+            TopButton.Parent = DropdownFrame
+            TopButton.BackgroundTransparency = 1
+            TopButton.Size = UDim2.new(1, 0, 0, 50)
+            TopButton.Text = ""
 
-            local StatusLabel = Create("TextLabel", {
-                Parent = ClickArea,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(1, -120, 0, 0),
-                Size = UDim2.new(0, 80, 1, 0),
-                Text = CurrentOption,
-                Font = Enum.Font.GothamMedium,
-                TextColor3 = Library.Settings.Theme.Accent,
-                TextSize = 13,
-                TextXAlignment = Enum.TextXAlignment.Right
-            })
+            local TitleLbl = Instance.new("TextLabel")
+            TitleLbl.Parent = TopButton
+            TitleLbl.BackgroundTransparency = 1
+            TitleLbl.Position = UDim2.new(0, 15, 0, 0)
+            TitleLbl.Size = UDim2.new(1, -50, 1, 0)
+            TitleLbl.Font = LiquidGlassUI.Theme.FontBold
+            TitleLbl.Text = DpTitle
+            TitleLbl.TextColor3 = LiquidGlassUI.Theme.TextColor
+            TitleLbl.TextSize = 16
+            TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
 
-            local Arrow = Create("ImageLabel", {
-                Parent = ClickArea,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(1, -30, 0.5, -8),
-                Size = UDim2.new(0, 16, 0, 16),
-                Image = "rbxassetid://6034818372", -- Down Arrow
-                ImageColor3 = Library.Settings.Theme.TextDark
-            })
+            local ArrowIcon = Instance.new("ImageLabel")
+            ArrowIcon.Parent = TopButton
+            ArrowIcon.BackgroundTransparency = 1
+            ArrowIcon.Position = UDim2.new(1, -30, 0.5, -8)
+            ArrowIcon.Size = UDim2.new(0, 16, 0, 16)
+            ArrowIcon.Image = "rbxassetid://10888331510" -- Replace with actual arrow ID
+            ArrowIcon.ImageColor3 = LiquidGlassUI.Theme.SubTextColor
+            ArrowIcon.Rotation = 90
 
-            local OptionContainer = Create("ScrollingFrame", {
-                Parent = DropdownFrame,
-                BackgroundTransparency = 1,
-                Position = UDim2.new(0, 10, 0, 50),
-                Size = UDim2.new(1, -20, 0, 0), -- Dynamic
-                CanvasSize = UDim2.new(0, 0, 0, 0),
-                ScrollBarThickness = 2,
-                AutomaticCanvasSize = Enum.AutomaticSize.Y
-            })
-            Create("UIListLayout", { Parent = OptionContainer, Padding = UDim.new(0, 5) })
+            local SelectedLbl = Instance.new("TextLabel")
+            SelectedLbl.Parent = TopButton
+            SelectedLbl.BackgroundTransparency = 1
+            SelectedLbl.Position = UDim2.new(1, -150, 0, 0)
+            SelectedLbl.Size = UDim2.new(0, 110, 1, 0)
+            SelectedLbl.Font = LiquidGlassUI.Theme.FontMain
+            SelectedLbl.Text = "请选择..."
+            SelectedLbl.TextColor3 = LiquidGlassUI.Theme.AccentColor
+            SelectedLbl.TextSize = 14
+            SelectedLbl.TextXAlignment = Enum.TextXAlignment.Right
 
-            local function RefreshOptions()
-                for _, v in pairs(OptionContainer:GetChildren()) do
+            local OptionsContainer = Instance.new("ScrollingFrame")
+            OptionsContainer.Parent = DropdownFrame
+            OptionsContainer.BackgroundTransparency = 1
+            OptionsContainer.Position = UDim2.new(0, 0, 0, 50)
+            OptionsContainer.Size = UDim2.new(1, 0, 1, -50)
+            OptionsContainer.ScrollBarThickness = 2
+            OptionsContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
+            OptionsContainer.BorderSizePixel = 0
+
+            local OptLayout = Instance.new("UIListLayout")
+            OptLayout.Parent = OptionsContainer
+            OptLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            
+            local function RefreshOptions(optList)
+                for _, v in pairs(OptionsContainer:GetChildren()) do
                     if v:IsA("TextButton") then v:Destroy() end
                 end
-
-                for _, opt in pairs(Options) do
-                    local OptBtn = Create("TextButton", {
-                        Parent = OptionContainer,
-                        BackgroundColor3 = Color3.fromRGB(40, 40, 50),
-                        Size = UDim2.new(1, 0, 0, 30),
-                        Text = opt,
-                        Font = Enum.Font.Gotham,
-                        TextColor3 = Library.Settings.Theme.TextDark,
-                        TextSize = 14,
-                        AutoButtonColor = false
-                    })
-                    Create("UICorner", { Parent = OptBtn, CornerRadius = UDim.new(0, 6) })
-
-                    OptBtn.MouseButton1Click:Connect(function()
-                        CurrentOption = opt
-                        StatusLabel.Text = opt
-                        Callback(opt)
-                        IsOpen = false
-                        Tween(DropdownFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, 45)})
-                        Tween(Arrow, TweenInfo.new(0.3), {Rotation = 0})
+                
+                local ySize = 0
+                for _, opt in pairs(optList) do
+                    local OptBtn = Instance.new("TextButton")
+                    OptBtn.Parent = OptionsContainer
+                    OptBtn.BackgroundColor3 = LiquidGlassUI.Theme.HoverBackground
+                    OptBtn.BackgroundTransparency = 1
+                    OptBtn.Size = UDim2.new(1, 0, 0, 35)
+                    OptBtn.Font = LiquidGlassUI.Theme.FontMain
+                    OptBtn.Text = "  " .. opt
+                    OptBtn.TextColor3 = LiquidGlassUI.Theme.SubTextColor
+                    OptBtn.TextSize = 14
+                    OptBtn.TextXAlignment = Enum.TextXAlignment.Left
+                    OptBtn.AutoButtonColor = false
+                    
+                    OptBtn.MouseEnter:Connect(function()
+                        CreateTween(OptBtn, {BackgroundTransparency = 0.5, TextColor3 = LiquidGlassUI.Theme.TextColor})
                     end)
+                    OptBtn.MouseLeave:Connect(function()
+                        CreateTween(OptBtn, {BackgroundTransparency = 1, TextColor3 = LiquidGlassUI.Theme.SubTextColor})
+                    end)
+                    
+                    OptBtn.MouseButton1Click:Connect(function()
+                        SelectedLbl.Text = opt
+                        IsOpen = false
+                        CreateTween(DropdownFrame, {Size = UDim2.new(1, -30, 0, 50)})
+                        CreateTween(ArrowIcon, {Rotation = 90})
+                        pcall(Callback, opt)
+                    end)
+                    ySize = ySize + 35
                 end
+                OptionsContainer.CanvasSize = UDim2.new(0, 0, 0, ySize)
             end
 
-            ClickArea.MouseButton1Click:Connect(function()
+            RefreshOptions(Options)
+
+            TopButton.MouseButton1Click:Connect(function()
                 IsOpen = not IsOpen
                 if IsOpen then
-                    RefreshOptions()
-                    local ListHeight = math.min(#Options * 35, 150)
-                    Tween(DropdownFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, 50 + ListHeight)})
-                    OptionContainer.Size = UDim2.new(1, -20, 0, ListHeight)
-                    Tween(Arrow, TweenInfo.new(0.3), {Rotation = 180})
+                    local targetHeight = math.clamp(50 + (#Options * 35), 50, 200)
+                    CreateTween(DropdownFrame, {Size = UDim2.new(1, -30, 0, targetHeight)})
+                    CreateTween(ArrowIcon, {Rotation = -90})
                 else
-                    Tween(DropdownFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, 45)})
-                    Tween(Arrow, TweenInfo.new(0.3), {Rotation = 0})
+                    CreateTween(DropdownFrame, {Size = UDim2.new(1, -30, 0, 50)})
+                    CreateTween(ArrowIcon, {Rotation = 90})
                 end
+            end)
+        end
+
+        --=============================================================================
+        -- UI组件：输入框 (Textbox)
+        --=============================================================================
+        function TabObj:CreateTextbox(tbOptions)
+            tbOptions = tbOptions or {}
+            local TbTitle = tbOptions.Title or "输入框"
+            local Placeholder = tbOptions.Placeholder or "在此输入文本..."
+            local ClearOnFocus = tbOptions.ClearOnFocus or false
+            local Callback = tbOptions.Callback or function() end
+
+            local TextboxFrame = Instance.new("Frame")
+            TextboxFrame.Name = "Textbox_" .. TbTitle
+            TextboxFrame.Parent = TabPage
+            TextboxFrame.BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground
+            TextboxFrame.BackgroundTransparency = LiquidGlassUI.Theme.ElementTransparency
+            TextboxFrame.Size = UDim2.new(1, -30, 0, 50)
+
+            local TbCorner = Instance.new("UICorner")
+            TbCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            TbCorner.Parent = TextboxFrame
+
+            local TbStroke = Instance.new("UIStroke")
+            TbStroke.Color = LiquidGlassUI.Theme.StrokeColor
+            TbStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+            TbStroke.Thickness = 1
+            TbStroke.Parent = TextboxFrame
+
+            local TitleLbl = Instance.new("TextLabel")
+            TitleLbl.Parent = TextboxFrame
+            TitleLbl.BackgroundTransparency = 1
+            TitleLbl.Position = UDim2.new(0, 15, 0, 0)
+            TitleLbl.Size = UDim2.new(0, 150, 1, 0)
+            TitleLbl.Font = LiquidGlassUI.Theme.FontBold
+            TitleLbl.Text = TbTitle
+            TitleLbl.TextColor3 = LiquidGlassUI.Theme.TextColor
+            TitleLbl.TextSize = 16
+            TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+
+            local InputBox = Instance.new("TextBox")
+            InputBox.Parent = TextboxFrame
+            InputBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            InputBox.BackgroundTransparency = 0.7
+            InputBox.Position = UDim2.new(1, -215, 0.5, -15)
+            InputBox.Size = UDim2.new(0, 200, 0, 30)
+            InputBox.Font = LiquidGlassUI.Theme.FontMain
+            InputBox.PlaceholderText = Placeholder
+            InputBox.Text = ""
+            InputBox.TextColor3 = LiquidGlassUI.Theme.TextColor
+            InputBox.TextSize = 14
+            InputBox.ClearTextOnFocus = ClearOnFocus
+
+            local InputCorner = Instance.new("UICorner")
+            InputCorner.CornerRadius = UDim.new(0, 8)
+            InputCorner.Parent = InputBox
+
+            InputBox.FocusLost:Connect(function(enterPressed)
+                if enterPressed then
+                    pcall(Callback, InputBox.Text)
+                end
+            end)
+        end
+
+        --=============================================================================
+        -- UI组件：标签 (Label)
+        --=============================================================================
+        function TabObj:CreateLabel(lblOptions)
+            lblOptions = lblOptions or {}
+            local Text = lblOptions.Text or "提示文本"
+            
+            local LabelFrame = Instance.new("Frame")
+            LabelFrame.Name = "Label_" .. Text
+            LabelFrame.Parent = TabPage
+            LabelFrame.BackgroundColor3 = Color3.fromRGB(0,0,0)
+            LabelFrame.BackgroundTransparency = 0.8
+            LabelFrame.Size = UDim2.new(1, -30, 0, 40)
+
+            local LblCorner = Instance.new("UICorner")
+            LblCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            LblCorner.Parent = LabelFrame
+
+            local TheLabel = Instance.new("TextLabel")
+            TheLabel.Parent = LabelFrame
+            TheLabel.BackgroundTransparency = 1
+            TheLabel.Position = UDim2.new(0, 15, 0, 0)
+            TheLabel.Size = UDim2.new(1, -30, 1, 0)
+            TheLabel.Font = LiquidGlassUI.Theme.FontMain
+            TheLabel.Text = Text
+            TheLabel.TextColor3 = LiquidGlassUI.Theme.AccentColor
+            TheLabel.TextSize = 15
+            TheLabel.TextXAlignment = Enum.TextXAlignment.Left
+        end
+        
+        --=============================================================================
+        -- UI组件：颜色选择器 (ColorPicker)
+        --=============================================================================
+        function TabObj:CreateColorPicker(cpOptions)
+            cpOptions = cpOptions or {}
+            local CpTitle = cpOptions.Title or "颜色选择器"
+            local Default = cpOptions.Default or Color3.fromRGB(255, 255, 255)
+            local Callback = cpOptions.Callback or function() end
+
+            local CpFrame = Instance.new("Frame")
+            CpFrame.Name = "ColorPicker_" .. CpTitle
+            CpFrame.Parent = TabPage
+            CpFrame.BackgroundColor3 = LiquidGlassUI.Theme.ElementBackground
+            CpFrame.BackgroundTransparency = LiquidGlassUI.Theme.ElementTransparency
+            CpFrame.Size = UDim2.new(1, -30, 0, 50)
+
+            local CpCorner = Instance.new("UICorner")
+            CpCorner.CornerRadius = LiquidGlassUI.Theme.CornerRadius
+            CpCorner.Parent = CpFrame
+
+            local CpStroke = Instance.new("UIStroke")
+            CpStroke.Color = LiquidGlassUI.Theme.StrokeColor
+            CpStroke.Transparency = LiquidGlassUI.Theme.StrokeTransparency
+            CpStroke.Thickness = 1
+            CpStroke.Parent = CpFrame
+
+            local TitleLbl = Instance.new("TextLabel")
+            TitleLbl.Parent = CpFrame
+            TitleLbl.BackgroundTransparency = 1
+            TitleLbl.Position = UDim2.new(0, 15, 0, 0)
+            TitleLbl.Size = UDim2.new(0, 200, 1, 0)
+            TitleLbl.Font = LiquidGlassUI.Theme.FontBold
+            TitleLbl.Text = CpTitle
+            TitleLbl.TextColor3 = LiquidGlassUI.Theme.TextColor
+            TitleLbl.TextSize = 16
+            TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
+
+            local ColorDisplay = Instance.new("TextButton")
+            ColorDisplay.Parent = CpFrame
+            ColorDisplay.BackgroundColor3 = Default
+            ColorDisplay.Position = UDim2.new(1, -55, 0.5, -15)
+            ColorDisplay.Size = UDim2.new(0, 40, 0, 30)
+            ColorDisplay.Text = ""
+
+            local DisplayCorner = Instance.new("UICorner")
+            DisplayCorner.CornerRadius = UDim.new(0, 8)
+            DisplayCorner.Parent = ColorDisplay
+            
+            local DisplayStroke = Instance.new("UIStroke")
+            DisplayStroke.Color = Color3.fromRGB(255,255,255)
+            DisplayStroke.Transparency = 0.5
+            DisplayStroke.Parent = ColorDisplay
+
+            ColorDisplay.MouseButton1Click:Connect(function()
+                -- 简易版交互，实际通常展开面板
+                local rColor = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
+                CreateTween(ColorDisplay, {BackgroundColor3 = rColor})
+                pcall(Callback, rColor)
             end)
         end
 
         return TabObj
     end
 
-    return Window
+    return WindowObj
 end
-
-print("LiquidGlass UI Library Loaded Successfully!")
