@@ -1649,8 +1649,7 @@ end
                 return Slider
             end
             
--- Dropdown (升级版：带搜索 + 滚动条)
-            function Section:CreateDropdown(opts)
+function Section:CreateDropdown(opts)
                 opts = opts or {}
                 local name = opts.Name or "Dropdown"
                 local id = opts.Flag or name
@@ -1659,6 +1658,7 @@ end
                 local multiSelect = opts.MultiSelect or false
                 local callback = opts.Callback or function() end
                 
+                -- 读取配置
                 if Window.ConfigData.Elements and Window.ConfigData.Elements[id] ~= nil then
                     default = Window.ConfigData.Elements[id]
                 end
@@ -1670,7 +1670,7 @@ end
                 }
                 Window.Elements[id] = Dropdown
                 
-                -- 主框架
+                -- 主容器 Frame
                 local Frame = Utility:Create("Frame", {
                     Name = name .. "Dropdown",
                     Parent = SectionFrame,
@@ -1683,6 +1683,7 @@ end
                     Utility:Create("UIStroke", { Color = theme.Border, Transparency = theme.BorderTransparency + 0.2, Thickness = 1 })
                 })
                 
+                -- 头部点击区域
                 local Header = Utility:Create("TextButton", {
                     Name = "Header",
                     Parent = Frame,
@@ -1692,6 +1693,7 @@ end
                     AutoButtonColor = false
                 })
                 
+                -- 标题 Label
                 local Label = Utility:Create("TextLabel", {
                     Name = "Label",
                     Parent = Header,
@@ -1705,6 +1707,7 @@ end
                     TextXAlignment = Enum.TextXAlignment.Left
                 })
                 
+                -- 获取显示文本的辅助函数
                 local function GetDisplayText()
                     if multiSelect then
                         if #Dropdown.Value == 0 then return "None"
@@ -1715,6 +1718,7 @@ end
                     end
                 end
                 
+                -- 当前选中项显示
                 local Selected = Utility:Create("TextLabel", {
                     Name = "Selected",
                     Parent = Header,
@@ -1729,6 +1733,7 @@ end
                     TextTruncate = Enum.TextTruncate.AtEnd
                 })
                 
+                -- 箭头图标
                 local Arrow = Utility:Create("TextLabel", {
                     Name = "Arrow",
                     Parent = Header,
@@ -1742,7 +1747,7 @@ end
                     Rotation = 0
                 })
                 
-                -- [新增] 搜索栏
+                -- 搜索框 (新增)
                 local SearchBar = Utility:Create("TextBox", {
                     Name = "SearchBar",
                     Parent = Frame,
@@ -1756,18 +1761,18 @@ end
                     Text = "",
                     TextColor3 = theme.Text,
                     TextSize = 13,
-                    Visible = false -- 默认隐藏
+                    Visible = false
                 }, {
                     Utility:Create("UICorner", { CornerRadius = UDim.new(0, 4) })
                 })
-
-                -- [修改] 选项容器改为 ScrollingFrame
+                
+                -- 选项滚动容器 (新增，替换原来的Frame)
                 local OptionsContainer = Utility:Create("ScrollingFrame", {
                     Name = "Options",
                     Parent = Frame,
                     BackgroundTransparency = 1,
-                    Position = UDim2.new(0, 8, 0, 78), -- 位于搜索栏下方
-                    Size = UDim2.new(1, -16, 0, 0),
+                    Position = UDim2.new(0, 8, 0, 78),
+                    Size = UDim2.new(1, -16, 0, 0), -- 高度由 Frame 展开控制
                     CanvasSize = UDim2.new(0, 0, 0, 0),
                     AutomaticCanvasSize = Enum.AutomaticSize.Y,
                     ScrollBarThickness = 2,
@@ -1777,24 +1782,24 @@ end
                     Utility:Create("UIListLayout", { SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4) })
                 })
                 
+                -- 注册元素以便更新主题
                 table.insert(Window.ElementRefs, { Type = "Dropdown", Element = Dropdown, Frame = Frame, Label = Label, Selected = Selected, Arrow = Arrow, OptionsContainer = OptionsContainer })
                 
-                -- [新增] 搜索功能逻辑
+                -- 搜索逻辑
                 SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
-                    local text = SearchBar.Text:lower()
-                    local contentHeight = 0
+                    local inputText = SearchBar.Text:lower()
                     for _, child in pairs(OptionsContainer:GetChildren()) do
                         if child:IsA("TextButton") then
-                            if child.Name:lower():find(text) then
+                            if child.Name:lower():find(inputText, 1, true) then
                                 child.Visible = true
-                                contentHeight = contentHeight + 36
                             else
                                 child.Visible = false
                             end
                         end
                     end
                 end)
-
+                
+                -- 创建单个选项的函数
                 local function CreateOption(optName)
                     local isSelected = multiSelect and table.find(Dropdown.Value, optName) or Dropdown.Value == optName
                     
@@ -1835,6 +1840,7 @@ end
                         local t = Window.Theme
                         
                         if multiSelect then
+                            -- 多选逻辑
                             local idx = table.find(Dropdown.Value, optName)
                             if idx then
                                 table.remove(Dropdown.Value, idx)
@@ -1847,6 +1853,7 @@ end
                             SaveConfig()
                             callback(Dropdown.Value)
                         else
+                            -- 单选逻辑
                             Dropdown.Value = optName
                             Selected.Text = optName
                             
@@ -1877,10 +1884,12 @@ end
                     return OptBtn
                 end
                 
+                -- 初始化选项
                 for _, opt in pairs(options) do
                     CreateOption(opt)
                 end
                 
+                -- Header 交互动画
                 Header.MouseEnter:Connect(function()
                     Utility:Tween(Frame, {BackgroundColor3 = theme.ElementHover, BackgroundTransparency = theme.ElementTransparency - 0.1}, Config.AnimationSpeed * 0.5)
                 end)
@@ -1889,31 +1898,32 @@ end
                     Utility:Tween(Frame, {BackgroundColor3 = theme.Element, BackgroundTransparency = theme.ElementTransparency}, Config.AnimationSpeed * 0.5)
                 end)
                 
+                -- 展开/收起 逻辑
                 Header.MouseButton1Click:Connect(function()
                     Dropdown.Open = not Dropdown.Open
                     Utility:Ripple(Header, theme, Config)
                     
-                    local optCount = #options
-                    -- 最大高度限制在 220 像素，超过则滚动
-                    local maxHeight = 220 
-                    local targetH = Dropdown.Open and maxHeight or 42
+                    local maxHeight = 250 -- 展开后的固定最大高度
                     
                     SearchBar.Visible = Dropdown.Open
                     OptionsContainer.Visible = Dropdown.Open
                     
                     if Dropdown.Open then
-                         -- 打开时重置搜索
+                        -- 展开时重置搜索
                         SearchBar.Text = ""
                         for _, child in pairs(OptionsContainer:GetChildren()) do
                             if child:IsA("TextButton") then child.Visible = true end
                         end
-                        OptionsContainer.Size = UDim2.new(1, -16, 0, maxHeight - 85) -- 调整内部容器大小
+                        -- 设置内容区域高度
+                        OptionsContainer.Size = UDim2.new(1, -16, 0, maxHeight - 85)
                     end
-
+                    
+                    local targetH = Dropdown.Open and maxHeight or 42
                     Utility:Tween(Frame, {Size = UDim2.new(1, 0, 0, targetH)}, Config.AnimationSpeed)
                     Utility:Tween(Arrow, {Rotation = Dropdown.Open and 180 or 0}, Config.AnimationSpeed)
                 end)
                 
+                -- 外部设置值的接口
                 function Dropdown:Set(v, skip)
                     local t = Window.Theme
                     if multiSelect then
@@ -1942,31 +1952,34 @@ end
                     if not skip then callback(Dropdown.Value) end
                 end
                 
+                -- 刷新选项列表的接口
                 function Dropdown:Refresh(newOpts, keepVal)
                     options = newOpts
                     Dropdown.Options = newOpts
                     
+                    -- 清除旧选项
                     for _, child in pairs(OptionsContainer:GetChildren()) do
                         if child:IsA("TextButton") then child:Destroy() end
                     end
                     
+                    -- 重置值
                     if not keepVal then
                         Dropdown.Value = multiSelect and {} or (newOpts[1] or "")
                     end
                     
+                    -- 创建新选项
                     for _, opt in pairs(newOpts) do
                         CreateOption(opt)
                     end
                     
                     Selected.Text = GetDisplayText()
                     
-                    if Dropdown.Open then
-                        -- 刷新时如果是打开状态，保持大小
-                        -- 这里不需要做额外操作，因为大小已经固定
-                    end
+                    -- 如果当前是打开状态，刷新后不需要调整Frame大小，因为是固定高度
                 end
                 
+                -- 触发默认回调
                 if default then callback(Dropdown.Value) end
+                
                 return Dropdown
             end
                 
