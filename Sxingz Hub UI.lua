@@ -107,11 +107,11 @@ end
 
 function DeltaXLib:CreateWindow(Options)
     local Config = {
-        Title = Options.Title,
-        SubTitle = Options.SubTitle,
-        FooterText = Options.Footer,
-        IconId = Options.Icon,
-        TitleIcon = Options.TitleIcon,
+        Title = Options.Title or "Delta X",
+        SubTitle = Options.SubTitle or "V2.0",
+        FooterText = Options.Footer or "Delta X Lib",
+        IconId = Options.Icon or "",
+        TitleIcon = Options.TitleIcon or "",
         BgImg = Options.BackgroundImage or ""
     }
 
@@ -192,17 +192,17 @@ function DeltaXLib:CreateWindow(Options)
     })
     
     local FooterLabel = Create("TextLabel", {
-    Parent = SideBar,
-    BackgroundTransparency = 1,
-    Position = UDim2.new(0, 10, 1, -30),
-    Size = UDim2.new(1, -20, 0, 20),
-    Font = Enum.Font.GothamMedium,
-    Text = Config.FooterText,
-    TextColor3 = Color3.fromRGB(100, 100, 110),
-    TextSize = 10,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    ZIndex = 3
-})
+        Parent = SideBar,
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0, 10, 1, -30),
+        Size = UDim2.new(1, -20, 0, 20),
+        Font = Enum.Font.GothamMedium,
+        Text = Config.FooterText,
+        TextColor3 = Color3.fromRGB(100, 100, 110),
+        TextSize = 10,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        ZIndex = 3
+    })
     
     local HeaderIcon = Create("ImageLabel", {
         Parent = LogoArea,
@@ -249,9 +249,9 @@ function DeltaXLib:CreateWindow(Options)
     })
     
     local TabListLayout = Create("UIListLayout", {
-    Parent = TabContainer, 
-    Padding = UDim.new(0, 6),
-    SortOrder = Enum.SortOrder.Name
+        Parent = TabContainer, 
+        Padding = UDim.new(0, 6),
+        SortOrder = Enum.SortOrder.Name
     })
 
     local TopArea = Create("Frame", {
@@ -492,7 +492,7 @@ function DeltaXLib:CreateWindow(Options)
                         TabPage.Visible = true
                         FoundFirst = true
                         for _, v in pairs(TabContainer:GetChildren()) do
-                            if v:IsA("TextButton") and string.find(v.Text, TabPage.Name) then
+                            if v:IsA("TextButton") and string.find(v.Name, TabPage.Name) then
                                 ApplyTween(v, {TextColor3 = DeltaXLib.Theme.Accent, BackgroundColor3 = Color3.fromRGB(40, 40, 55)}, 0.2)
                             elseif v:IsA("TextButton") then
                                 ApplyTween(v, {TextColor3 = DeltaXLib.Theme.TextDark, BackgroundColor3 = DeltaXLib.Theme.Secondary}, 0.2)
@@ -511,6 +511,7 @@ function DeltaXLib:CreateWindow(Options)
             end
         end
     end)
+
     local TabCount = 0
     function DeltaXLib:CreateTab(Name)
         TabCount = TabCount + 1
@@ -982,3 +983,5 @@ function DeltaXLib:CreateWindow(Options)
 
     return DeltaXLib
 end
+
+return DeltaXLib
