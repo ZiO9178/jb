@@ -163,6 +163,23 @@ function DeltaXLib:CreateWindow(Options)
     })
     Create("UICorner", {Parent = MainFrame, CornerRadius = DeltaXLib.Theme.Rounded})
     MakeDraggable(MainFrame, MainFrame)
+    
+    -- 彩色呼吸灯边框逻辑
+local function EnableRainbowBorder(Frame)
+    local Stroke = Instance.new("UIStroke")
+    Stroke.Parent = Frame
+    Stroke.Thickness = 2 
+    Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    Stroke.LineJoinMode = Enum.LineJoinMode.Round
+    
+    local Hue = 0
+    RunService.RenderStepped:Connect(function(Delta)
+        Hue = Hue + (Delta * 0.1)
+        if Hue > 1 then Hue = 0 end
+        
+        Stroke.Color = Color3.fromHSV(Hue, 0.8, 1)
+    end)
+end
 
     if Config.BgImg ~= "" then
         local FullBg = Create("ImageLabel", {
