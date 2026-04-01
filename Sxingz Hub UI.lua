@@ -150,7 +150,7 @@ function DeltaXLib:CreateWindow(Options)
         Size = UDim2.new(1, 0, 1, 0),
         Text = ""
     })
-    MakeDraggable(MinimizedBall, MinimizedBall)
+    MakeDraggable(MinimizedBall, BallBtn)
 
     local MainFrame = Create("Frame", {
         Name = "MainFrame",
@@ -163,23 +163,6 @@ function DeltaXLib:CreateWindow(Options)
     })
     Create("UICorner", {Parent = MainFrame, CornerRadius = DeltaXLib.Theme.Rounded})
     MakeDraggable(MainFrame, MainFrame)
-    
-    -- 彩色呼吸灯边框逻辑
-local function EnableRainbowBorder(Frame)
-    local Stroke = Instance.new("UIStroke")
-    Stroke.Parent = Frame
-    Stroke.Thickness = 2 
-    Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    Stroke.LineJoinMode = Enum.LineJoinMode.Round
-    
-    local Hue = 0
-    RunService.RenderStepped:Connect(function(Delta)
-        Hue = Hue + (Delta * 0.1)
-        if Hue > 1 then Hue = 0 end
-        
-        Stroke.Color = Color3.fromHSV(Hue, 0.8, 1)
-    end)
-end
 
     if Config.BgImg ~= "" then
         local FullBg = Create("ImageLabel", {
@@ -477,13 +460,27 @@ end
         ApplyTween(MinimizedBall, {Size = UDim2.new(0, 60, 0, 60)}, 0.4)
     end)
 
-    BallBtn.MouseButton1Click:Connect(function()
-        ApplyTween(MinimizedBall, {Size = UDim2.new(0, 0, 0, 0)}, 0.4)
-        task.wait(0.2)
-        MinimizedBall.Visible = false
-        MainFrame.Visible = true
-        MainFrame.BackgroundTransparency = 0
-        ApplyTween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.4)
+    local ballClickPos
+    BallBtn.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            ballClickPos = input.Position
+        end
+    end)
+
+    BallBtn.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            if ballClickPos then
+                local dist = (input.Position - ballClickPos).Magnitude
+                if dist < 10 then
+                    ApplyTween(MinimizedBall, {Size = UDim2.new(0, 0, 0, 0)}, 0.4)
+                    task.wait(0.2)
+                    MinimizedBall.Visible = false
+                    MainFrame.Visible = true
+                    MainFrame.BackgroundTransparency = 0
+                    ApplyTween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.4)
+                end
+            end
+        end
     end)
 
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
