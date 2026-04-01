@@ -152,29 +152,31 @@ function DeltaXLib:CreateWindow(Options)
     })
     MakeDraggable(MinimizedBall, BallBtn)
 
-    local MainFrame = Create("Frame", {
-        Name = "MainFrame",
-        Parent = ScreenGui,
-        BackgroundColor3 = DeltaXLib.Theme.Main,
-        Position = UDim2.new(0.5, -300, 0.5, -200),
-        Size = UDim2.new(0, 600, 0, 400),
-        ClipsDescendants = true,
-        ZIndex = 1
+    local MainStroke = Create("UIStroke", {
+        Parent = MainFrame,
+        Color = Color3.fromRGB(255, 0, 0),
+        Thickness = 2, -- 边框粗细
+        Transparency = 0
     })
-    Create("UICorner", {Parent = MainFrame, CornerRadius = DeltaXLib.Theme.Rounded})
-    MakeDraggable(MainFrame, MainFrame)
 
-    if Config.BgImg ~= "" then
-        local FullBg = Create("ImageLabel", {
-            Parent = MainFrame,
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 1, 0),
-            Image = Config.BgImg,
-            ImageTransparency = 0.8,
-            ZIndex = 0,
-            ScaleType = Enum.ScaleType.Crop
-        })
-    end
+    local BallStroke = Create("UIStroke", {
+        Parent = MinimizedBall,
+        Color = Color3.fromRGB(255, 0, 0),
+        Thickness = 2,
+        Transparency = 0
+    })
+
+    local hue = 0
+    RunService.RenderStepped:Connect(function(dt)
+        -- 0.2 是颜色变化的速度，数字越大变得越快
+        hue = (hue + dt * 0.2) % 1 
+        local currentColor = Color3.fromHSV(hue, 1, 1)
+        
+        MainStroke.Color = currentColor
+        BallStroke.Color = currentColor
+        
+        -- DeltaXLib.Theme.Accent = currentColor 
+    end)
 
     local SideBar = Create("Frame", {
         Parent = MainFrame,
