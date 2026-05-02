@@ -122,35 +122,76 @@ function DeltaXLib:CreateWindow(Options)
         ResetOnSpawn = false
     })
 
-    local MinimizedBall = Create("Frame", {
-        Name = "MinimizedBall",
-        Parent = ScreenGui,
-        BackgroundColor3 = DeltaXLib.Theme.Accent,
-        Position = UDim2.new(0.05, 0, 0.4, 0),
-        Size = UDim2.new(0, 0, 0, 0),
-        Visible = false,
-        ZIndex = 2000,
-        ClipsDescendants = true
+-- 1. 创建悬浮球主容器（加入玻璃感和阴影效果）
+local MinimizedBall = Create("Frame", {
+    Name = "MinimizedBall",
+    Parent = ScreenGui,
+    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+    BackgroundTransparency = 0.7, -- 玻璃半透明感
+    Position = UDim2.new(0.05, 0, 0.4, 0),
+    Size = UDim2.new(0, 0, 0, 0),
+    Visible = false,
+    ZIndex = 2000,
+    ClipsDescendants = false -- 为了显示流光边框，关闭裁剪
+})
+Create("UICorner", {Parent = MinimizedBall, CornerRadius = UDim.new(1, 0)})
+
+-- 2. 添加流光边框 (Sxingz 风格)
+local BallStroke = Create("UIStroke", {
+    Parent = MinimizedBall,
+    Thickness = 2.5,
+    ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+    Transparency = 0.2
+})
+
+local BallGradient = Create("UIGradient", {
+    Parent = BallStroke,
+    Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 255, 255)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
     })
-    Create("UICorner", {Parent = MinimizedBall, CornerRadius = UDim.new(1, 0)})
-    
-    local BallIcon = Create("ImageLabel", {
-        Parent = MinimizedBall,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Image = Config.IconId,
-        ImageColor3 = DeltaXLib.Theme.White,
-        ScaleType = Enum.ScaleType.Stretch
-    })
-    Create("UICorner", {Parent = BallIcon, CornerRadius = UDim.new(1, 0)})
-    
-    local BallBtn = Create("TextButton", {
-        Parent = MinimizedBall,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Text = ""
-    })
-    MakeDraggable(MinimizedBall, BallBtn)
+})
+
+-- 流光旋转动画
+task.spawn(function()
+    while RunService.RenderStepped:Wait() do
+        BallGradient.Rotation = (BallGradient.Rotation + 2) % 360
+    end
+end)
+
+-- 3. 图标美化
+local BallIcon = Create("ImageLabel", {
+    Parent = MinimizedBall,
+    BackgroundTransparency = 1,
+    AnchorPoint = Vector2.new(0.5, 0.5),
+    Position = UDim2.new(0.5, 0, 0.5, 0),
+    Size = UDim2.new(0.7, 0, 0.7, 0), -- 稍微缩小一点，露出边框
+    Image = Config.IconId,
+    ImageColor3 = Color3.fromRGB(255, 255, 255),
+    ZIndex = 2001
+})
+Create("UICorner", {Parent = BallIcon, CornerRadius = UDim.new(1, 0)})
+
+-- 4. 交互按钮与反馈
+local BallBtn = Create("TextButton", {
+    Parent = MinimizedBall,
+    BackgroundTransparency = 1,
+    Size = UDim2.new(1, 0, 1, 0),
+    Text = "",
+    ZIndex = 2002
+})
+
+-- 悬停缩放效果
+BallBtn.MouseEnter:Connect(function()
+    ApplyTween(MinimizedBall, {Size = UDim2.new(0, 70, 0, 70)}, 0.2)
+end)
+
+BallBtn.MouseLeave:Connect(function()
+    ApplyTween(MinimizedBall, {Size = UDim2.new(0, 60, 0, 60)}, 0.2)
+end)
+
+MakeDraggable(MinimizedBall, BallBtn)
 
     local MainFrame = Create("Frame", {
         Name = "MainFrame",
