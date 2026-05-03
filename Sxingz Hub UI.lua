@@ -122,37 +122,35 @@ function DeltaXLib:CreateWindow(Options)
         ResetOnSpawn = false
     })
 
--- 1. 悬浮球主框架：确保 Size 的 X 和 Y 相等（例如 60, 60）
-local MinimizedBall = Create("Frame", {
-    Name = "MinimizedBall",
-    Parent = ScreenGui,
-    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-    BackgroundTransparency = 0.7,
-    Position = UDim2.new(0.05, 0, 0.4, 0),
-    Size = UDim2.new(0, 60, 0, 60), -- 这里必须是正方形
-    Visible = false,
-    ZIndex = 2000,
-    ClipsDescendants = false 
-})
-
--- 2. 正圆角设置：Scale 设置为 1，确保永远是圆的
-Create("UICorner", {
-    Parent = MinimizedBall, 
-    CornerRadius = UDim.new(1, 0) -- 关键：1.0 表示完全圆角
-})
-
--- 3. 如果你使用了流光边框，也要确保图标是正圆
-local BallIcon = Create("ImageLabel", {
-    Parent = MinimizedBall,
-    BackgroundTransparency = 1,
-    AnchorPoint = Vector2.new(0.5, 0.5),
-    Position = UDim2.new(0.5, 0, 0.5, 0),
-    Size = UDim2.new(0.7, 0, 0.7, 0), -- 保持比例
-    Image = Config.IconId,
-    ImageColor3 = Color3.fromRGB(255, 255, 255),
-    ZIndex = 2001
-})
-Create("UICorner", {Parent = BallIcon, CornerRadius = UDim.new(1, 0)}) -- 图标也要正圆
+    local MinimizedBall = Create("Frame", {
+        Name = "MinimizedBall",
+        Parent = ScreenGui,
+        BackgroundColor3 = DeltaXLib.Theme.Accent,
+        Position = UDim2.new(0.05, 0, 0.4, 0),
+        Size = UDim2.new(0, 0, 0, 0),
+        Visible = false,
+        ZIndex = 2000,
+        ClipsDescendants = true
+    })
+    Create("UICorner", {Parent = MinimizedBall, CornerRadius = UDim.new(1, 0)})
+    
+    local BallIcon = Create("ImageLabel", {
+        Parent = MinimizedBall,
+        BackgroundTransparency = 1,
+        Size = UDim2.new(1, 0, 1, 0),
+        Image = Config.IconId,
+        ImageColor3 = DeltaXLib.Theme.White,
+        ScaleType = Enum.ScaleType.Stretch
+    })
+    Create("UICorner", {Parent = BallIcon, CornerRadius = UDim.new(1, 0)})
+    
+    local BallBtn = Create("TextButton", {
+        Parent = MinimizedBall,
+        BackgroundTransparency = 1,
+        Size = UDim2.new(1, 0, 1, 0),
+        Text = ""
+    })
+    MakeDraggable(MinimizedBall, BallBtn)
 
     local MainFrame = Create("Frame", {
         Name = "MainFrame",
