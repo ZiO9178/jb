@@ -24,7 +24,19 @@ local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
+local SoundService = game:GetService("SoundService")
 local Mouse = Players.LocalPlayer:GetMouse()
+
+local function PlayClickSound()
+    task.spawn(function()
+        local Sound = Instance.new("Sound")
+        Sound.SoundId = "rbxassetid://97001987725758"
+        Sound.Parent = SoundService
+        Sound:Play()
+        Sound.Ended:Wait()
+        Sound:Destroy()
+    end)
+end
 
 local function Create(ClassName, Properties)
     local Instance = Instance.new(ClassName)
@@ -521,6 +533,7 @@ function DeltaXLib:CreateWindow(Options)
     Create("UICorner", {Parent = PromptConfirm, CornerRadius = UDim.new(0, 8)})
 
     CloseBtn.MouseButton1Click:Connect(function()
+        PlayClickSound()
         DeltaXLib.IsPromptOpen = true
         PromptMask.Visible = true
         PromptFrame.Visible = true
@@ -529,6 +542,7 @@ function DeltaXLib:CreateWindow(Options)
     end)
 
     PromptCancel.MouseButton1Click:Connect(function()
+        PlayClickSound()
         ApplyTween(PromptMask, {BackgroundTransparency = 1}, 0.3)
         ApplyTween(PromptFrame, {Size = UDim2.new(0, 0, 0, 0)}, 0.3)
         task.wait(0.3)
@@ -538,12 +552,14 @@ function DeltaXLib:CreateWindow(Options)
     end)
 
     PromptConfirm.MouseButton1Click:Connect(function()
+        PlayClickSound()
         ApplyTween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), Position = UDim2.new(0.5, 0, 0.5, 0), BackgroundTransparency = 1}, 0.4)
         task.wait(0.4)
         ScreenGui:Destroy()
     end)
 
     MinBtn.MouseButton1Click:Connect(function()
+        PlayClickSound()
         ApplyTween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), BackgroundTransparency = 1}, 0.35)
         task.wait(0.35)
         MainFrame.Visible = false
@@ -555,6 +571,7 @@ function DeltaXLib:CreateWindow(Options)
 
     OpenClickButton.MouseButton1Click:Connect(function()
         if DeltaXLib.IsPromptOpen then return end
+        PlayClickSound()
         
         local BallHidePos = FloatBallFrame.Position + UDim2.new(0, 0, 0, 15)
         ApplyTween(FloatBallFrame, {Position = BallHidePos, GroupTransparency = 1}, 0.3)
@@ -644,6 +661,7 @@ function DeltaXLib:CreateWindow(Options)
 
         TabBtn.MouseButton1Click:Connect(function()
             if DeltaXLib.IsPromptOpen then return end
+            PlayClickSound()
             for _, v in pairs(ContentHolder:GetChildren()) do if v:IsA("ScrollingFrame") then v.Visible = false end end
             for _, v in pairs(TabContainer:GetChildren()) do 
                 if v:IsA("TextButton") then 
@@ -708,6 +726,7 @@ function DeltaXLib:CreateWindow(Options)
 
             RealBtn.MouseButton1Click:Connect(function()
                 if DeltaXLib.IsPromptOpen then return end
+                PlayClickSound()
                 Ripple(BtnFrame)
                 if Config.Callback then Config.Callback() end
             end)
@@ -739,7 +758,7 @@ function DeltaXLib:CreateWindow(Options)
 
             local SwitchBG = Create("Frame", {
                 Parent = TglFrame,
-                BackgroundColor3 = State and DeltaXLib.Theme.Accent or Color3.fromRGB(50, 50, 60),
+                BackgroundColor3 = State and Color3.fromRGB(40, 200, 80) or Color3.fromRGB(50, 50, 60),
                 Position = UDim2.new(1, -55, 0.5, -12),
                 Size = UDim2.new(0, 45, 0, 24)
             })
@@ -762,8 +781,9 @@ function DeltaXLib:CreateWindow(Options)
 
             ClickBtn.MouseButton1Click:Connect(function()
                 if DeltaXLib.IsPromptOpen then return end
+                PlayClickSound()
                 State = not State
-                ApplyTween(SwitchBG, {BackgroundColor3 = State and DeltaXLib.Theme.Accent or Color3.fromRGB(50, 50, 60)}, 0.3)
+                ApplyTween(SwitchBG, {BackgroundColor3 = State and Color3.fromRGB(40, 200, 80) or Color3.fromRGB(50, 50, 60)}, 0.3)
                 ApplyTween(Dot, {Position = State and UDim2.new(1, -22, 0.5, -9) or UDim2.new(0, 3, 0.5, -9)}, 0.3)
                 if Config.Callback then Config.Callback(State) end
             end)
@@ -836,6 +856,7 @@ function DeltaXLib:CreateWindow(Options)
 
             SliderFrame.InputBegan:Connect(function(Input)
                 if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and not DeltaXLib.IsDraggingSlider and not DeltaXLib.IsPromptOpen then
+                    PlayClickSound()
                     IsThisDragging = true
                     DeltaXLib.IsDraggingSlider = true
                     UpdateSlider(Input)
@@ -910,6 +931,7 @@ function DeltaXLib:CreateWindow(Options)
 
             local function ToggleSection()
                 if DeltaXLib.IsPromptOpen then return end
+                PlayClickSound()
                 Expanded = not Expanded
                 local TargetHeight = Expanded and (Layout.AbsoluteContentSize.Y + 55) or 40
                 ApplyTween(SectionFrame, {Size = UDim2.new(1, 0, 0, TargetHeight)}, 0.4)
@@ -982,6 +1004,7 @@ function DeltaXLib:CreateWindow(Options)
 
             Box.FocusLost:Connect(function()
                 if DeltaXLib.IsPromptOpen then return end
+                PlayClickSound()
                 if Config.Callback then Config.Callback(Box.Text) end
             end)
 
@@ -1038,6 +1061,7 @@ function DeltaXLib:CreateWindow(Options)
                 })
                 OptBtn.MouseButton1Click:Connect(function()
                     if DeltaXLib.IsPromptOpen then return end
+                    PlayClickSound()
                     TitleLabel.Text = Config.Title .. " : " .. opt
                     Dropped = false
                     ApplyTween(DropFrame, {Size = UDim2.new(1, 0, 0, 45)}, 0.3)
@@ -1047,6 +1071,7 @@ function DeltaXLib:CreateWindow(Options)
 
             TopBtn.MouseButton1Click:Connect(function()
                 if DeltaXLib.IsPromptOpen then return end
+                PlayClickSound()
                 Dropped = not Dropped
                 ApplyTween(DropFrame, {Size = UDim2.new(1, 0, 0, Dropped and (45 + #Config.Options * 30) or 45)}, 0.3)
                 task.wait(0.3)
