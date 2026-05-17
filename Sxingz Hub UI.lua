@@ -156,14 +156,28 @@ function DeltaXLib:CreateWindow(Options)
         ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     })
 
-    Create("UIGradient", {
+    local BallGradient = Create("UIGradient", {
         Parent = BallStroke,
-        Rotation = 45,
-        Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, DeltaXLib.Theme.Accent),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 255, 200))
-        })
+        Rotation = 45
     })
+
+    task.spawn(function()
+        local hue = 0
+        RunService.RenderStepped:Connect(function(deltaTime)
+            if FloatBallFrame.Visible or FloatBallFrame.GroupTransparency < 1 then
+                hue = (hue + deltaTime * 0.2) % 1 
+                local color1 = Color3.fromHSV(hue, 1, 1)
+                local color2 = Color3.fromHSV((hue + 0.1) % 1, 1, 1)
+                
+                BallGradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, color1),
+                    ColorSequenceKeypoint.new(1, color2)
+                })
+
+                BallStroke.Transparency = 0.3 + math.sin(os.clock() * 3) * 0.3
+            end
+        end)
+    end)
 
     local DragHandle = Create("ImageButton", {
         Name = "DragHandle",
