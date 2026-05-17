@@ -123,23 +123,49 @@ function DeltaXLib:CreateWindow(Options)
     })
 
     ------------------------------------------------------------------------
-    -- 移植的悬浮球组件 (FloatBallFrame)
+    -- 悬浮球组件 (FloatBallFrame) - 带有渐变色
     ------------------------------------------------------------------------
     local FloatBallFrame = Create("CanvasGroup", {
         Name = "FloatBallFrame",
         Parent = ScreenGui,
         Size = UDim2.new(0, 180, 0, 40),
         Position = UDim2.new(0, 30, 0, 30),
-        BackgroundColor3 = DeltaXLib.Theme.Main,
-        BackgroundTransparency = 0.1,
+        BackgroundColor3 = Color3.fromRGB(255, 255, 255), -- 设为白色以展示UIGradient
+        BackgroundTransparency = 0.05,
         GroupTransparency = 1, -- 初始隐藏
         ClipsDescendants = true,
         Visible = false,
         ZIndex = 2000
     })
 
+    -- 【新增】悬浮球背景渐变
+    Create("UIGradient", {
+        Parent = FloatBallFrame,
+        Rotation = 45,
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, DeltaXLib.Theme.Secondary),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 80, 150)) -- 过渡到深蓝色
+        })
+    })
+
     Create("UICorner", {Parent = FloatBallFrame, CornerRadius = UDim.new(0, 16)})
-    Create("UIStroke", {Parent = FloatBallFrame, Thickness = 2, Color = DeltaXLib.Theme.Accent, ApplyStrokeMode = Enum.ApplyStrokeMode.Border})
+    
+    local BallStroke = Create("UIStroke", {
+        Parent = FloatBallFrame, 
+        Thickness = 2, 
+        Color = Color3.fromRGB(255, 255, 255), -- 设为白色以展示UIGradient
+        ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    })
+
+    -- 【新增】悬浮球边框渐变
+    Create("UIGradient", {
+        Parent = BallStroke,
+        Rotation = 45,
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, DeltaXLib.Theme.Accent),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 255, 200)) -- 过渡到青色高光
+        })
+    })
 
     local DragHandle = Create("ImageButton", {
         Name = "DragHandle",
@@ -533,7 +559,7 @@ function DeltaXLib:CreateWindow(Options)
         ScreenGui:Destroy()
     end)
 
-    -- 最小化功能 (从原版圆球改为新版长条悬浮球)
+    -- 最小化功能 (展示悬浮球)
     MinBtn.MouseButton1Click:Connect(function()
         ApplyTween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), BackgroundTransparency = 1}, 0.35)
         task.wait(0.35)
@@ -544,7 +570,7 @@ function DeltaXLib:CreateWindow(Options)
         ApplyTween(FloatBallFrame, {Position = BallTargetPos, GroupTransparency = 0}, 0.35)
     end)
 
-    -- 悬浮球展开UI功能
+    -- 悬浮球点击展开UI
     OpenClickButton.MouseButton1Click:Connect(function()
         if DeltaXLib.IsPromptOpen then return end
         
