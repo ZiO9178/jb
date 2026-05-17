@@ -117,40 +117,121 @@ function DeltaXLib:CreateWindow(Options)
 
     local ScreenGui = Create("ScreenGui", {
         Name = "DeltaX_V2_PRO",
-        Parent = CoreGui,
+        Parent = RunService:IsStudio() and Players.LocalPlayer:WaitForChild("PlayerGui") or CoreGui,
         ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
         ResetOnSpawn = false
     })
 
-    local MinimizedBall = Create("Frame", {
-        Name = "MinimizedBall",
+    ------------------------------------------------------------------------
+    -- 移植的悬浮球组件 (FloatBallFrame)
+    ------------------------------------------------------------------------
+    local FloatBallFrame = Create("CanvasGroup", {
+        Name = "FloatBallFrame",
         Parent = ScreenGui,
-        BackgroundColor3 = DeltaXLib.Theme.Accent,
-        Position = UDim2.new(0.05, 0, 0.4, 0),
-        Size = UDim2.new(0, 0, 0, 0),
+        Size = UDim2.new(0, 180, 0, 40),
+        Position = UDim2.new(0, 30, 0, 30),
+        BackgroundColor3 = DeltaXLib.Theme.Main,
+        BackgroundTransparency = 0.1,
+        GroupTransparency = 1, -- 初始隐藏
+        ClipsDescendants = true,
         Visible = false,
-        ZIndex = 2000,
-        ClipsDescendants = true
+        ZIndex = 2000
     })
-    Create("UICorner", {Parent = MinimizedBall, CornerRadius = UDim.new(1, 0)})
-    
-    local BallIcon = Create("ImageLabel", {
-        Parent = MinimizedBall,
+
+    Create("UICorner", {Parent = FloatBallFrame, CornerRadius = UDim.new(0, 16)})
+    Create("UIStroke", {Parent = FloatBallFrame, Thickness = 2, Color = DeltaXLib.Theme.Accent, ApplyStrokeMode = Enum.ApplyStrokeMode.Border})
+
+    local DragHandle = Create("ImageButton", {
+        Name = "DragHandle",
+        Parent = FloatBallFrame,
+        Size = UDim2.new(0, 36, 1, 0),
+        Position = UDim2.new(0, 0, 0, 0),
         BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Image = Config.IconId,
-        ImageColor3 = DeltaXLib.Theme.White,
-        ScaleType = Enum.ScaleType.Stretch
+        AutoButtonColor = false
     })
-    Create("UICorner", {Parent = BallIcon, CornerRadius = UDim.new(1, 0)})
-    
-    local BallBtn = Create("TextButton", {
-        Parent = MinimizedBall,
+
+    Create("ImageLabel", {
+        Name = "HandleIcon",
+        Parent = DragHandle,
+        Size = UDim2.new(0, 18, 0, 18),
+        Position = UDim2.new(0.5, -9, 0.5, -9),
         BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
+        Image = "rbxassetid://97423170859199",
+        ImageColor3 = DeltaXLib.Theme.White
+    })
+
+    Create("Frame", {
+        Name = "Divider",
+        Parent = FloatBallFrame,
+        Size = UDim2.new(0, 1, 1, -12),
+        Position = UDim2.new(0, 36, 0, 6),
+        BackgroundColor3 = DeltaXLib.Theme.White,
+        BackgroundTransparency = 0.6,
+        BorderSizePixel = 0
+    })
+
+    local OpenClickButton = Create("TextButton", {
+        Name = "OpenClickButton",
+        Parent = FloatBallFrame,
+        Size = UDim2.new(1, -37, 1, 0),
+        Position = UDim2.new(0, 37, 0, 0),
+        BackgroundTransparency = 1,
         Text = ""
     })
-    MakeDraggable(MinimizedBall, BallBtn)
+
+    local BallTitle = Create("TextLabel", {
+        Name = "BallTitle",
+        Parent = OpenClickButton,
+        Size = UDim2.new(1, -34, 1, 0),
+        Position = UDim2.new(0, 8, 0, 0),
+        BackgroundTransparency = 1,
+        Font = Enum.Font.GothamBold,
+        TextSize = 13,
+        TextColor3 = DeltaXLib.Theme.White,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Text = Config.Title
+    })
+
+    if Config.IconId ~= "" then
+        Create("ImageLabel", {
+            Name = "RightIcon",
+            Parent = OpenClickButton,
+            Size = UDim2.new(0, 18, 0, 18),
+            Position = UDim2.new(1, -26, 0.5, -9),
+            BackgroundTransparency = 1,
+            Image = Config.IconId,
+            ImageColor3 = DeltaXLib.Theme.White
+        })
+    else
+        BallTitle.Size = UDim2.new(1, -16, 1, 0)
+    end
+
+    -- 悬浮球拖拽逻辑
+    local BallDragging = false
+    local BallDragStart, BallStartPos
+    local BallTargetPos = FloatBallFrame.Position
+
+    DragHandle.InputBegan:Connect(function(input)
+        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and not DeltaXLib.IsPromptOpen then
+            BallDragging = true
+            BallDragStart = input.Position
+            BallStartPos = FloatBallFrame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    BallDragging = false
+                end
+            end)
+        end
+    end)
+
+    DragHandle.InputChanged:Connect(function(input)
+        if BallDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) and not DeltaXLib.IsPromptOpen then
+            local delta = input.Position - BallDragStart
+            BallTargetPos = UDim2.new(BallStartPos.X.Scale, BallStartPos.X.Offset + delta.X, BallStartPos.Y.Scale, BallStartPos.Y.Offset + delta.Y)
+            ApplyTween(FloatBallFrame, {Position = BallTargetPos}, 0.12)
+        end
+    end)
+    ------------------------------------------------------------------------
 
     local MainFrame = Create("Frame", {
         Name = "MainFrame",
@@ -452,35 +533,30 @@ function DeltaXLib:CreateWindow(Options)
         ScreenGui:Destroy()
     end)
 
+    -- 最小化功能 (从原版圆球改为新版长条悬浮球)
     MinBtn.MouseButton1Click:Connect(function()
-        ApplyTween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), BackgroundTransparency = 1}, 0.4)
-        task.wait(0.4)
+        ApplyTween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), BackgroundTransparency = 1}, 0.35)
+        task.wait(0.35)
         MainFrame.Visible = false
-        MinimizedBall.Visible = true
-        ApplyTween(MinimizedBall, {Size = UDim2.new(0, 60, 0, 60)}, 0.4)
+        
+        FloatBallFrame.Visible = true
+        FloatBallFrame.Position = BallTargetPos + UDim2.new(0, 0, 0, 15)
+        ApplyTween(FloatBallFrame, {Position = BallTargetPos, GroupTransparency = 0}, 0.35)
     end)
 
-    local ballClickPos
-    BallBtn.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            ballClickPos = input.Position
-        end
-    end)
-
-    BallBtn.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            if ballClickPos then
-                local dist = (input.Position - ballClickPos).Magnitude
-                if dist < 10 then
-                    ApplyTween(MinimizedBall, {Size = UDim2.new(0, 0, 0, 0)}, 0.4)
-                    task.wait(0.2)
-                    MinimizedBall.Visible = false
-                    MainFrame.Visible = true
-                    MainFrame.BackgroundTransparency = 0
-                    ApplyTween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.4)
-                end
-            end
-        end
+    -- 悬浮球展开UI功能
+    OpenClickButton.MouseButton1Click:Connect(function()
+        if DeltaXLib.IsPromptOpen then return end
+        
+        local BallHidePos = FloatBallFrame.Position + UDim2.new(0, 0, 0, 15)
+        ApplyTween(FloatBallFrame, {Position = BallHidePos, GroupTransparency = 1}, 0.3)
+        
+        task.wait(0.3)
+        FloatBallFrame.Visible = false
+        
+        MainFrame.Visible = true
+        MainFrame.BackgroundTransparency = 0
+        ApplyTween(MainFrame, {Size = UDim2.new(0, 600, 0, 400)}, 0.4)
     end)
 
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
