@@ -44,49 +44,11 @@ cloneref = cloneref or function(ref)
 			end
 		end
 	end
-	return f.invalidate
+	return ref
 end
 
 local EmbeddedModules = {
 ["Console"] = function()
-
---[[
-    Regional AssetID Bypasser , not fully implemented
-]]
-
-local cacheFolder = "DexPlusPlus_Assets"
-if not isfolder(cacheFolder) then 
-    makefolder(cacheFolder) 
-end
-
-local proxy = "https://roproxy.com/asset/?id=%s" 
-
-local function applySafeAsset(uiElement, assetString)
-    local assetId = string.match(assetString, "%d+")
-    
-    if not assetId then
-        uiElement.Image = assetString
-        return
-    end
-    
-    local filePath = cacheFolder .. "/icon_" .. assetId .. ".png"
-    
-    if isfile(filePath) then
-        uiElement.Image = getcustomasset(filePath)
-        return
-    end
-    uiElement.Image = assetString
-    task.spawn(function()
-        local fetchUrl = string.format(proxy, assetId)
-        local success, imageData = pcall(function()
-            return game:HttpGet(fetchUrl)
-        end)
-            if success and imageData and #imageData > 0 then
-            writefile(filePath, imageData)
-            uiElement.Image = getcustomasset(filePath)
-        end
-    end)
-end
 
 --[[
 	Console Module
@@ -799,6 +761,7 @@ local function main()
 					log:Destroy()
 				end
 			end
+			table.clear(displayedOutput)
 		end)
 
 		local focussedOutput
@@ -869,11 +832,49 @@ local function main()
 
 
 
-		Console.CommandLine.ScrollingFrame.TextBox.FocusLost:Connect(function(enterPressed)
-			if enterPressed and Console.CommandLine.ScrollingFrame.TextBox.Text ~= "" then
-				print("> "..Console.CommandLine.ScrollingFrame.TextBox.Text)
-				loadstring(Console.CommandLine.ScrollingFrame.TextBox.Text)()
+		local commandBox = Console.CommandLine.ScrollingFrame.TextBox
+		local commandHistory = {}
+		local historyIndex = 0
+
+		UserInputService.InputBegan:Connect(function(input, gameProcessed)
+			if gameProcessed or not commandBox:IsFocused() then return end
+			if input.KeyCode == Enum.KeyCode.Up then
+				if #commandHistory > 0 then
+					historyIndex = math.max(1, historyIndex - 1)
+					commandBox.Text = commandHistory[historyIndex]
+				end
+			elseif input.KeyCode == Enum.KeyCode.Down then
+				if #commandHistory > 0 then
+					historyIndex = math.min(#commandHistory + 1, historyIndex + 1)
+					commandBox.Text = historyIndex > #commandHistory and "" or commandHistory[historyIndex]
+				end
 			end
+		end)
+
+		commandBox.FocusLost:Connect(function(enterPressed)
+			if not enterPressed then return end
+
+			local command = commandBox.Text
+			if command == "" then return end
+
+			print("> "..command)
+			commandHistory[#commandHistory+1] = command
+			if #commandHistory > 200 then table.remove(commandHistory, 1) end
+			historyIndex = #commandHistory + 1
+
+			if env.loadstring then
+				local ok, fn = pcall(env.loadstring, command)
+				if not ok or not fn then
+					warn("[Dex++] Compile error: "..tostring(fn))
+				else
+					local ok2, err = pcall(fn)
+					if not ok2 then warn("[Dex++] Runtime error: "..tostring(err)) end
+				end
+			else
+				warn("[Dex++] Executor does not support loadstring")
+			end
+
+			commandBox.Text = ""
 		end)
 	end
 
@@ -2095,7 +2096,7 @@ local function main()
 							end
 							break
 						elseif Obj.WorldPivot then
-							plrRP.CFrame = Obj.WorldPivot
+							plrRP.CFrame = Obj.WorldPivot + Settings.Explorer.TeleportToOffset
 						end
 					end
 				end
@@ -3048,6 +3049,7 @@ return search]==]
 			if Main.Elevated then
 				local start = tick()
 				searchFunc,specFilters = Explorer.BuildSearchFunc(query)
+				if not searchFunc then searchFunc = defaultSearch end
 				--print("BUILD SEARCH",tick()-start)
 			else
 				searchFunc = defaultSearch
@@ -3093,6 +3095,18 @@ return search]==]
 
 		searchBox.FocusLost:Connect(function()
 			Explorer.DoSearch(searchBox.Text)
+		end)
+
+		-- Live search with a small debounce
+		local searchToken = 0
+		searchBox:GetPropertyChangedSignal("Text"):Connect(function()
+			if not Settings.Explorer.AutoUpdateSearch then return end
+			searchToken = searchToken + 1
+			local token = searchToken
+			task.delay(0.2, function()
+				if token ~= searchToken then return end
+				Explorer.DoSearch(searchBox.Text)
+			end)
 		end)
 	end
 
@@ -7445,7 +7459,7 @@ local function main()
 			["getgc"] = true,
 			["getreg"] = true,
 			["filtergc"] = true,
-			["saveinstave"] = true,
+			["saveinstance"] = true,
 			["decompile"] = true,
 			["syn"] = true,
 			["getupvalue"] = true,
@@ -13636,7 +13650,19 @@ local function main()
 
 		execute.MouseButton1Click:Connect(function()
 			local source = codeFrame:GetText()
-			env.loadstring(source)()
+			if not env.loadstring then
+				warn("[Dex++] Executor does not support loadstring")
+				return
+			end
+
+			local ok, fn = pcall(env.loadstring, source)
+			if not ok or not fn then
+				warn("[Dex++] Compile error: "..tostring(fn))
+				return
+			end
+
+			local ok2, err = pcall(fn)
+			if not ok2 then warn("[Dex++] Runtime error: "..tostring(err)) end
 		end)
 
 		clear = Instance.new("TextButton",window.GuiElems.Content)
@@ -13742,7 +13768,11 @@ end
 local function main()
 	local SettingsWindow = {}
 	local window, ListFrame
-	local fileName = "Place_"..game.PlaceId.."_"..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.."_{TIMESTAMP}"
+	local placeName = ""
+	pcall(function()
+		placeName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+	end)
+	local fileName = "Place_"..game.PlaceId.."_"..placeName.."_{TIMESTAMP}"
 	local Saving = false
 	
 	local function AddCheckbox(title, default)
@@ -14026,6 +14056,46 @@ local function main()
 		copypathUseChildren.OnInput:Connect(function()
 			Settings.Explorer.CopyPathUseGetChildren = copypathUseChildren.Toggled
 		end)
+
+		local sorting = AddCheckbox("Sort Explorer", Settings.Explorer.Sorting)
+		sorting.OnInput:Connect(function()
+			Settings.Explorer.Sorting = sorting.Toggled
+		end)
+
+		local liveSearch = AddCheckbox("Live Search", Settings.Explorer.AutoUpdateSearch)
+		liveSearch.OnInput:Connect(function()
+			Settings.Explorer.AutoUpdateSearch = liveSearch.Toggled
+		end)
+
+		local useNameWidth = AddCheckbox("Use Full Name Width", Settings.Explorer.UseNameWidth)
+		useNameWidth.OnInput:Connect(function()
+			Settings.Explorer.UseNameWidth = useNameWidth.Toggled
+		end)
+
+		local guiSelectionBox = AddCheckbox("Gui Selection Box", Settings.Explorer.GuiSelectionBox)
+		guiSelectionBox.OnInput:Connect(function()
+			Settings.Explorer.GuiSelectionBox = guiSelectionBox.Toggled
+		end)
+
+		AddSeperator("Teleport Offset")
+
+		local teleportX = AddTextbox("X", tostring(Settings.Explorer.TeleportToOffset.X), 50)
+		teleportX.FocusLost:Connect(function()
+			local val = tonumber(teleportX.Text) or 0
+			Settings.Explorer.TeleportToOffset = Vector3.new(val, Settings.Explorer.TeleportToOffset.Y, Settings.Explorer.TeleportToOffset.Z)
+		end)
+
+		local teleportY = AddTextbox("Y", tostring(Settings.Explorer.TeleportToOffset.Y), 50)
+		teleportY.FocusLost:Connect(function()
+			local val = tonumber(teleportY.Text) or 0
+			Settings.Explorer.TeleportToOffset = Vector3.new(Settings.Explorer.TeleportToOffset.X, val, Settings.Explorer.TeleportToOffset.Z)
+		end)
+
+		local teleportZ = AddTextbox("Z", tostring(Settings.Explorer.TeleportToOffset.Z), 50)
+		teleportZ.FocusLost:Connect(function()
+			local val = tonumber(teleportZ.Text) or 0
+			Settings.Explorer.TeleportToOffset = Vector3.new(Settings.Explorer.TeleportToOffset.X, Settings.Explorer.TeleportToOffset.Y, val)
+		end)
 		
 		AddSeperator("Properties")
 
@@ -14046,6 +14116,43 @@ local function main()
 		local clearOnFocus = AddCheckbox("Clear On Focus", Settings.Properties.ClearOnFocus)
 		clearOnFocus.OnInput:Connect(function()
 			Settings.Properties.ClearOnFocus = clearOnFocus.Toggled
+		end)
+
+		local maxConflict = AddTextbox("Max Conflict Check", tostring(Settings.Properties.MaxConflictCheck), 50)
+		maxConflict.FocusLost:Connect(function()
+			local val = tonumber(maxConflict.Text)
+			if val and val >= 0 then
+				Settings.Properties.MaxConflictCheck = math.floor(val)
+			else
+				maxConflict.Text = tostring(Settings.Properties.MaxConflictCheck)
+			end
+		end)
+
+		local numberRounding = AddTextbox("Number Rounding", tostring(Settings.Properties.NumberRounding), 50)
+		numberRounding.FocusLost:Connect(function()
+			local val = tonumber(numberRounding.Text)
+			if val and val >= 0 then
+				Settings.Properties.NumberRounding = math.floor(val)
+			else
+				numberRounding.Text = tostring(Settings.Properties.NumberRounding)
+			end
+		end)
+
+		local maxAttributes = AddTextbox("Max Attributes", tostring(Settings.Properties.MaxAttributes), 50)
+		maxAttributes.FocusLost:Connect(function()
+			local val = tonumber(maxAttributes.Text)
+			if val and val >= 0 then
+				Settings.Properties.MaxAttributes = math.floor(val)
+			else
+				maxAttributes.Text = tostring(Settings.Properties.MaxAttributes)
+			end
+		end)
+
+		AddSeperator("Remote Spy")
+
+		local writeBlockedAttribute = AddCheckbox("Write Blocked Attribute", Settings.RemoteBlockWriteAttribute)
+		writeBlockedAttribute.OnInput:Connect(function()
+			Settings.RemoteBlockWriteAttribute = writeBlockedAttribute.Toggled
 		end)
 		
 		AddSeperator("Script Viewer")
@@ -14158,7 +14265,7 @@ cloneref = cloneref or function(ref)
 			end
 		end
 	end
-	return f.invalidate
+	return ref
 end
 
 local isFsSupported = readfile and writefile and isfile and isfolder and listfiles and delfile and delfolder
@@ -14181,7 +14288,8 @@ DefaultSettings = (function()
 			AutoUpdateMode = 0, -- 0 Default, 1 no tree update, 2 no descendant events, 3 frozen
 			PartSelectionBox = true,
 			GuiSelectionBox = true,
-			CopyPathUseGetChildren = true
+			CopyPathUseGetChildren = true,
+			UseNameWidth = false
 		},
 		Properties = {
 			_Recurse = true,
@@ -14307,7 +14415,7 @@ Main = (function()
 	Main.Elevated = false
 	Main.AllowDraggableOnMobile = true
 	Main.MissingEnv = {}
-	Main.Version = "3.1"
+	Main.Version = "3.2"
 	Main.Mouse = plr:GetMouse()
 	Main.AppControls = {}
 	Main.Apps = Apps
@@ -14400,11 +14508,14 @@ Main = (function()
 	end
 	
 	Main.GetSecureContainer = function()
-		return
-			syn and syn.protect_gui or
-			gethui and gethui() or
-			service.CoreGui or
-			service.Players.LocalPlayer:WaitForChild("PlayerGui")
+		if gethui then
+			local ok, container = pcall(gethui)
+			if ok and container then return container end
+		end
+		if Main.Elevated then
+			return service.CoreGui
+		end
+		return service.Players.LocalPlayer:WaitForChild("PlayerGui")
 	end
 	
 	Main.SecureGui = function(gui)
@@ -14614,14 +14725,21 @@ Main = (function()
 		RepoURL = "https://raw.githubusercontent.com/luau/SynSaveInstance/main/",
 		SSI = "saveinstance",
 	}
-	local synsaveinstance = loadstring(oldgame:HttpGet(Params.RepoURL .. Params.SSI .. ".luau", true), Params.SSI)()
+	local synsaveinstance
+	local ok = pcall(function()
+		synsaveinstance = loadstring(oldgame:HttpGet(Params.RepoURL .. Params.SSI .. ".luau", true), Params.SSI)()
+	end)
+	if not ok or type(synsaveinstance) ~= "function" then
+		warn("Dex++: failed to load SynSaveInstance, saveinstance is disabled")
+		return function() return false end
+	end
 	
 	    local function wrappedsaveinstance(obj, filepath, options)
 		            options["FilePath"] = filepath
 		            options["Object"] = obj
 		            return synsaveinstance(options)
 	            end
-	        getgenv().saveinstance = wrappedsaveinstance
+	        if getgenv then getgenv().saveinstance = wrappedsaveinstance end
 	        return wrappedsaveinstance
         end)()
 		
@@ -14667,7 +14785,79 @@ Main = (function()
 		end
 		
 		env.isdecompilefallback = function()
-			return typeof(decompile) ~= "function" or typeof(getscriptbytecode) == "function" or false
+			return typeof(getscriptbytecode) == "function"
+		end
+
+		-- Native decompiler captured before env.decompile is replaced
+		local nativeDecompile = decompile
+
+		local function decompileFailed(res)
+			if type(res) ~= "string" or res == "" then return true end
+			local prefixes = {"-- Failed", "-- Error", "-- Shiny", "-- Konstant", "-- Advanced", "-- ByteFall", "-- Your executor", "-- 'crypt"}
+			for i = 1, #prefixes do
+				if res:sub(1, #prefixes[i]) == prefixes[i] then return true end
+			end
+			return false
+		end
+
+		local AdvancedDecompilerCache
+		pcall(function()
+			AdvancedDecompilerCache = loadstring(game:HttpGet("https://raw.githubusercontent.com/"..Main.GitName.."/Advanced-Decompiler-V3/refs/heads/main/init.lua"))()
+		end)
+		local ADDec = AdvancedDecompilerCache or function() return "-- Failed to load Advanced Decompiler" end
+
+		local konstant_last_call = 0
+		local function KonstantDec(scriptPath)
+			local API = "http://api.plusgiant5.com"
+			local req = env.request
+			if type(req) ~= "function" then return "-- Konstant: no HTTP request function available" end
+
+			local success, bytecode = pcall(env.getscriptbytecode, scriptPath)
+			if not success then
+				return "-- Failed to get script bytecode, error:\n\n--[[\n" .. tostring(bytecode) .. "\n--]]"
+			end
+
+			local time_elapsed = os.clock() - konstant_last_call
+			if time_elapsed <= .5 then task.wait(.5 - time_elapsed) end
+
+			local ok, httpResult = pcall(req, {
+				Url = API .. "/konstant/decompile",
+				Body = bytecode,
+				Method = "POST",
+				Headers = {["Content-Type"] = "text/plain"}
+			})
+			konstant_last_call = os.clock()
+
+			if not ok or type(httpResult) ~= "table" then
+				return "-- Konstant request failed: " .. tostring(httpResult)
+			end
+			if httpResult.StatusCode ~= 200 then
+				return "-- Error occurred while requesting Konstant API, error:\n\n--[[\n" .. tostring(httpResult.Body) .. "\n--]]"
+			end
+			return httpResult.Body
+		end
+
+		local function ShinyDec(script_instance)
+			if typeof(crypt) ~= "table" then return "-- 'crypt' library is missing!" end
+			local port = tostring(Settings.Decompiler.ShinyDecompilerPort)
+
+			local okHttp = pcall(game.HttpGet, game, "http://127.0.0.1:"..port)
+			if not okHttp then return "-- Shiny decompiler is not active or port is wrong!" end
+
+			local ok, bytecode = pcall(env.getscriptbytecode, script_instance)
+			if not ok or type(bytecode) ~= "string" then return "-- Shiny: failed to get bytecode" end
+			if type(env.request) ~= "function" then return "-- Shiny: no HTTP request function available" end
+
+			local encoder = (crypt and crypt.base64encode) or (crypt and crypt.base64 and crypt.base64.encode)
+			if not encoder then return "-- Shiny: no base64 encoder available" end
+			local encoded = encoder(bytecode)
+			local ok2, result = pcall(env.request, {
+				Url = "http://127.0.0.1:"..port.."/luau/decompile",
+				Method = "POST",
+				Body = encoded
+			})
+			if not ok2 or type(result) ~= "table" then return "-- Shiny request failed: " .. tostring(result) end
+			return result.Body or "-- Shiny returned empty response"
 		end
 
 		-- another decompiler fix for bytecode 12
@@ -14744,14 +14934,47 @@ Main = (function()
 		end
 
 		env.decompile = function(...)
-			if typeof(getscriptbytecode) == "function" then
-				return ByteFallDec(...)
-			else
-			    return "-- getscriptbytecode is not supported by your executor. Cannot decompile."
+			local preferFallback = Settings.Decompiler.PreferDecompilerFallback
+
+			-- 1. Use the executor's native decompiler when possible
+			if typeof(nativeDecompile) == "function" and not preferFallback then
+				local ok, result = pcall(nativeDecompile, ...)
+				if ok and not decompileFailed(result) then
+					return result
+				end
 			end
+
+			-- 2. Fallback decompilers (require getscriptbytecode)
+			if typeof(env.getscriptbytecode) == "function" then
+				local mode = Settings.Decompiler.DecompilerFallback
+				local result
+
+				if mode == "Konstant" then
+					result = KonstantDec(...)
+				elseif mode == "AdvancedDecompiler" then
+					local ok, res = pcall(ADDec, ...)
+					result = ok and res or ("-- Advanced Decompiler failed: " .. tostring(res))
+				elseif mode == "Shiny" then
+					result = ShinyDec(...)
+				end
+
+				if not decompileFailed(result) then
+					return result
+				end
+
+				-- 3. ByteFall as the last resort
+				local bytefallResult = ByteFallDec(...)
+				if not decompileFailed(bytefallResult) then
+					return bytefallResult
+				end
+
+				return result or bytefallResult
+			end
+
+			return "-- getscriptbytecode is not supported by your executor. Cannot decompile."
 		end
-		
-		if Main.Elevated then
+
+		if getgenv and typeof(nativeDecompile) ~= "function" then
 			getgenv().decompile = env.decompile
 		end
 		
@@ -14833,6 +15056,8 @@ Main = (function()
 			serializedColor.G = val.G
 			serializedColor.B = val.B
 			return serializedColor
+		elseif typeof(val) == "Vector3" then
+			return {__type = "Vector3", X = val.X, Y = val.Y, Z = val.Z}
 		else
 			return val
 		end
@@ -14840,7 +15065,9 @@ Main = (function()
 	
 	local function deserialize(val)
 		if typeof(val) == "table" then
-			if val.R and val.G and val.B then
+			if val.__type == "Vector3" then
+				return Vector3.new(val.X or 0, val.Y or 0, val.Z or 0)
+			elseif val.R and val.G and val.B then
 				return Color3.new(val.R, val.G, val.B)
 			else
 				return val
@@ -14897,9 +15124,19 @@ Main = (function()
 				end
 
 				local deserializedData = recur(decoded)
-				for k, v in pairs(deserializedData) do
-					Settings[k] = v
+
+				-- Deep merge so newly added defaults are kept for old settings files
+				local function merge(dst, src)
+					for k, v in pairs(src) do
+						if type(v) == "table" and type(dst[k]) == "table" then
+							merge(dst[k], v)
+						else
+							dst[k] = v
+						end
+					end
 				end
+
+				merge(Settings, deserializedData)
 			else
 				warn("failed to decode settings json")
 			end
@@ -14953,7 +15190,7 @@ Main = (function()
 			-- lmfao async makes it work to load big file
 			rawAPI = rawAPI or game:HttpGet("http://setup.roblox.com/"..Main.RobloxVersion.."-API-Dump.json")
 		else
-			if script:FindFirstChild("API") then
+			if script and script:FindFirstChild("API") then
 				rawAPI = require(script.API)
 			else
 				error("NO API EXISTS")
@@ -15626,8 +15863,11 @@ Main = (function()
 	end
 
 	Main.SaveCurrentSettings = function()
-		if writefile then
-			writefile("DexPlusPlusSettings.json", Main.ExportSettings())
+		if env.writefile then
+			local json = Main.ExportSettings()
+			if json then
+				pcall(env.writefile, "DexPlusPlusSettings.json", json)
+			end
 		end
 	end
 
@@ -15638,12 +15878,13 @@ Main = (function()
 	Main.Init = function()
 		Main.Elevated = pcall(function() local a = game:GetService("CoreGui"):GetFullName() end)
 		
+		Main.InitEnv()
+
 		-- saves new settings if does not exist
-		if isfile and not isfile("DexPlusPlusSettings.json") then
+		if env.isfile and not env.isfile("DexPlusPlusSettings.json") then
 			Main.SaveCurrentSettings()
 		end
-		
-		Main.InitEnv()
+
 		Main.LoadSettings() -- loads the settings before init
 		
 		Main.SetupFilesystem()
@@ -15797,9 +16038,7 @@ Main = (function()
 	return Main
 end)()
 
--- Start
-Main.Init()
-
+-- Start (Main.Init runs at the end of the file, after the plugin file is written)
 --for i,v in pairs(Main.MissingEnv) do print(i,v) end
 
 -- Rspy Plugin
@@ -16267,11 +16506,13 @@ local function main()
 		end)
  
 		window.OnActivate:Connect(function()
+			rebuild_list()
 			if scroll_v then
 				scroll_v.TotalSpace   = #log_frames
-				scroll_v.VisibleSpace = math.floor(list_container.AbsoluteSize.Y / 37)
+				scroll_v.VisibleSpace = math.max(1, math.floor(list_container.AbsoluteSize.Y / 37))
 				scroll_v:Update()
 			end
+			if status_label then status_label.Text = #logs .. " logs" end
 		end)
 	end
  
@@ -16287,17 +16528,20 @@ return {
  
 ]]
  
-if not isfolder("dex")         then makefolder("dex")         end
-if not isfolder("dex/plugins") then makefolder("dex/plugins") end
- 
-writefile("dex/plugins/RemoteSpy.lua", plugin_src)
+if isfolder and makefolder and writefile then
+	pcall(function()
+		if not isfolder("dex") then makefolder("dex") end
+		if not isfolder("dex/plugins") then makefolder("dex/plugins") end
+		writefile("dex/plugins/RemoteSpy.lua", plugin_src)
+	end)
+end
 
 -- Adonis related 
 local function InitAdonisBypass()
 	local Adonis = { Name = "Adonis", Game = "*" }
 	local AdonisAnticheatThreads = {}
 	
-	if not getreg or not getgc or not isfunctionhooked then
+	if not getreg or not getgc or not isfunctionhooked or not hookfunction then
 		warn("Executor does not support Adonis bypass functions.")
 		return false
 	end
@@ -16343,4 +16587,34 @@ local function InitAdonisBypass()
 	return true
 end
 
-InitAdonisBypass()
+pcall(InitAdonisBypass)
+
+-- Load Dex++ after the RemoteSpy plugin file has been written
+Main.Init()
+
+-- Fallback for executors without filesystem access: load the embedded plugin directly
+local hasRemoteSpy = false
+for _, plugin in pairs(Main.Plugins) do
+	if plugin.PluginData and plugin.PluginData.Name == "RemoteSpy" then
+		hasRemoteSpy = true
+	end
+end
+if not hasRemoteSpy and env.loadstring then
+	local ok, factory = pcall(env.loadstring, plugin_src, "RemoteSpy")
+	if ok and factory then
+		local ok2, control = pcall(factory)
+		if ok2 and control and control.Main then
+			control.InitDeps(Main.GetInitDeps())
+			local moduleData = control.Main()
+			moduleData.PluginData = control.PluginData
+			moduleData.Init()
+			table.insert(Main.Plugins, moduleData)
+			Main.CreateApp({
+				Name = moduleData.PluginData.FriendlyName or "Remote Spy",
+				IconMap = Main.Apps.Explorer.ClassIcons,
+				Icon = "Attachment",
+				Window = moduleData.Window
+			})
+		end
+	end
+end
