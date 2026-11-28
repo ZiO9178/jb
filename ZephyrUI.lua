@@ -1,18 +1,14 @@
 --[[
-	ZephyrUI  ·  v1.0.0
-	A clean, WindUI-inspired interface library for Roblox.
+	ZephyrUI v1.0.0
+	WindUI 风格的 Roblox 界面库。单文件，不依赖外部图片资源。
 
-	Design goals
-		• Zero external assets required (icons fall back to font glyphs)
-		• One file, drop-in via loadstring
-		• Window / Tab / Section / widget API
-		• Themes, notifications, dialogs, search, config persistence
-
-	Quick start
+	用法：
 		local Zephyr = loadstring(game:HttpGet("https://example.com/ZephyrUI.lua"))()
 		local Window = Zephyr:CreateWindow({ Title = "Zephyr", Icon = "wind" })
 		local Tab = Window:Tab({ Title = "Main", Icon = "home" })
 		Tab:Button({ Title = "Hello", Callback = function() Zephyr:Notify({ Title = "Hi" }) end })
+
+	图标默认用字体字形，也可以传 rbxassetid:// 图片地址。
 
 	License: MIT
 ]]
@@ -153,9 +149,9 @@ end
 local Glyphs = {
 	wind = "≣",
 	home = "⌂",
-	settings = "⚙",
-	user = "☺",
-	users = "☺",
+	settings = "✳",
+	user = "◎",
+	users = "◎",
 	search = "⌕",
 	close = "✕",
 	minimize = "−",
@@ -169,22 +165,22 @@ local Glyphs = {
 	minus = "−",
 	dot = "●",
 	circle = "○",
-	star = "★",
-	heart = "♥",
-	bolt = "⚡",
+	star = "☆",
+	heart = "♡",
+	bolt = "↯",
 	power = "⏻",
 	clock = "◷",
 	folder = "▤",
 	code = "‹›",
 	info = "ⓘ",
-	warning = "⚠",
+	warning = "△",
 	trash = "⌫",
 	refresh = "↻",
 	play = "▶",
-	pause = "⏸",
+	pause = "‖",
 	copy = "⧉",
-	link = "⛓",
-	shield = "⛨",
+	link = "↔",
+	shield = "◊",
 	sparkles = "✦",
 	palette = "◐",
 	sliders = "☰",
@@ -204,7 +200,7 @@ local Glyphs = {
 	rocket = "↗",
 	gift = "✦",
 	tag = "◇",
-	hammer = "⚒",
+	hammer = "◫",
 	wave = "≈",
 	music = "♫",
 	camera = "◉",
